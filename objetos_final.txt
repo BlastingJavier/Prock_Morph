@@ -1,0 +1,20 @@
+Escopeta
+Granada de mano
+Revolver
+Fusil de Asalto
+SMG
+Ametralladora Pesada
+Rifle de Francotirador
+Bate de Beisbol
+Hacha
+Pala
+Puño Americano
+Machete
+Llave
+Mapa
+Bebida Energetica
+Linterna
+Antorcha
+Camara
+Bateria
+Mochila
