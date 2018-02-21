@@ -14,17 +14,16 @@ OBJECTSSPACE = space.o
 
 ##HAY QUE PONER MAS
 ##########################################################
-DIST_NAME = GAME_PROJECT_MORPHEUS
+DIST_NAME = Iteration1_Pareja8_FJNR_AMH
 #HAY QUE PONER MAS
 ##########################################################
 OBJECTS_TO_CLEAN = command.o game_loop.o game.o graphic_engine.o screen.o space.o object.o game_reader.o player.o
 #HAY QUE PONER MAS
 HEADERS_TO_SUBMIT =*.h
-SOURCES_TO_SUBMIT = command.c game.c graphic_engine.c screen.c space.c game_loop.c
+SOURCES_TO_SUBMIT = command.c game.c graphic_engine.c screen.c space.c game_loop.c object.c player.c game_reader.c
 SUPPORT_TO_SUBMIT = makefile
 #######################################################
 #En el caso de que haya instrucciones adicionales.
-MEMORIES_TO_SUBMIT =*.pdf
 
 .PHONY: all
 all: $(MODULOS)
@@ -67,9 +66,9 @@ clean: clear
 .PHONY: dist
 dist:
 	@echo "Preparando para enviar"
-	rm -f $(DIST_NAME).tar #si existe los soobrescribe (borra antes)
+	rm -f $(DIST_NAME).zip #si existe los soobrescribe (borra antes)
 	mkdir -p $(DIST_NAME) #crea un directorio donde van a estar los archivos
-	cp $(HEADERS_TO_SUBMIT) $(SOURCES_TO_SUBMIT) $(SUPPORT_TO_SUBMIT) $(MEMORIES_TO_SUBMIT) $(DIST_NAME)/  #se ponen en el directorio recien creado los archivos incluyendo pdfs
-	zip $(DIST_NAME).tar $(DIST_NAME)/* #Se genera el comprimido .tar con el directorio creado
+	cp $(HEADERS_TO_SUBMIT) $(SOURCES_TO_SUBMIT) $(SUPPORT_TO_SUBMIT) $(DIST_NAME)/  #se ponen en el directorio recien creado los archivos incluyendo pdfs
+	zip $(DIST_NAME).zip $(DIST_NAME)/* #Se genera el comprimido .tar con el directorio creado
 	rm -rf $(DIST_NAME)
 	@echo "Estado:listo para enviar"

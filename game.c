@@ -93,7 +93,6 @@ STATUS game_set_object_location(Game* game, Id id);
  /*----------------------------------------------*/
 
 
-
 /*
  * @brief Inicialización de la estructura Game
  * @param game, puntero a estructura Game (dirección)
@@ -314,13 +313,11 @@ Id game_get_object_location(Game* game) {
   }
   else {
     object_aux = object_get_id(game->object);
-    printf ("%d\n",(int)object_aux);
 
 
     for (i=0;i<MAX_SPACES;i++){
       space_aux = space_get_object(game->spaces[i]);
       /*Si id (objeto_en_casilla) == id (objeto)*/
-      printf ("%d\n",(int)space_aux);
       if (space_aux == object_aux){
         location = space_get_id(game->spaces[i]);
 
