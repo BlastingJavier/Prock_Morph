@@ -4,7 +4,7 @@ CFLAGS= -g -Wall -pedantic -ansi
 MODULOS=game_loop_exe
 #HAY QUE PONER MAS
 #########################################################
-OBJECTS = command.o game_loop.o game.o graphic_engine.o screen.o space.o player.o object.o game_reader.o
+OBJECTS = command.o game_loop.o game.o graphic_engine.o screen.o space.o player.o object.o game_reader.o set.o
 OBJECTSCOMMAND = command.o
 OBJECTSGALOOP = game_loop.o
 OBJECTSGAME = game.o
@@ -49,6 +49,8 @@ player.o : player.c player.h
 	$(CC) $(CFLAGS) -c player.c
 game_reader.o : game_reader.c game_reader.h
 	$(CC) $(CFLAGS) -c game_reader.c
+set.o : set.c set.h
+	$(CC) $(CFLAGS) -c set.c
 
 
 
