@@ -29,7 +29,7 @@ struct _Set {
 /*
  * @brief Se encarga de crear el conjunto
  * @param nada
- * @return conj_create (nuevo conjunto recien creado)
+ * @return NULL o conj_create (nuevo conjunto recien creado)
  */
 Set * set_create (){
   Set *conj_create;
@@ -38,7 +38,9 @@ Set * set_create (){
     return NULL;
   }
   else {
-    conj_create->id_array[0] = '\0';
+    for (i=0;i<MAX_ID;i++){
+      conj_create->id_array[i] = NO_ID;
+    }
     conj_create->n_array_actual = 0;
   }
   return conj_create;
@@ -54,7 +56,7 @@ Set * set_create (){
 void set_destroy (Set * set){
   int i;
   if (set == NULL){
-    return NULL;
+    return;
   }
   else {
     for (i=0;i<MAX_ID;i++){
@@ -76,7 +78,7 @@ void set_destroy (Set * set){
  * @param id (Id) identificador nuevo
  * @return status OK o ERROR
  */
-STATUS set_add_element (Set *set , Id id){
+STATUS set_add (Set *set , Id id){
   int i;
   if (set == NULL){
     return ERROR;
@@ -103,7 +105,7 @@ STATUS set_add_element (Set *set , Id id){
  * @param set puntero a Set
  * @return Id el identificador que usaremos
  */
-Id  set_element_pop (Set *set){
+Id  set_delete (Set *set){
   Id temp;
 
   if(!set){
@@ -116,58 +118,17 @@ Id  set_element_pop (Set *set){
   else {
     set->num_array_actual--;
     temp = set->id_array[set->num_array_actual];
-    set->id_array[set->num_array_actual] = NULL;
+    set->id_array[set->num_array_actual] = NO_ID;
     return temp;
   }
 }
 
 
-/////////////////////////////////////////////////////////////////////////
-
-
-EleStack * stack_pop(Stack *s) {
-    EleStack *temp;
-    if (s==NULL) return NULL;
-
-    if (stack_isEmpty(s) == TRUE) return NULL;
-
-    s->tope--;
-    temp = s->datos[s->tope];
-    s->datos[s->tope] = NULL;
-    return temp;
-}
-
-
-//////////////////////////////////////////////////////////////////////////
-
-
-/**------------------------------------------------------------------
- * @brief Inserta un elemento en la pila.
- * @param un elemento y la pila donde insertarlo.
- * @return NULL si no logra insertarlo por pila llena o la pila resultante
- * ------------------------------------------------------------------*/
-Status stack_push(Stack *s, const EleStack *ele) {
-    if (s==NULL || ele==NULL) return ERROR;
-    if ( stack_isFull (s) ==TRUE) return ERROR;
-
-    s->datos[s->tope] = elestack_copy(ele);
-    if (s->datos[s->tope]==NULL) return ERROR;
-
-    s->tope++;
-    return OK;
- }
-
-
- /**------------------------------------------------------------------
- Imprime toda la pila, colocando el elemento en la cima al principio de la impresión (y un elemento por línea). Entrada: pila y fichero donde imprimirla. Salida: Devuelve el número de caracteres escritos.
- ------------------------------------------------------------------*/
- int stack_print(FILE *f, const Stack *s) {
-
-
-
- }
-
-
+/*
+ * @brief Se encarga de sacar un elmento si queremos
+ * @param set puntero a Set
+ * @return Id el identificador que usaremos
+ */
 STATUS set_print(Set* set) {
   Id idaux = NO_ID;
 
