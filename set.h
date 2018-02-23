@@ -11,7 +11,12 @@
 
 #ifndef SET_H
 #define SET_H
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "types.h"
 
+#define MAX_ID 96
 /*Estructura que define un conjunto(características) */
 typedef struct _Set Set;
 
@@ -20,7 +25,7 @@ typedef struct _Set Set;
 /*
  * @brief Se encarga de crear el conjunto
  * @param nada
- * @return conj_create (nuevo conjunto recien creado)
+ * @return NULL o conj_create (nuevo conjunto recien creado)
  */
 Set * set_create ();
 
@@ -41,7 +46,7 @@ void set_destroy (Set * set);
  * @param id (Id) identificador nuevo
  * @return status OK o ERROR
  */
-STATUS set_add_element (Set *set , Id id);
+STATUS set_add (Set *set , Id id);
 
 
 
@@ -50,18 +55,15 @@ STATUS set_add_element (Set *set , Id id);
  * @param set puntero a Set
  * @return Id el identificador que usaremos
  */
-Id  set_element_pop (Set *set);
+Id  set_delete (Set *set);
 
 
 
-
-
-
-
-
-
-
-
-
+/*
+ * @brief Imprimir por pantalla los elementos de la estructura
+ * @param set, puntero a set
+ * @return OK o ERROR, ya que es de tipo STATUS
+ */
+STATUS set_print(Set* set);
 
 #endif
