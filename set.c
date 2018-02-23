@@ -79,7 +79,7 @@ void set_destroy (Set * set){
  * @param id (Id) identificador nuevo
  * @return status OK o ERROR
  */
-STATUS set_add (Set *set , Id id){
+STATUS set_push_id (Set *set , Id id){
   int i;
   if (set == NULL){
     return ERROR;
@@ -106,11 +106,11 @@ STATUS set_add (Set *set , Id id){
  * @param set puntero a Set
  * @return Id el identificador que usaremos
  */
-Id  set_delete (Set *set){
+Id  set_pop_id (Set *set){
   Id temp;
 
   if(!set){
-    return ERROR;
+    return NO_ID;
   }
   /*Set_empty no es una funcion, es una macro (devuelve 1 = verdadero)*/
   if (Set_Empty(set->num_array_actual) ==1){

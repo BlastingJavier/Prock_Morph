@@ -14,6 +14,8 @@
 #include <string.h>
 #include "types.h"
 #include "space.h"
+/*Lo necesitamos por las macros y utilizacion de nuevo campo Set*objects*/
+#include "set.h"
 
 /*Estructura que define un espacio (características)*/
 struct _Space {
@@ -24,6 +26,7 @@ struct _Space {
   Id east;
   Id west;
   Id object;
+  Set *objects;
 };
 /**                 Definidos en:
                         ||
@@ -71,8 +74,8 @@ Space* space_create(Id id) {
   newSpace->south = NO_ID;
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
-
-  newSpace->object = NO_ID;
+  /*Para crear un conjunto de id (se asignará NO_ID)*/
+  newSpace->objects = set_create();
 
   return newSpace;
 }
@@ -88,6 +91,8 @@ STATUS space_destroy(Space* space) {
   if (!space) {
     return ERROR;
   }
+  set_destroy(space->objects);
+  space->objects = NULL;
 
   free(space);
   space = NULL;
@@ -182,16 +187,35 @@ STATUS space_set_west(Space* space, Id id) {
 
 
 /*
- * @brief Pone o cambia el espacio del objeto(casilla)
+ * @brief Quita el ultimo objeto de la casilla
  * @param space: puntero a Space.
- * @param value: Id (identificador)
- * @return status OK o ERROR.
+ * @return status, OK o ERROR.
  */
-STATUS space_set_object(Space* space, Id value) {
-  if (!space) {
+STATUS space_delete_object(Space* space){
+  if (!space){
     return ERROR;
   }
-  space->object = value;
+  if(set_pop_id (space->objects)==NO_ID){
+    return ERROR;
+  }
+  return OK;
+}
+
+
+
+/*
+ * @brief Colocamos en el space un objeto
+ * @param space: puntero a Space.
+ * @param value: Id (identificador)
+ * @return status, OK o ERROR.
+ */
+STATUS space_add_object(Space* space, Id value) {
+  if (!space){
+    return ERROR;
+  }
+  if (set_push_id(space->object,value)==ERROR){
+    return ERROR;
+  }
   return OK;
 }
 
@@ -284,15 +308,56 @@ Id space_get_west(Space* space) {
 /*
  * @brief Devuelve el si hay o no objeto en la casilla
  * @param space: puntero a Space.
- * @return object, space->object o FALSE
+ * @return object, space->object o FALSE si no existen objetos
  */
-Id space_get_object(Space* space) {
-  if (!space) {
-    return NO_ID;
+Set* space_get_objects(Space* space) {
+  Set *set_aux;
+  if (!space || space->objects == NULL) {
+    return NULL;
   }
-  return space->object;
+  /////////////////////////////*Hay algo que cambiar mas adelante seguroo NOTTAAAXXXXXXXXXXXXXXXX*/
+  set_aux = space_get_objects(space);
+  /* Set_Empty => Macro de set.h*/
+  if (Set_Empty(set_aux)==1){
+    set_destroy(set_aux);
+    return NULL;
+  }
+
+  return set_aux;
 }
 
+
+
+/*
+ * @brief Comprueba si un objeto esta en el espacio actual
+ * @param space: puntero a Space.
+ * @param id_objeto, de tipo id.
+ * @return BOOL, TRUE or FALSE (si parámetros vacios/obtención de la estructura
+    con errores/si sale en el bucle de comprobación (de set_delete))
+ */
+BOOL object_check (Space *space , Id id_objeto){
+  Set *aux;
+  Id id_aux;
+
+  if (!space|| id_objeto == NO_ID){
+    return FALSE;
+  }
+  aux = space_get_objects(space);
+
+  if (aux == NULL){
+    return FALSE;
+  }
+  for (  ;(id_aux=set_pop_id(aux))!=NO_ID; ){
+    if (id_aux == id_objeto){
+      set_destroy(aux);
+      aux = NULL;
+      return TRUE;
+    }
+  }
+  set_destroy (aux);
+  aux = NULL;
+  return FALSE;
+}
 
 
 /*
@@ -302,6 +367,7 @@ Id space_get_object(Space* space) {
  */
 STATUS space_print(Space* space) {
   Id idaux = NO_ID;
+  Set * set_aux;
 
   if (!space) {
     return ERROR;
@@ -336,12 +402,15 @@ STATUS space_print(Space* space) {
   } else {
     fprintf(stdout, "---> No west link.\n");
   }
+  set_aux = space_get_objects(space);
 
-  if (space_get_object(space)) {
-    fprintf(stdout, "---> Object in the space.\n");
-  } else {
-    fprintf(stdout, "---> No object in the space.\n");
+  if (set_aux != NULL){
+    Set_print(set_aux);
+    set_destroy(aux);
+    aux = NULL;
   }
-
+  else {
+    fprintf(stdout, "---> No objects in the space.\n");
+  }
   return OK;
 }

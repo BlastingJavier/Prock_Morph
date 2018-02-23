@@ -16,7 +16,7 @@
 #include <string.h>
 #include "types.h"
 
-#define MAX_ID 96
+#define MAX_ID 512
 /*Estructura que define un conjunto(características) */
 typedef struct _Set Set;
 
@@ -45,8 +45,10 @@ void set_destroy (Set * set);
  * @param set puntero a Set
  * @param id (Id) identificador nuevo
  * @return status OK o ERROR
+ * @NOTA :Es la funcion add de la iteracion (pero nos parece mas logico llamarla
+    de esta manera)
  */
-STATUS set_add (Set *set , Id id);
+STATUS set_push_id (Set *set , Id id);
 
 
 
@@ -54,8 +56,10 @@ STATUS set_add (Set *set , Id id);
  * @brief Se encarga de sacar un elmento si queremos
  * @param set puntero a Set
  * @return Id el identificador que usaremos
+ * @NOTA :Es la funcion del de la iteracion (pero nos parece mas logico llamarla
+    de esta manera)
  */
-Id  set_delete (Set *set);
+Id  set_pop_id (Set *set);
 
 
 
