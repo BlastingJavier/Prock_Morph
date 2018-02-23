@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "set.h"
 #include "types.h"
 
 #define MAX_ID 96
@@ -125,23 +127,18 @@ Id  set_delete (Set *set){
 
 
 /*
- * @brief Se encarga de sacar un elmento si queremos
- * @param set puntero a Set
- * @return Id el identificador que usaremos
+ * @brief Imprimir por pantalla los elementos de la estructura
+ * @param set, puntero a set
+ * @return OK o ERROR, ya que es de tipo STATUS
  */
 STATUS set_print(Set* set) {
-  Id idaux = NO_ID;
-
-  if (!set) {
+  int i;
+  if (set == NULL){
     return ERROR;
   }
-
-  fprintf(stdout, "--> Set (Id: %ld; Number of Elements: %d)\n", set->id_array, set->num_array_actual);
-
-  if (NO_ID != idaux) {
-    fprintf(stdout, "---> Weapon: %ld.\n", idaux);
-  }else {
-    fprintf(stdout, "---> No weapon.\n");
+  for (i=0;i<MAX_ID/*no necesario*/ || i<set->num_array_actual;i++){
+    frprintf(stdout,"Elemento %d : %ld\n",i+1,set->id_array[i]);
   }
+  fprintf(stdout,"La cantidad de elementos total es : %d",i);
   return OK;
 }
