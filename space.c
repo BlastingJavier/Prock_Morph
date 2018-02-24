@@ -327,7 +327,25 @@ Set* space_get_objects(Space* space) {
 }
 
 
-
+/*Hay que ver si es necesaria de verdad esta funcion o no*/
+/*
+ * @brief Devuelve el si hay o no objeto en la casilla
+ * @param space: puntero a Space.
+ * @return object, space->object o FALSE
+ */
+Id space_get_object(Space* space ,Id id_objeto) {
+  int i;
+  Id id_aux_obj;
+  if (!space) {
+    return NO_ID;
+  }
+  for (i=0;i<MAX_OBJ;i++){
+    id_aux_obj = object_get_id(space->objects);
+    if (*((Id)id_aux_obj) == id_objeto){
+      return *((Id) id_aux_obj);
+    }
+  }
+}
 /*
  * @brief Comprueba si un objeto esta en el espacio actual
  * @param space: puntero a Space.

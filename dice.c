@@ -22,6 +22,12 @@ struct _Dice {
 };
 
 
+
+/*
+ * @brief Se encarga de iniciar la estructura de un dado
+ * @param nada
+ * @return NULL o la propia estructura
+ */
 Dice * dice_create (){
   Dice *dice;
   dice = (Dice*)malloc(sizeof(Dice));
@@ -33,6 +39,13 @@ Dice * dice_create (){
   return dice;
 }
 
+
+
+/*
+ * @brief Se encarga de liberar la memoria para un dado
+ * @param dice , puntero a Dice
+ * @return nada se trata de una funcion de tipo void
+ */
 void dice_destroy (Dice *dice){
   if (dice == NULL){
     return;
@@ -41,6 +54,13 @@ void dice_destroy (Dice *dice){
   return;
 }
 
+
+
+/*
+ * @brief Se encarga de sacar un numero aleatorio entre 6 (dado comun de ocaa)
+ * @param dice , puntero a Dice
+ * @return int (numero random)
+ */
 int dice_roll(Dice *dice){
   int random;
   time_t t;
@@ -57,6 +77,14 @@ int dice_roll(Dice *dice){
     return random;
   }
 }
+
+
+
+/*
+ * @brief Se encarga de obtener el id de un dado (funcion por ver)
+ * @param dice , puntero a Dice
+ * @return dice->id campo id o NULL
+ */
 /*Por si hay mas de uno en el juego y necesitamos un id especifico*/
 Id dice_get_id(Dice*dice){
   if (dice == NULL){
@@ -65,6 +93,13 @@ Id dice_get_id(Dice*dice){
   return dice->id;
 }
 
+
+
+/*
+ * @brief Imprime un dado (el Id y la ultima tirada)
+ * @param dice , puntero a Dice
+ * @return status , OK o ERROR
+ */
 STATUS dice_print (Dice *dice){
   Id id_aux;
   int int_aux;

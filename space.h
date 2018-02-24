@@ -180,6 +180,15 @@ Id space_get_west(Space* space);
 Set* space_get_objects(Space* space);
 
 
+/*Hay que ver si es necesaria de verdad esta funcion o no*/
+/*
+ * @brief Devuelve el si hay o no objeto en la casilla
+ * @param space: puntero a Space.
+ * @return object, space->object o FALSE
+ */
+Id space_get_object(Space* space);
+
+
 
 /*
  * @brief Muestra por la pantalla de salida, tanto el id, como el nombre del espacio

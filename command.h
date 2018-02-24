@@ -19,7 +19,8 @@ typedef enum enum_Command {
   FOLLOWING, /*etc*/
   PREVIOUS,
   GET,
-  DROP
+  DROP,
+  DICE_ROLL
 } T_Command;
 
 

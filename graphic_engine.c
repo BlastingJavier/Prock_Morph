@@ -183,7 +183,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
-  sprintf(str, "     following=>f / previous=>p / exit=>e / get=>g / drop=>d");
+  sprintf(str, "     following=>f / previous=>p / exit=>e / get=>g / drop=>d / dice_roll=>d");
   screen_area_puts(ge->help, str);
 
   /*Dibuja el área de feedback*/

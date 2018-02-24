@@ -16,12 +16,15 @@
 #include "space.h"
 #include "player.h"
 #include "object.h"
+#define MAX_OBJ 120 /*Numero maximo de objetos en el juego*/
+
 /*Estructura de game 101 espacios , comandos id jugador ,id objeto*/
 typedef struct _Game{
   Player* player;
-  Object* object;
+  Object* objects[MAX_OBJ];
   Space* spaces[MAX_SPACES + 1];
   T_Command last_cmd;
+  Dice * dice;/*Con esto podemos utilizar el dado*/
 } Game;
 
 
