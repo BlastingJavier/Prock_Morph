@@ -13,14 +13,16 @@
 
 /*Enumeración de cada comando posible*/
 typedef enum enum_Command {
-  NO_CMD = -1,
-  UNKNOWN, /*0*/
-  EXIT, /*1*/
-  FOLLOWING, /*etc*/
-  PREVIOUS,
-  GET,
-  DROP,
-  DICE_ROLL
+    NO_CMD = -1,
+    UNKNOWN, /*0*/
+    EXIT, /*1*/
+    FOLLOWING, /*etc*/
+    PREVIOUS,
+    LEFT,
+    RIGHT,
+    GET,
+    DROP,
+    DICE_ROLL
 } T_Command;
 
 

@@ -136,6 +136,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       obj='*';
     else
       obj=' ';
+      /*Las casillas hay que redimensionarlas*/
     /*Casilla actual (efecto de refresco)*/
     if (id_act != NO_ID) {
       sprintf(str, "  +-----------+");
@@ -183,7 +184,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
-  sprintf(str, "     following=>f / previous=>p / exit=>e / get=>g / drop=>d / dice_roll=>d");
+  sprintf(str, "     following=>f / previous=>p / exit=>e / get=>g / left=>l / right=>r / drop=>d / dice_roll=>roll /");
   screen_area_puts(ge->help, str);
 
   /*Dibuja el área de feedback*/

@@ -13,12 +13,12 @@
 #include "command.h"
 
 #define CMD_LENGHT 30
-#define N_CMD 8
+#define N_CMD 10
 
 /* Puntero a char, es una tabla de comandos que el jugador introduce por pantalla */
-char *cmd_to_str[N_CMD] = {"No command", "Unknown", "Exit", "Following", "Previous,","Get","Drop","dice_roll"};
+char *cmd_to_str[N_CMD] = {"No command", "Unknown", "Exit", "Following", "Previous","Left","Right","Get","Drop","dice_roll"};
 /*Puntero a char, es una tabla de comandos que tendra que pulsar el jugador en la partida*/
-char *short_cmd_to_str[N_CMD] = {"","","e","f","p","g","d","r"};
+char *short_cmd_to_str[N_CMD] = {"","","e","f","p","l","r","g","d","roll"};
 
 
 
@@ -36,7 +36,7 @@ T_Command get_user_input(){
 
   if (scanf("%s", input) > 0){/*Si lee el comando correctamente*/
     cmd = UNKNOWN; /*cmd=0, siempre*/
-    while (cmd == UNKNOWN && i /*=2*/ < N_CMD /*=7*/){ /*Compara el comando introducido por el jugador con los de la lista*/
+    while (cmd == UNKNOWN && i < N_CMD){ /*Compara el comando introducido por el jugador con los de la lista*/
 
       if (!strcasecmp(input,short_cmd_to_str[i]) || !strcasecmp(input,cmd_to_str[i])){/*Si coinciden "cmd" = el valor que le correponde*/
         cmd = i /*=2*/ + NO_CMD/*=-1*/;
@@ -46,6 +46,6 @@ T_Command get_user_input(){
       }
     }
   }
-  /*Hay seis posibles cmd: "", "e", "f", "p", "g", "d"*/
+  /*Hay 10 posibles cmd: "", "e", "f", "p", "l", "r", "g", "d", "r"*/
   return cmd;
 }

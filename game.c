@@ -22,10 +22,10 @@
 #define ID_J 1/*Id del player*/
 #define ID_O 1/*Id del objeto*/
 #define INIC_P 0/*Posicion inicial del jugador*/
-
+#define MAX_INPUT_OBJ/*tamano del nombre del objeto*/
 #define MAX_CASILLAS 12 /*Numero de casillas (variable si modifi. data.dat)*/
 
-#define N_CALLBACK 7
+#define N_CALLBACK 9
 
 /**                 Definidos en:
                         ||
@@ -55,6 +55,8 @@ void game_callback_unknown(Game* game);
 void game_callback_exit(Game* game);
 void game_callback_following(Game* game);
 void game_callback_previous(Game* game);
+void game_callback_left (Game *game);
+void game_callback_right (Game *game);
 void game_callback_get(Game* game);
 void game_callback_drop(Game* game);
 void game_callback_roll_dice(Game *game);
@@ -68,6 +70,8 @@ static callback_fn game_callback_fn_list[N_CALLBACK]={
   game_callback_exit,
   game_callback_following,
   game_callback_previous,
+  game_callback_left,
+  game_callback_right,
   game_callback_get,
   game_callback_drop,
   game_callback_roll_dice
@@ -424,7 +428,7 @@ void game_callback_exit(Game* game) {
 /**
  * @brief Implementa la función del comando following
  * @param game, puntero a la estructura Game
- * @return, ya que es una función de tipo void
+ * @return nada, ya que es una función de tipo void
  */
 void game_callback_following(Game* game) {
   int i = 0;
@@ -455,7 +459,7 @@ void game_callback_following(Game* game) {
 /**
  * @brief Implementa la función del comando previous
  * @param game, puntero a la estructura Game
- * @return, ya que es una función de tipo void
+ * @return nada, ya que es una función de tipo void
  */
 void game_callback_previous(Game* game) {
   int i = 0;
@@ -483,6 +487,65 @@ void game_callback_previous(Game* game) {
 }
 
 
+/**
+ * @brief Implementa la función del comando left
+ * @param game, puntero a la estructura Game
+ * @return, ya que es una función de tipo void
+ */
+void game_callback_left (Game *game){
+  int i;
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  space_id = game_get_player_location (game);
+
+  if (NO_ID == space_id){
+    return;
+  }
+  for (i=0;i<MAX_SPACES && game->spaces[i] != NULL; i++){
+    current_id = space_get_id(game->spaces[i]);
+    if (current_id = space_id) {
+      current_id = space_get_west(game->spaces[i]);
+
+      if (current_id != NO_ID){
+        game_set_object_location(game , current_id);
+      }
+      return;
+    }
+  }
+}
+
+
+
+/**
+ * @brief Implementa la función del comando right
+ * @param game, puntero a la estructura Game
+ * @return, ya que es una función de tipo void
+ */
+void game_callback_right (Game *game){
+  int i;
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  space_id = game_get_player_location (game);
+
+  if (NO_ID == space_id){
+    return;
+  }
+  for (i=0;i<MAX_SPACES && game->spaces[i] != NULL; i++){
+    current_id = space_get_id(game->spaces[i]);
+    if (current_id = space_id) {
+      current_id = space_get_east(game->spaces[i]);
+
+      if (current_id != NO_ID){
+        game_set_object_location(game , current_id);
+      }
+      return;
+    }
+  }
+}
+
+
 
 /**
  * @brief Implementa la función del comando get
@@ -493,6 +556,7 @@ void game_callback_get(Game* game) {
   Id current_id = NO_ID;
   Space *current_space = NULL;
   Id object = NO_ID;
+  char input[]
 
   current_id = game_get_player_location(game);
 
@@ -505,10 +569,11 @@ void game_callback_get(Game* game) {
   if (current_space == NULL){
     return;
   }
-
+  fprintf (stdout,"Dime el objeto que quieres coger del espacio: ");
+  scanf("%s", )
   /* Si el jugador está en casilla con un objeto,
    y decide cogerlo (se le asigna) y desaparece de la casilla */
-  if (space_get_object(current_space) == NO_ID){
+  if (space_get_objects(current_space) == NO_ID){
     return;
   }
   object = object_get_id(game->object);

@@ -16,6 +16,7 @@
 #include "space.h"
 #include "command.h"/*Ya vienen en "game_reader.h"*/
 #include "game.h" /*Ya vienen en "game_reader.h"*/
+#include "time.h"/*Carga randomizada de objetos en casilla*/
 
 /**                 Definidos en:
                         ||
@@ -37,6 +38,7 @@ P. F.: Private Function
  * @brief  Lee el fichero (funcionalidad de carga de espacios)
  * @param Game, es el string destino, en el que se copia el puntero al string de tipo char, "toks"
  * @param filename, puntero a char, que es el nombre del fichero que estamos accediendo
+ * @param numcasillas , representa cuantas casillas hay en el juego (funcion de cuenta por si hace falta)
  * @return status, OK O ERROR
  */
 
@@ -110,6 +112,68 @@ STATUS game_reader_load_spaces(Game* game, char* filename, int *numcasillas) {
   /*Se modifica el estado del código de error y devuelve
     un valor distinto de cero si se detectan errores*/
   if (ferror(file)) {
+    status = ERROR;
+  }
+  fclose(file);
+
+  return status;
+}
+
+
+
+/*
+ * @brief  Lee el fichero (funcionalidad de carga de objetos)
+ * @param Game, es el string destino, en el que se copia el puntero al string de tipo char, "toks"
+ * @param filename, puntero a char, que es el nombre del fichero que estamos accediendo
+ * @return status, OK O ERROR
+ */
+STATUS game_reader_load_objects(Game* game, char* filename, int *numcasillas){
+  FILE* file = NULL;
+  char line[WORD_SIZE] = "";
+  char name[WORD_SIZE] = "";
+  char* toks = NULL;
+  time_t t;
+  int random;
+  /*Por si acaso*/
+  srand((unsigned) time(&t));
+  random = (rand() %numcasillas);
+
+  Id id_object = NO_ID;
+  Object * object = NULL;
+  /*Suponemos OK*/
+  STATUS status = OK;
+
+  if (!filename) {
+    return ERROR;
+  }
+
+  file = fopen(filename, "r");
+  if (file == NULL) {
+    return ERROR;
+  }
+
+  while (fgets (line,WORD_SIZE,file)){
+    if (strcncmp("#o:",line,3) ==0){
+
+      toks =strtok(line+3 , "|");
+
+      id = atol(toks);
+      toks = strtok(NULL,"|");
+      strcpy(name,toks);
+
+      #ifdef DEBUG
+        printf ("Leido: %ld|%s\n" ,id,name);
+      #endif
+
+        object = object_create(id);
+        if (object != NULL){
+          object_set_name(object, name);
+          /*Hay que pensar si el id tiene que ser el del objeto o el del space*/
+          space_add_object(space,id)
+        }
+    }
+  }
+  if (ferror(file)){
     status = ERROR;
   }
   fclose(file);
