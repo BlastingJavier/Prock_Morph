@@ -17,6 +17,7 @@
 #include "command.h"/*Ya vienen en "game_reader.h"*/
 #include "game.h" /*Ya vienen en "game_reader.h"*/
 #include "time.h"/*Carga randomizada de objetos en casilla*/
+#include "set.h"
 
 /**                 Definidos en:
                         ||
@@ -139,6 +140,7 @@ STATUS game_reader_load_objects(Game* game, char* filename, int *numcasillas){
   random = (rand() %numcasillas);
 
   Id id_object = NO_ID;
+  Id space_id = NO_ID;
   Object * object = NULL;
   /*Suponemos OK*/
   STATUS status = OK;
@@ -160,16 +162,19 @@ STATUS game_reader_load_objects(Game* game, char* filename, int *numcasillas){
       id = atol(toks);
       toks = strtok(NULL,"|");
       strcpy(name,toks);
+      toks = strtok(NULL,"|");
+      space_id = atol(toks);
 
       #ifdef DEBUG
-        printf ("Leido: %ld|%s\n" ,id,name);
+        printf ("Leido: %ld|%s|%ld\n" ,id,name,space_id);
       #endif
 
         object = object_create(id);
         if (object != NULL){
           object_set_name(object, name);
           /*Hay que pensar si el id tiene que ser el del objeto o el del space*/
-          space_add_object(space,id)
+          game_add_object(game,object);
+          game_set_object_location(game,space_id,object);
         }
     }
   }

@@ -16,10 +16,11 @@
 #include "types.h"
 
 /*Para no desaprovechar memoria...*/
-#define Set_Empty(x) (x==0)/*Macro para ver si el conjunto esta vacio*/
+/*
+#define Set_Empty(x) (x==0)/*Macro para ver si el conjunto esta vacio
 #define Set_Full(x) (x > MAX_ID)/*Macro para ver si el conjunto esta lleno*/
-
 /*Estructura que define un conjunto(características) */
+
 struct _Set {
   Id id_array[MAX_ID];
   int num_array_actual;
@@ -33,6 +34,7 @@ struct _Set {
  * @return NULL o conj_create (nuevo conjunto recien creado)
  */
 Set * set_create (){
+  int i;
   Set *conj_create;
   conj_create = (Set*)malloc (sizeof(Set));
   if (conj_create == NULL){
@@ -60,11 +62,6 @@ void set_destroy (Set * set){
     return;
   }
   else {
-    for (i=0;i<MAX_ID;i++){
-      free(set->id_array[i]);
-    }
-
-    set = NULL;
     free(set);
 
     return;
@@ -114,12 +111,13 @@ Id  set_pop_id (Set *set){
   }
   /*Set_empty no es una funcion, es una macro (devuelve 1 = verdadero)*/
   if (Set_Empty(set->num_array_actual) ==1){
-    return NO_ID
+    return NO_ID;
   }
   else {
-    set->num_array_actual--;
-    temp = set->id_array[set->num_array_actual];
+    temp = set->id_array[(set->num_array_actual)-1];
     set->id_array[set->num_array_actual] = NO_ID;
+    set->num_array_actual--;
+
     return temp;
   }
 }
@@ -136,8 +134,42 @@ STATUS set_print(Set* set) {
     return ERROR;
   }
   for (i=0;i<MAX_ID/*no necesario*/ || i<set->num_array_actual;i++){
-    frprintf(stdout,"Elemento %d : %ld\n",i+1,set->id_array[i]);
+    fprintf(stdout,"Elemento %d : %ld\n",i+1,set->id_array[i]);
   }
   fprintf(stdout,"La cantidad de elementos total es : %d",i);
   return OK;
+}
+
+
+
+/*
+ * @brief Devuelve un id de la posicion que quieras
+ * @param set, puntero a set
+ * @param num_array_actual_para (int) que indica la posicion
+ * @return Id (id_aux) identificador de la posicion
+ */
+Id get_id_especifica (Set *set ,int num_array_actual_para){
+  Id id_aux;
+  if (set == NULL|| num_array_actual_para < 0 || num_array_actual_para > set->num_array_actual || Set_Empty(set) == 1){
+    return NO_ID
+  }
+  id_aux = set->id_array[num_array_actual_para];
+  return id_aux;
+}
+
+
+
+
+/*
+ * @brief Coge el top
+ * @param set, puntero a set
+ * @return aux (el top como entero)
+ */
+int set_get_top (Set * set){
+  int pos;
+  if (set == NULL){
+    return 0;
+  }
+  pos = set->num_array_actual;
+  return pos;
 }

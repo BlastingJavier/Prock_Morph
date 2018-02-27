@@ -16,12 +16,12 @@
 #include "space.h"
 #include "player.h"
 #include "object.h"
-#define MAX_OBJ 120 /*Numero maximo de objetos en el juego*/
+#include "dice.h"
 
 /*Estructura de game 101 espacios , comandos id jugador ,id objeto*/
 typedef struct _Game{
   Player* player;
-  Object* objects[MAX_OBJ];
+  Object* objects[MAX_ID];
   Space* spaces[MAX_SPACES + 1];
   T_Command last_cmd;
   Dice * dice;/*Con esto podemos utilizar el dado*/
@@ -65,6 +65,28 @@ STATUS game_update(Game* game, T_Command cmd);
  * @return status, OK O ERROR
  */
 STATUS game_destroy(Game* game);
+
+
+/**
+ * @brief funcionalidad de modificar la localizacion del jugador mediante el id
+ * @param game, puntero a Game (dirección)
+ * @param id, Entero de tipo Id (identificador)
+ * @return status, OK O ERROR
+ */
+STATUS game_set_player_location(Game* game, Id id);
+
+
+
+/**
+ * @brief funcionalidad de modificar la localizacion del objeto mediante el id
+ * @param game,puntero a la estructura Game
+ * @param id_espacio, campo de la estructura Id
+ * @param object, puntero a la estructura de object
+ * @return status, OK O ERROR
+ */
+ /*acordarse de donde se encuentra la funcionalidad y donde se llama a ella  */
+STATUS game_set_object_location(Game* game, Id id_espacio,Object * object);
+
 
 
 
@@ -127,6 +149,18 @@ Id game_get_object_location(Game* game);
  * @return cmd, el último comando.
  */
 T_Command game_get_last_command(Game* game);
+
+
+
+/*
+ * @brief Crea un objeto , comprobando el array de objetos ,lo recorre Entero
+    hasta que se acaba y anade el objeto pasado por parametro
+ * @param game, puntero a estructura Game (dirección)
+ * @param object , puntero a estructura Object
+ * @return status, OK O ERROR
+ */
+STATUS game_add_object (Game * game , Object* object);
+
 
 
 

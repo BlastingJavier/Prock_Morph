@@ -14,8 +14,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include "dice.h"
+#include "types.h"
 
-
+/*Estructura que representa datos caracteristicos de un dado (id) y el ultimo
+  tiro*/
 struct _Dice {
   Id id;
   int last_shoot
@@ -51,6 +53,8 @@ void dice_destroy (Dice *dice){
     return;
   }
   free(dice);
+  dice = NULL;
+
   return;
 }
 
@@ -68,11 +72,14 @@ int dice_roll(Dice *dice){
     return 0;
   }
   srand((unsigned) time(&t));
-  random = (rand() %6);
+  random = (rand() %6 + 1);
   if (random == 0){
     return 0;
   }
   else {
+    /*Se puede perfectamente utilizar una funcion de tipo STATUS y asignar el random
+      a dice ->last_shoot y retornar OK pero para afianzar que esto devuelve un numero
+      pseudo aleatorio hemos decidio que retorne un entero*/
     dice->last_shoot = random;
     return random;
   }
@@ -91,6 +98,20 @@ Id dice_get_id(Dice*dice){
     return NO_ID;
   }
   return dice->id;
+}
+
+
+
+/*
+ * @brief Se encarga de obtener la ultima tirada
+ * @param dice , puntero a Dice
+ * @return dice->last_shoot campo de dice
+ */
+int dice_get_last_shoot(Dice *dice ){
+  if (dice == NULL){
+    return 0;
+  }
+  return dice->last_shoot;
 }
 
 

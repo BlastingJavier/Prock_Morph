@@ -15,6 +15,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include "types.h"
 
 typedef struct _Dice Dice;
 
@@ -53,6 +54,14 @@ int dice_roll(Dice* dice);
  */
 /*Por si hay mas de uno en el juego y necesitamos un id especifico*/
 Id dice_get_id(Dice* dice);
+
+
+/*
+ * @brief Se encarga de obtener la ultima tirada
+ * @param dice , puntero a Dice
+ * @return dice->last_shoot campo de dice
+ */
+int dice_get_last_shoot(Dice *dice );
 
 
 

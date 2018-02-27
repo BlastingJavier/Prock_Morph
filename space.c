@@ -206,14 +206,14 @@ STATUS space_delete_object(Space* space){
 /*
  * @brief Colocamos en el space un objeto
  * @param space: puntero a Space.
- * @param value: Id (identificador)
+ * @param id: Id (identificador)
  * @return status, OK o ERROR.
  */
-STATUS space_add_object(Space* space, Id value) {
+STATUS space_add_object(Space* space, Id id) {
   if (!space){
     return ERROR;
   }
-  if (set_push_id(space->object,value)==ERROR){
+  if (set_push_id(space->object,id)==ERROR){
     return ERROR;
   }
   return OK;
@@ -316,14 +316,13 @@ Set* space_get_objects(Space* space) {
     return NULL;
   }
   /////////////////////////////*Hay algo que cambiar mas adelante seguroo NOTTAAAXXXXXXXXXXXXXXXX*/
-  set_aux = space_get_objects(space);
   /* Set_Empty => Macro de set.h*/
-  if (Set_Empty(set_aux)==1){
+  if (Set_Empty(space->objects)==1){
     set_destroy(set_aux);
     return NULL;
   }
 
-  return set_aux;
+  return space->objects;
 }
 
 
