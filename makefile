@@ -4,7 +4,7 @@ CFLAGS= -g -Wall -pedantic -ansi
 MODULOS=game_loop_exe
 #HAY QUE PONER MAS
 #########################################################
-OBJECTS = command.o game_loop.o game.o graphic_engine.o screen.o space.o player.o object.o game_reader.o set.o
+OBJECTS = command.o game_loop.o game.o graphic_engine.o screen.o space.o player.o object.o game_reader.o set.o dice.o
 OBJECTSCOMMAND = command.o
 OBJECTSGALOOP = game_loop.o
 OBJECTSGAME = game.o
@@ -17,10 +17,10 @@ OBJECTSSPACE = space.o
 DIST_NAME = GAME_PROJECT_MORPHEUS
 #HAY QUE PONER MAS
 ##########################################################
-OBJECTS_TO_CLEAN = command.o game_loop.o game.o graphic_engine.o screen.o space.o object.o game_reader.o player.o
+OBJECTS_TO_CLEAN = command.o game_loop.o game.o graphic_engine.o screen.o space.o object.o game_reader.o player.o dice.o
 #HAY QUE PONER MAS
 HEADERS_TO_SUBMIT =*.h
-SOURCES_TO_SUBMIT = command.c game.c graphic_engine.c screen.c space.c game_loop.c
+SOURCES_TO_SUBMIT = command.c game.c graphic_engine.c screen.c space.c game_loop.c dice.c set.c
 SUPPORT_TO_SUBMIT = makefile
 #######################################################
 #En el caso de que haya instrucciones adicionales.
@@ -51,6 +51,8 @@ game_reader.o : game_reader.c game_reader.h
 	$(CC) $(CFLAGS) -c game_reader.c
 set.o : set.c set.h
 	$(CC) $(CFLAGS) -c set.c
+dice.o : dice.c dice.h
+	$(CC) $(CFLAGS) -c dice.c
 
 
 
