@@ -110,14 +110,13 @@ STATUS game_create(Game* game) {
 
   for (i = 0; i < MAX_SPACES; i++) {/*Vacia el array spaces*/
     game->spaces[i] = NULL;
-    game->objects[i] = NULL;/*  game->object = object_create(ID_O);/*1*/
+    game->objects[i] = NULL;/*  game->object = object_create(ID_O);*//*1*/
 
   }
   game->player = player_create(ID_J);/*1*/
   /*game->player = player_create(ID_P)
     game_set_player_location(game,NO_ID)*/
   game_set_player_location(game,NO_ID);
-  game_set_object_location(game,NO_ID,NO_ID);
   game->last_cmd = NO_CMD;
   game->dice =dice_create(ID_DICE);/*1*/
 
@@ -135,24 +134,17 @@ STATUS game_create(Game* game) {
  */
 STATUS game_create_from_file(Game* game, char* filename) {
   int numcasillas;
-  int random;
-  time_t t;
   if (game_create(game) == ERROR)
     return ERROR;
 
   if (game_reader_load_spaces(game, filename,&numcasillas) == ERROR){
     return ERROR;
   }
-  /*Para generacion random del objeto entorno al total de casillas en data.dat*/
-  srand((unsigned) time(&t));
-  random =(rand() %numcasillas);
-  if (random == MAX_CASILLAS){
-    random = random -1;
+  if (game_reader_load_objects(game,filename,&numcasillas)==ERROR){
+    return ERROR;
   }
-
     /*Colocamos en casilla 0 a player y random al player*/
   game_set_player_location(game, game_get_space_id_at(game, INIC_P));
-  game_set_object_location(game, game_get_space_id_at(game, random));
   return OK;
 }
 
@@ -294,7 +286,7 @@ STATUS game_set_player_location(Game* game, Id id) {
 VEZ DE PASAR LA ESTRUCTURA DE OBJETO
 for (i=0;i<MAX_ID;i++){
 object_id_aux = object_get_id(game->object[i]);
-/*Si coincide el id del arg con el del objeto que busca el bucle coloca el objeto*//*
+Si coincide el id del arg con el del objeto que busca el bucle coloca el objeto
   if (id_objeto == object_id_aux){
     object_id_aux = object_get_id(game->object);
     space_set_object(game->spaces[i],object_id_aux);
@@ -374,11 +366,11 @@ Id game_get_object_location(Game* game,Object *object) {
   else {
     object_aux = object_get_id(object);
 
-    for (i=0;i<MAX_SPACES;i++)){
+    for (i=0;i<MAX_SPACES;i++){
       set = space_get_objects(game->spaces[j]);
 
-      for (j=0;j<get_set_top(set);j++){
-        space_aux = get_id_pos(set,i);
+      for (j=0;j<set_get_top(set);j++){
+        space_aux = get_id_especifica(set,i);
         /*Si id (objeto_en_casilla) == id (objeto)*/
         if (space_aux == object_aux){
           location = space_get_id(game->spaces[i]);
@@ -547,7 +539,7 @@ void game_callback_left (Game *game){
   }
   for (i=0;i<MAX_SPACES && game->spaces[i] != NULL; i++){
     current_id = space_get_id(game->spaces[i]);
-    if (current_id = space_id) {
+    if (current_id == space_id) {
       current_id = space_get_west(game->spaces[i]);
 
       if (current_id != NO_ID){
@@ -577,7 +569,7 @@ void game_callback_right (Game *game){
   }
   for (i=0;i<MAX_SPACES && game->spaces[i] != NULL; i++){
     current_id = space_get_id(game->spaces[i]);
-    if (current_id = space_id) {
+    if (current_id == space_id) {
       current_id = space_get_east(game->spaces[i]);
 
       if (current_id != NO_ID){
@@ -620,7 +612,7 @@ void game_callback_get(Game* game) {
   if (Set_Empty(set) == 1 || set == NULL){/*1 significa que esta vacio (sentimos el numero magico)<=definido en set.h*/
     return;
   }
-  object = set_destroy(set);
+  object = set_pop_id(set);
   player_set_object(game->player, object);
 
   return;
@@ -660,9 +652,9 @@ void game_callback_drop(Game* game) {
     return;
   }
   for (i=0;i<MAX_ID && object_get_id(p_object) != object;i++){
-    object = game->objects[i];
+    p_object = game->objects[i];
   }
-  game_set_object_location(game,object,current_id);
+  game_set_object_location(game,p_object,current_id);
   player_set_object(game->player,NO_ID);
   /*PLAYER PRINT*/
   return;
@@ -691,7 +683,7 @@ void game_callback_roll_dice(Game *game){
     current_id = space_get_id(game->spaces[i]);
 
     if (current_id == space_id){
-      current_id = space_get_south(game->spaces[random]);
+      current_id = space_get_south(game->spaces[i+random]);/**/
 
       if (current_id != NO_ID){
         game_set_player_location(game,current_id);

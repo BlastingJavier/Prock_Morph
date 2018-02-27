@@ -18,7 +18,7 @@
 /* Puntero a char, es una tabla de comandos que el jugador introduce por pantalla */
 char *cmd_to_str[N_CMD] = {"No command", "Unknown", "Exit", "Following", "Previous","Left","Right","Get","Drop","dice_roll"};
 /*Puntero a char, es una tabla de comandos que tendra que pulsar el jugador en la partida*/
-char *short_cmd_to_str[N_CMD] = {"","","e","n","s","w","e","g","d","r"};
+char *short_cmd_to_str[N_CMD] = {"","","e","f","p","l","r","g","d","t"};
 
 
 

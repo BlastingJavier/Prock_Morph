@@ -133,11 +133,6 @@ STATUS game_reader_load_objects(Game* game, char* filename, int *numcasillas){
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";
   char* toks = NULL;
-  time_t t;
-  int random;
-  /*Por si acaso*/
-  srand((unsigned) time(&t));
-  random = (rand() %numcasillas);
 
   Id id_object = NO_ID;
   Id space_id = NO_ID;
@@ -155,21 +150,21 @@ STATUS game_reader_load_objects(Game* game, char* filename, int *numcasillas){
   }
 
   while (fgets (line,WORD_SIZE,file)){
-    if (strcncmp("#o:",line,3) ==0){
+    if (strncmp("#o:",line,3) ==0){
 
       toks =strtok(line+3 , "|");
 
-      id = atol(toks);
+      id_object = atol(toks);
       toks = strtok(NULL,"|");
       strcpy(name,toks);
       toks = strtok(NULL,"|");
       space_id = atol(toks);
 
       #ifdef DEBUG
-        printf ("Leido: %ld|%s|%ld\n" ,id,name,space_id);
+        printf ("Leido: %ld|%s|%ld\n" ,id_object,name,space_id);
       #endif
 
-        object = object_create(id);
+        object = object_create(id_object);
         if (object != NULL){
           object_set_name(object, name);
           /*Hay que pensar si el id tiene que ser el del objeto o el del space*/

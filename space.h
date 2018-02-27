@@ -13,6 +13,7 @@
 #define SPACE_H
 
 #include "types.h"
+#include "set.h"
 
 /*Estructura que define un espacio (características)*/
 typedef struct _Space Space;
@@ -178,15 +179,6 @@ Id space_get_west(Space* space);
  * @return object, space->object o FALSE si no existen objetos
  */
 Set* space_get_objects(Space* space);
-
-
-/*Hay que ver si es necesaria de verdad esta funcion o no*/
-/*
- * @brief Devuelve el si hay o no objeto en la casilla
- * @param space: puntero a Space.
- * @return object, space->object o FALSE
- */
-Id space_get_object(Space* space);
 
 
 

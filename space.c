@@ -213,7 +213,7 @@ STATUS space_add_object(Space* space, Id id) {
   if (!space){
     return ERROR;
   }
-  if (set_push_id(space->object,id)==ERROR){
+  if (set_push_id(space->objects,id)==ERROR){
     return ERROR;
   }
   return OK;
@@ -310,15 +310,13 @@ Id space_get_west(Space* space) {
  * @param space: puntero a Space.
  * @return object, space->object o FALSE si no existen objetos
  */
-Set* space_get_objects(Space* space) {
-  Set *set_aux;
+Set * space_get_objects(Space* space) {
   if (!space || space->objects == NULL) {
     return NULL;
   }
-  /////////////////////////////*Hay algo que cambiar mas adelante seguroo NOTTAAAXXXXXXXXXXXXXXXX*/
-  /* Set_Empty => Macro de set.h*/
+
   if (Set_Empty(space->objects)==1){
-    set_destroy(set_aux);
+    set_destroy(space->objects);
     return NULL;
   }
 
@@ -326,25 +324,25 @@ Set* space_get_objects(Space* space) {
 }
 
 
-/*Hay que ver si es necesaria de verdad esta funcion o no*/
-/*
+/*Hay que ver si es necesaria de verdad esta funcion o no
+
  * @brief Devuelve el si hay o no objeto en la casilla
  * @param space: puntero a Space.
  * @return object, space->object o FALSE
- */
+
 Id space_get_object(Space* space ,Id id_objeto) {
   int i;
   Id id_aux_obj;
   if (!space) {
     return NO_ID;
   }
-  for (i=0;i<MAX_OBJ;i++){
+  for (i=0;i<MAX_ID;i++){
     id_aux_obj = object_get_id(space->objects);
     if (*((Id)id_aux_obj) == id_objeto){
       return *((Id) id_aux_obj);
     }
   }
-}
+}*/
 /*
  * @brief Comprueba si un objeto esta en el espacio actual
  * @param space: puntero a Space.
@@ -422,9 +420,9 @@ STATUS space_print(Space* space) {
   set_aux = space_get_objects(space);
 
   if (set_aux != NULL){
-    Set_print(set_aux);
-    set_destroy(aux);
-    aux = NULL;
+    set_print(set_aux);
+    set_destroy(set_aux);
+    set_aux = NULL;
   }
   else {
     fprintf(stdout, "---> No objects in the space.\n");

@@ -118,7 +118,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
     id_next = space_get_south(space_act);
     /*Como ahora tenemos varios objeto ...*/
 
-    for (i=0;i<MAX_ID && game->objects[i]! = NULL;i++){
+    for (i=0;i<MAX_ID && game->objects[i] != NULL;i++){
       if (game_get_object_location(game,game->objects[i]) == id_back){
 
         obj='*';
@@ -139,7 +139,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       screen_area_puts(ge->map, str);
     }
 
-    for (i=0;i<MAX_ID && game->objects[i]! = NULL;i++){
+    for (i=0;i<MAX_ID && game->objects[i] != NULL;i++){
       if (game_get_object_location(game,game->objects[i]) == id_act){
 
         obj='*';
@@ -161,7 +161,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       screen_area_puts(ge->map, str);
     }
 
-    for (i=0;i<MAX_ID && game->objects[i]! = NULL;i++){
+    for (i=0;i<MAX_ID && game->objects[i] != NULL;i++){
       if (game_get_object_location(game,game->objects[i]) == id_next){
 
         obj='*';
@@ -188,7 +188,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   if ((obj_loc = game_get_object_location(game)) != NO_ID){
     sprintf(str, "  Object location:%d", (int)obj_loc);
     screen_area_puts(ge->descript, str);
-  }/*if (game_get_last_command(game) == GET && obj_loc == id_next)
+  }if (game_get_last_command(game) == GET && obj_loc == id_next)
   else {
     sprintf(str , "You have an object now");
     screen_area_puts(ge->descript, str);
@@ -197,7 +197,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   sprintf(str,"Localizacion del objeto");
   screen_area_puts(ge->descript,str);
   for (i=0;i<MAX_ID && game->objects[i] != NULL ;i++){
-    obj_loc = game_get_object_location(game,game->objects[i])
+    obj_loc = game_get_object_location(game,game->objects[i]);
     if (obj_loc != NO_ID){
       sprintf(str," Localizacion del objeto : %d",(int)obj_loc);
       screen_area_puts(ge->descript,str);
@@ -213,7 +213,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
-  sprintf(str, "     following=>n / previous=>s / exit=>e / get=>g / left=>w / right=>e / drop=>d / dice_roll=>r /");
+  sprintf(str, "     following=>f / previous=>p / exit=>e / left=>l / right=>r/ get=>g / drop=>d / dice_roll=>t /");
   screen_area_puts(ge->help, str);
 
   /*Dibuja el área de feedback*/

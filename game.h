@@ -139,7 +139,7 @@ Id game_get_player_location(Game* game);
  * @param game, puntero a la estructura Game
  * @return la posición del objeto, modificada de la estructura
  */
-Id game_get_object_location(Game* game);
+Id game_get_object_location(Game* game,Object * object);
 
 
 

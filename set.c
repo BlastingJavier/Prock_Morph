@@ -17,8 +17,11 @@
 
 /*Para no desaprovechar memoria...*/
 /*
-#define Set_Empty(x) (x==0)/*Macro para ver si el conjunto esta vacio
-#define Set_Full(x) (x > MAX_ID)/*Macro para ver si el conjunto esta lleno*/
+#define Set_Empty(x) (x==0)Macro para ver si el conjunto esta vacio
+#define Set_Full(x) (x > MAX_ID)Macro para ver si el conjunto esta lleno*/
+
+
+
 /*Estructura que define un conjunto(características) */
 
 struct _Set {
@@ -44,7 +47,7 @@ Set * set_create (){
     for (i=0;i<MAX_ID;i++){
       conj_create->id_array[i] = NO_ID;
     }
-    conj_create->n_array_actual = 0;
+    conj_create->num_array_actual = 0;
   }
   return conj_create;
 }
@@ -57,7 +60,6 @@ Set * set_create (){
  * @return nada (void)
  */
 void set_destroy (Set * set){
-  int i;
   if (set == NULL){
     return;
   }
@@ -151,7 +153,7 @@ STATUS set_print(Set* set) {
 Id get_id_especifica (Set *set ,int num_array_actual_para){
   Id id_aux;
   if (set == NULL|| num_array_actual_para < 0 || num_array_actual_para > set->num_array_actual || Set_Empty(set) == 1){
-    return NO_ID
+    return NO_ID;
   }
   id_aux = set->id_array[num_array_actual_para];
   return id_aux;

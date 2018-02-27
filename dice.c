@@ -20,7 +20,7 @@
   tiro*/
 struct _Dice {
   Id id;
-  int last_shoot
+  int last_shoot;
 };
 
 
@@ -122,8 +122,6 @@ int dice_get_last_shoot(Dice *dice ){
  * @return status , OK o ERROR
  */
 STATUS dice_print (Dice *dice){
-  Id id_aux;
-  int int_aux;
   if (!dice){
     return ERROR;
   }
