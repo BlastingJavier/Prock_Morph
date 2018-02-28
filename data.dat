@@ -1,83 +1,66 @@
-#s:1|Casilla 1|-1|-1|2|-1
+#s:1|Casilla 1 (Inicio)|-1|-1|2|-1
 #s:2|Casilla 2|1|-1|3|-1
 #s:3|Casilla 3|2|-1|4|-1
 #s:4|Casilla 4|3|-1|5|-1
-#s:5|Casilla 5|4|9|6|5
-#s:6|Casilla 6|5|-1|7|-1
+#s:5|Casilla 5 (Oca)|4|9|6|9
+#s:6|Casilla 6 (Puente)|5|12|7|6
 #s:7|Casilla 7|6|-1|8|-1
 #s:8|Casilla 8|7|-1|9|-1
-#s:9|Casilla 9|8|9|10|5
+#s:9|Casilla 9 (Oca)|8|14|10|14
 #s:10|Casilla 10|9|-1|11|-1
 #s:11|Casilla 11|10|-1|12|-1
-#s:12|Casilla 12|11|-1|-1|-1
-#s:13|Casilla 13|12|-1|-1|-1
-
-
-
-
-#s:14|Casilla 14|13|-1|15|-1
+#s:12|Casilla 12 (Puente)|11|12|13|6
+#s:13|Casilla 13|12|-1|14|-1
+#s:14|Casilla 14 (Oca)|13|18|15|18
 #s:15|Casilla 15|14|-1|16|-1
 #s:16|Casilla 16|15|-1|17|-1
 #s:17|Casilla 17|16|-1|18|-1
-#s:18|Casilla 18|17|9|19|5
-#s:19|Casilla 19|18|-1|20|-1
+#s:18|Casilla 18 (Oca)|17|23|19|23
+#s:19|Casilla 19 (Posada)|18|-1|20|-1
 #s:20|Casilla 20|19|-1|21|-1
 #s:21|Casilla 21|20|-1|22|-1
 #s:22|Casilla 22|21|9|23|5
-#s:23|Casilla 23|22|-1|24|-1
-#s:24|Casilla 24|23|-1|12|-1
-#s:25|Casilla 25|24|-1|-1|-1
-#s:26|Casilla 26|25|-1|-1|-1
-
-
-
-
-#s:27|Casilla 27|26|-1|2|-1
-#s:28|Casilla 28|27|-1|3|-1
-#s:29|Casilla 29|28|-1|4|-1
-#s:30|Casilla 30|29|-1|5|-1
-#s:31|Casilla 31|30|9|6|5
-#s:32|Casilla 32|31|-1|7|-1
-#s:33|Casilla 33|32|-1|8|-1
-#s:34|Casilla 34|33|-1|9|-1
-#s:35|Casilla 35|34|9|10|5
-#s:36|Casilla 36|35|-1|11|-1
-#s:37|Casilla 37|36|-1|12|-1
-#s:38|Casilla 38|37|-1|-1|-1
-#s:39|Casilla 39|38|-1|-1|-1
-
-
-
-#s:40|Casilla 40|39|-1|2|-1
-#s:41|Casilla 41|40|-1|3|-1
-#s:42|Casilla 42|41|-1|4|-1
-#s:43|Casilla 43|42|-1|5|-1
-#s:44|Casilla 44|43|9|6|5
-#s:45|Casilla 45|44|-1|7|-1
-#s:46|Casilla 46|45|-1|8|-1
-#s:47|Casilla 47|46|-1|9|-1
-#s:48|Casilla 48|47|9|10|5
-#s:49|Casilla 49|48|-1|11|-1
-#s:50|Casilla 50|49|-1|12|-1
-#s:51|Casilla 51|50|-1|-1|-1
-#s:52|Casilla 52|51|-1|-1|-1
-
-
-
-
-#s:53|Casilla 53|52|-1|2|-1
-#s:54|Casilla 54|53|-1|3|-1
-#s:55|Casilla 55|54|-1|4|-1
-#s:56|Casilla 56|55|-1|5|-1
-#s:57|Casilla 57|56|9|6|5
-#s:58|Casilla 58|57|-1|7|-1
-#s:59|Casilla 59|58|-1|8|-1
-#s:60|Casilla 60|59|-1|9|-1
-#s:61|Casilla 61|60|9|10|5
-#s:62|Casilla 62|61|-1|11|-1
-#s:63|Casilla 63|-1|-1|-1|-1
-
-
+#s:23|Casilla 23 (Oca)|22|27|24|27
+#s:24|Casilla 24|23|-1|25|-1
+#s:25|Casilla 25|24|-1|26|-1
+#s:26|Casilla 26 (Dado)|25|53|27|26
+#s:27|Casilla 27 (Oca)|26|32|28|32
+#s:28|Casilla 28|27|-1|29|-1
+#s:29|Casilla 29|28|-1|30|-1
+#s:30|Casilla 30|29|-1|31|-1
+#s:31|Casilla 31 (Pozo)|30|9|32|5
+#s:32|Casilla 32 (Oca)|31|36|33|36
+#s:33|Casilla 33|32|-1|34|-1
+#s:34|Casilla 34|33|-1|35|-1
+#s:35|Casilla 35|34|9|36|5
+#s:36|Casilla 36 (Oca)|35|41|37|41
+#s:37|Casilla 37|36|-1|38|-1
+#s:38|Casilla 38|37|-1|39|-1
+#s:39|Casilla 39|38|-1|40|-1
+#s:40|Casilla 40|39|-1|41|-1
+#s:41|Casilla 41 (Oca)|40|45|42|45
+#s:42|Casilla 42 (Laberinto)|41|-1|43|-1
+#s:43|Casilla 43|42|-1|44|-1
+#s:44|Casilla 44|43|9|45|5
+#s:45|Casilla 45 (Oca)|44|50|46|50
+#s:46|Casilla 46|45|-1|47|-1
+#s:47|Casilla 47|46|-1|48|-1
+#s:48|Casilla 48|47|9|49|5
+#s:49|Casilla 49|48|-1|50|-1
+#s:50|Casilla 50 (Oca)|49|54|51|54
+#s:51|Casilla 51|50|-1|52|-1
+#s:52|Casilla 52 (Carcel)|51|-1|53|-1
+#s:53|Casilla 53 (Dado)|52|53|54|26
+#s:54|Casilla 54 (Oca)|53|59|55|59
+#s:55|Casilla 55|54|-1|56|-1
+#s:56|Casilla 56|55|-1|57|-1
+#s:57|Casilla 57|56|9|58|5
+#s:58|Casilla 58 (Muerte)|57|1|59|1
+#s:59|Casilla 59 (Oca)|58|63|60|63
+#s:60|Casilla 60|59|-1|61|-1
+#s:61|Casilla 61|60|9|62|5
+#s:62|Casilla 62|61|-1|63|-1
+#s:63|Casilla 63 (Oca Final)|-1|-1|-1|-1
 #o:1|Objeto 1|5
 #o:2|Objeto 2|12
 #o:3|Objeto 3|2
