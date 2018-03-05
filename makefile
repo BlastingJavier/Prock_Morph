@@ -37,7 +37,7 @@ command.o:command.c command.h
 	$(CC) $(CFLAGS) -c command.c
 game.o: game.c game.h command.h space.h
 	$(CC) $(CFLAGS) -c game.c
-graphic_engine.o :graphic_engine.c graphic_engine.h screen.h game.h
+graphic_engine.o :graphic_engine.c graphic_engine.h screen.h game.h dice.h
 	$(CC) $(CFLAGS) -c graphic_engine.c
 screen.o: screen.c screen.h
 	$(CC) $(CFLAGS) -c screen.c

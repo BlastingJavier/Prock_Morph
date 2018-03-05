@@ -20,7 +20,7 @@
   tiro*/
 struct _Dice {
   Id id;
-  int last_shoot;
+  int last_shot;
 };
 
 
@@ -30,14 +30,14 @@ struct _Dice {
  * @param nada
  * @return NULL o la propia estructura
  */
-Dice * dice_create (){
+Dice * dice_create (Id id){
   Dice *dice;
   dice = (Dice*)malloc(sizeof(Dice));
   if (dice == NULL){
     return NULL;
   }
-  dice->id = NO_ID;
-  dice->last_shoot = 0;
+  dice->id = id;
+  dice->last_shot = 0;
   return dice;
 }
 
@@ -65,24 +65,17 @@ void dice_destroy (Dice *dice){
  * @param dice , puntero a Dice
  * @return int (numero random)
  */
-int dice_roll(Dice *dice){
-  int random;
+STATUS dice_roll(Dice *dice){
   time_t t;
   if (dice == NULL){
-    return 0;
+    return ERROR;
   }
   srand((unsigned) time(&t));
-  random = (rand() %6 + 1);
-  if (random == 0){
-    return 0;
+  dice->last_shot = (rand() %6 + 1);
+  if (dice->last_shot == 0){
+    return ERROR;
   }
-  else {
-    /*Se puede perfectamente utilizar una funcion de tipo STATUS y asignar el random
-      a dice ->last_shoot y retornar OK pero para afianzar que esto devuelve un numero
-      pseudo aleatorio hemos decidio que retorne un entero*/
-    dice->last_shoot = random;
-    return random;
-  }
+  return OK;
 }
 
 
@@ -105,13 +98,13 @@ Id dice_get_id(Dice*dice){
 /*
  * @brief Se encarga de obtener la ultima tirada
  * @param dice , puntero a Dice
- * @return dice->last_shoot campo de dice
+ * @return dice->last_shot campo de dice
  */
-int dice_get_last_shoot(Dice *dice ){
+int dice_get_last_shot(Dice *dice){
   if (dice == NULL){
     return 0;
   }
-  return dice->last_shoot;
+  return dice->last_shot;
 }
 
 
@@ -125,6 +118,6 @@ STATUS dice_print (Dice *dice){
   if (!dice){
     return ERROR;
   }
-  fprintf(stdout,"--> Dice (Id: %ld;last_shoot:%d)",dice->id,dice->last_shoot);
+  fprintf(stdout,"--> Dice (Id: %ld;last_shot:%d)",dice->id,dice->last_shot);
   return OK;
 }

@@ -116,17 +116,17 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
     space_act = game_get_space(game, id_act);
     id_back = space_get_north(space_act);
     id_next = space_get_south(space_act);
+
     /*Como ahora tenemos varios objeto ...*/
 
-    for (i=0;i<MAX_ID && game->objects[i] != NULL;i++){
-      if (game_get_object_location(game,game->objects[i]) == id_back){
-
-        obj='*';
-      }
-      else {
-        obj=' ';
-      }
+    if (game_get_object_location(game,game_get_object(game,id_act))==id_back){
+      obj = '*';
     }
+    else {
+      obj = ' ';
+    }
+
+
     /*Casilla anterior (efecto de refresco)*/
     if (id_back != NO_ID) {
       sprintf(str, "  |         %2d|",(int) id_back);
@@ -138,15 +138,24 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       sprintf(str, "        ^");
       screen_area_puts(ge->map, str);
     }
-
+/*
     for (i=0;i<MAX_ID && game->objects[i] != NULL;i++){
       if (game_get_object_location(game,game->objects[i]) == id_act){
 
         obj='*';
+        printf("%d\n",i);
       }
       else {
         obj=' ';
       }
+      printf("%d jeje\n",i);
+    }
+    */
+    if (game_get_object_location(game,game_get_object(game,id_act))==id_act){
+      obj = '*';
+    }
+    else {
+      obj = ' ';
     }
       /*Las casillas hay que redimensionarlas*/
     /*Casilla actual (efecto de refresco)*/
@@ -160,15 +169,11 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       sprintf(str, "  +-----------+");
       screen_area_puts(ge->map, str);
     }
-
-    for (i=0;i<MAX_ID && game->objects[i] != NULL;i++){
-      if (game_get_object_location(game,game->objects[i]) == id_next){
-
-        obj='*';
-      }
-      else {
-        obj=' ';
-      }
+    if (game_get_object_location(game,game_get_object(game,id_act))==id_next){
+      obj = '*';
+    }
+    else {
+      obj = ' ';
     }
     /*Casilla siguiente (efecto de refresco)*/
     if (id_next != NO_ID) {
@@ -194,16 +199,16 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
     screen_area_puts(ge->descript, str);
   }*/
   screen_area_clear(ge->descript);
-  sprintf(str,"Localizacion del objeto");
+  sprintf(str,"Localizacion del objeto:");
   screen_area_puts(ge->descript,str);
   for (i=0;i<MAX_ID && game->objects[i] != NULL ;i++){
     obj_loc = game_get_object_location(game,game->objects[i]);
     if (obj_loc != NO_ID){
-      sprintf(str," Localizacion del objeto : %d",(int)obj_loc);
+      sprintf(str,"%s:%d",object_get_name(game->objects[i]),(int)obj_loc);
       screen_area_puts(ge->descript,str);
     }
   }
-  sprintf(str, "Ultima tirada (dado): %d",dice_get_last_shoot(game->dice));
+  sprintf(str, "Ultima tirada (dado): %d",dice_get_last_shot(game->dice));
   screen_area_puts(ge->descript,str);
 
   /*Dibuja la zona del banner*/

@@ -110,9 +110,16 @@ STATUS game_create(Game* game) {
 
   for (i = 0; i < MAX_SPACES; i++) {/*Vacia el array spaces*/
     game->spaces[i] = NULL;
-    game->objects[i] = NULL;/*  game->object = object_create(ID_O);*//*1*/
+    /*  game->object = object_create(ID_O);*//*1*/
 
   }
+  for (i=0;i<MAX_ID;i++){
+    game->objects[i] = object_create(NO_ID);
+  }
+  for (i=0;i<MAX_ID;i++){
+    game->objects[i] = NULL;
+  }
+
   game->player = player_create(ID_J);/*1*/
   /*game->player = player_create(ID_P)
     game_set_player_location(game,NO_ID)*/
@@ -161,7 +168,7 @@ STATUS game_destroy(Game* game) {
   for (i = 0; (i < MAX_SPACES) && (game->spaces[i] != NULL); i++) {
     space_destroy(game->spaces[i]);
   }
-  /*o MAX_ID*/
+
   for (i=0;i<MAX_ID && game->objects[i] != NULL ;i++){
     object_destroy(game->objects[i]);
   }
@@ -267,6 +274,29 @@ Space* game_get_space(Game* game, Id id){
 
 
 
+/*
+ * @brief Retorna el objeto (asociándola con una posición predeterminada)
+    y con el id (param)
+ * @param game, puntero a estructura,(dirección)
+ * @param id, Entero (identificador)
+ * @return NULL (si el id esta corrupto, o al final de la función),
+    y el array "objects", de la estructura, si coincide con el id pasado como argumento
+ */
+Object* game_get_object(Game* game, Id id){
+  int i = 0;
+
+  if (id == NO_ID) {
+    return NULL;
+  }
+
+  for (i = 0; i < MAX_ID && game->objects[i] != NULL; i++) {
+    if (id == object_get_id(game->objects[i])){
+      return game->objects[i];
+    }
+  }
+
+  return NULL;
+}
 /**
  * @brief funcionalidad de modificar la localizacion del jugador mediante el id
  * @param game, puntero a Game (dirección)
@@ -357,22 +387,22 @@ for (i=0;i<MAX_ID;i++){
 */
 Id game_get_object_location(Game* game,Object *object) {
   int i,j;
-  Id space_aux , object_aux, location;
+  Id space_id_aux , object_id_aux, location;
   Set * set;
 
   if (!game || !object){
     return NO_ID;
   }
   else {
-    object_aux = object_get_id(object);
+    object_id_aux = object_get_id(object);
 
     for (i=0;i<MAX_SPACES;i++){
-      set = space_get_objects(game->spaces[j]);
+      set = space_get_objects(game->spaces[i]);
 
       for (j=0;j<set_get_top(set);j++){
-        space_aux = get_id_especifica(set,i);
+        space_id_aux = get_id_especifica(set,j);
         /*Si id (objeto_en_casilla) == id (objeto)*/
-        if (space_aux == object_aux){
+        if (space_id_aux == object_id_aux){
           location = space_get_id(game->spaces[i]);
 
           return location;
@@ -654,7 +684,7 @@ void game_callback_drop(Game* game) {
   for (i=0;i<MAX_ID && object_get_id(p_object) != object;i++){
     p_object = game->objects[i];
   }
-  game_set_object_location(game,p_object,current_id);
+  game_set_object_location(game,current_id,p_object);
   player_set_object(game->player,NO_ID);
   /*PLAYER PRINT*/
   return;
@@ -662,13 +692,9 @@ void game_callback_drop(Game* game) {
 }
 
 
-/**
- * @brief Implementa la función del comando roll
- * @param game, puntero a la estructura Game
- * @return, ya que es una función de tipo void
- */
-void game_callback_roll_dice(Game *game){
-  int i;
+
+
+/*  int i;
   int random;
   Dice* dice;
   Id current_id = NO_ID;
@@ -683,12 +709,19 @@ void game_callback_roll_dice(Game *game){
     current_id = space_get_id(game->spaces[i]);
 
     if (current_id == space_id){
-      current_id = space_get_south(game->spaces[i+random]);/**/
+      current_id = space_get_south(game->spaces[i+random]);
 
       if (current_id != NO_ID){
         game_set_player_location(game,current_id);
       }
       return;
     }
-  }
+  }*/
+/**
+ * @brief Implementa la función del comando roll
+ * @param game, puntero a la estructura Game
+ * @return, ya que es una función de tipo void
+ */
+void game_callback_roll_dice(Game *game){
+  dice_roll(game->dice);
 }

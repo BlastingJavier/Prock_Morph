@@ -125,6 +125,18 @@ Space* game_get_space(Game* game, Id id);
 
 
 
+/*
+ * @brief Retorna el objeto (asociándola con una posición predeterminada)
+    y con el id (param)
+ * @param game, puntero a estructura,(dirección)
+ * @param id, Entero (identificador)
+ * @return NULL (si el id esta corrupto, o al final de la función),
+    y el array "objects", de la estructura, si coincide con el id pasado como argumento
+ */
+Object* game_get_object(Game* game, Id id);
+
+
+
 /**
  * @brief Devuelve la posicion del jugador (estructura game)
  * @param game, puntero a la estructura Game

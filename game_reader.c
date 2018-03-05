@@ -19,6 +19,8 @@
 #include "time.h"/*Carga randomizada de objetos en casilla*/
 #include "set.h"
 
+#define DEBUG
+
 /**                 Definidos en:
                         ||
                         ||
@@ -161,6 +163,8 @@ STATUS game_reader_load_objects(Game* game, char* filename, int *numcasillas){
       space_id = atol(toks);
 
       #ifdef DEBUG
+
+        printf("\n\n\n\n");
         printf ("Leido: %ld|%s|%ld\n" ,id_object,name,space_id);
       #endif
 

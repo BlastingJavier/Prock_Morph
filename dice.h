@@ -25,7 +25,7 @@ typedef struct _Dice Dice;
  * @param nada
  * @return NULL o la propia estructura
  */
-Dice * dice_create ();
+Dice * dice_create (Id id);
 
 
 
@@ -43,7 +43,7 @@ void dice_destroy (Dice *dice);
  * @param dice , puntero a Dice
  * @return int (numero random)
  */
-int dice_roll(Dice* dice);
+STATUS dice_roll(Dice* dice);
 
 
 
@@ -59,9 +59,9 @@ Id dice_get_id(Dice* dice);
 /*
  * @brief Se encarga de obtener la ultima tirada
  * @param dice , puntero a Dice
- * @return dice->last_shoot campo de dice
+ * @return dice->last_shot campo de dice
  */
-int dice_get_last_shoot(Dice *dice );
+int dice_get_last_shot(Dice *dice);
 
 
 
