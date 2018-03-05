@@ -199,7 +199,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
     screen_area_puts(ge->descript, str);
   }*/
   screen_area_clear(ge->descript);
-  sprintf(str,"Localizacion del objeto:");
+  sprintf(str,"Object Location:");
   screen_area_puts(ge->descript,str);
   for (i=0;i<MAX_ID && game->objects[i] != NULL ;i++){
     obj_loc = game_get_object_location(game,game->objects[i]);
@@ -218,7 +218,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
-  sprintf(str, "     following=>f / previous=>p / exit=>e / left=>l / right=>r/ get=>g / drop=>d / dice_roll=>t /");
+  sprintf(str, "     following=>f / previous=>p / exit=>e / left=>l / right=>r / grasp=>g / drop=>d / throw_die=>t /");
   screen_area_puts(ge->help, str);
 
   /*Dibuja el área de feedback*/
