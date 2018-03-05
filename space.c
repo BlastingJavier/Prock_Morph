@@ -429,3 +429,13 @@ STATUS space_print(Space* space) {
   }
   return OK;
 }
+
+/*
+Caracteres ascii casillas graficas:
+Oca:
+|<O)__/   |   \_-/ |
+Puente:
+___   |    / _ \   |   / /  \ \ |
+Muerte:
+___   |   (O O)   |   \m/ |
+*/
