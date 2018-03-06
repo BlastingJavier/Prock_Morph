@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <strings.h>
+#include <string.h>
 #include "command.h"
 
 #define CMD_LENGHT 128
@@ -21,28 +22,52 @@ char *cmd_to_str[N_CMD] = {"No command", "Unknown", "Exit", "Following", "Previo
 char *short_cmd_to_str[N_CMD] = {"","","e","f","p","l","r","g","d","t"};
 
 
-
-
 /**
 * @brief Implementa los comandos, recogiendo el "input" ,
    transformándolo en un valor numérico de T_command;
 * @param No param.
 * @return cmd (campo de estructura T_command)
 */
-T_Command get_user_input(){
+T_Command get_user_input(char *p){
   T_Command cmd = NO_CMD;/*-1*/
   char input[CMD_LENGHT] = "";/*Variable "input" (string), leera el comando*/
   int i=UNKNOWN - NO_CMD + 1; /*2*/
+  char * palabra;
 
   if (scanf("%s", input) > 0){/*Si lee el comando correctamente*/
     cmd = UNKNOWN; /*cmd=0, siempre*/
+    palabra = NULL;
+    palabra = strtok(input, " "); /*Esto hace que coja la palabra hasta el espacio el blanco*/
+    *p = '\0';
     while (cmd == UNKNOWN && i < N_CMD){ /*Compara el comando introducido por el jugador con los de la lista*/
 
       if (!strcasecmp(input,short_cmd_to_str[i]) || !strcasecmp(input,cmd_to_str[i])){/*Si coinciden "cmd" = el valor que le correponde*/
         cmd = i /*=2*/ + NO_CMD/*=-1*/;
+        palabra = strtok(NULL, " "); /*Las demas veces que llamamos a strtok lo hacemos con NULL, pues ya cogio la cadena*/
+
+	 /*Control de errores*/
+        if(palabra==NULL)
+        {
+          if (cmd == GET || cmd == DROP)
+          {
+            return UNKNOWN;
+          }
+        }
+        else
+        {
+          if (cmd == GET || cmd == DROP)
+          {
+            strcpy(p, palabra); /*Copiamos la cadena partida en el parametro*/
+          }
+          else
+          {
+            return UNKNOWN;
+          }
+        }
       }
-      else{
-	      i++;
+      }
+      else {
+	      i++; /*Despues del control de errores, comprobamos en otros cmd*/
       }
     }
   }
