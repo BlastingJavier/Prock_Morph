@@ -113,7 +113,7 @@ int dice_get_last_shot(Dice *dice){
  * @param dice , puntero a Dice
  * @return status , OK o ERROR
  */
-STATUS dice_print (Dice *dice){
+STATUS dice_print (Dice *dice){ 
   if (!dice){
     return ERROR;
   }
