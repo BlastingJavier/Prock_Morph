@@ -10,11 +10,10 @@
 */
 
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 #include <time.h>
-#include "dice.h"
 #include "types.h"
+#include "dice.h"
 
 /*Estructura que representa datos caracteristicos de un dado (id) y el ultimo
   tiro*/
