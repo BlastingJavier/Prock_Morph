@@ -68,7 +68,7 @@ T_Command get_user_input(char *p){
       }
       else {
 	      i++; /*Despues del control de errores, comprobamos en otros cmd*/
-      }
+      } 
     }
   }
 
