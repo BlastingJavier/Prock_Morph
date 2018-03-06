@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h> /*Para rand()*/
 #include "game.h"
 #include "game_reader.h"
 #include "player.h"
@@ -20,6 +19,7 @@
 #include "set.h"
 #include "space.h"
 #include "dice.h"
+
 /*Evitar numeros "magicos" por el codigo*/
 #define ID_J 1/*Id del player*/
 #define ID_O 1/*Id del objeto*/
