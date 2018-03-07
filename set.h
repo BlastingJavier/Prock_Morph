@@ -96,13 +96,4 @@ int set_get_top (Set * set);
 BOOL set_ISempty(Set *set);
 
 
-
-/*
- * @brief Comprueba si Set esta lleno (no se pueden introducir mas ids)
- * @param set, puntero a set
- * @return status OK o ERROR
- */
-BOOL set_ISfull(Set *set);
-
-
 #endif
