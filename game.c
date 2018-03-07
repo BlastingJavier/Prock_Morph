@@ -19,6 +19,7 @@
 #include "set.h"
 #include "space.h"
 #include "dice.h"
+
 /*Evitar numeros "magicos" por el codigo*/
 #define ID_J 1/*Id del player*/
 #define ID_O 1/*Id del objeto*/

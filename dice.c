@@ -12,8 +12,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "dice.h"
 #include "types.h"
+#include "dice.h"
 
 /*Estructura que representa datos caracteristicos de un dado (id) y el ultimo
   tiro*/
@@ -113,7 +113,7 @@ int dice_get_last_shot(Dice *dice){
  * @param dice , puntero a Dice
  * @return status , OK o ERROR
  */
-STATUS dice_print (Dice *dice){
+STATUS dice_print (Dice *dice){ 
   if (!dice){
     return ERROR;
   }
