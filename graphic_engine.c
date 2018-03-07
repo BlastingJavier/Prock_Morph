@@ -63,9 +63,9 @@ Graphic_engine *graphic_engine_create(){
   /*Definicion de areas*/
   ge->map      = screen_area_init( 1, 1, 48, 13);
   ge->descript = screen_area_init(50, 1, 29, 13);
-  ge->banner   = screen_area_init(28,15, 23,  1);
-  ge->help     = screen_area_init( 1,16, 78,  2);
-  ge->feedback = screen_area_init( 1,19, 78,  3);
+  ge->banner   = screen_area_init(28, 15, 23, 1);
+  ge->help     = screen_area_init( 1, 16, 78, 2);
+  ge->feedback = screen_area_init( 1, 19, 78, 3);
 
   return ge;
 }
@@ -127,7 +127,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
 
     /*Casilla anterior (efecto de refresco)*/
     if (id_back != NO_ID) {
-    sprintf(str, "  |                 %2d|",(int) id_back);
+    sprintf(str, "  |                %2d|",(int) id_back);
     screen_area_puts(ge->map, str);
     sprintf(str, "  |                   |");
     screen_area_puts(ge->map, str);
@@ -158,7 +158,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
     if (id_act != NO_ID) {
       sprintf(str, "  +-------------------+");
       screen_area_puts(ge->map, str);
-      sprintf(str, "  | 8D              %2d|",(int) id_act);
+      sprintf(str, "  | >8D            %2d|",(int) id_act);
       screen_area_puts(ge->map, str);
       sprintf(str, "  |                   |");
       screen_area_puts(ge->map, str);
@@ -186,7 +186,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       screen_area_puts(ge->map, str);
       sprintf(str, "  +-------------------+");
       screen_area_puts(ge->map, str);
-      sprintf(str, "  |                 %2d|",(int) id_next);
+      sprintf(str, "  |                %2d|",(int) id_next);
       screen_area_puts(ge->map, str);
       sprintf(str, "  |                   |");
       screen_area_puts(ge->map, str);
