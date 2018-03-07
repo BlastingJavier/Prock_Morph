@@ -150,7 +150,7 @@ Id player_get_inventory_item(Player* player) {
 */
 
 
-/*
+/*q
  * @brief Devuelve el set de objetos de un jugador
  * @param player: puntero a Player.
  * @return player->inventory_items (puntero a Set)
@@ -241,8 +241,8 @@ STATUS player_print(Player* player) {
 
   fprintf(stdout, "--> Player (Id: %ld; Name: %s)\n", player->player_id, player->name);
 
-  if (NO_ID != player_get_inventory_item(player)) {
-    fprintf(stdout, "---> inventory_item: %ld.\n",(long)player_get_inventory_item(player));
+  if (NULL != player_get_inventory_items(player)) {
+    fprintf(stdout, "---> inventory_item: %ld.\n",(long)player_get_inventory_items(player));
   }else {
     fprintf(stdout, "---> No inventory_item.\n");
   }
