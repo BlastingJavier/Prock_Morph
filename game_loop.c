@@ -54,6 +54,6 @@ int main(int argc, char *argv[]){
     y termina el juego */
   game_destroy(&game);
 	graphic_engine_destroy(gengine);
-
+ 
 return 0;
 }
