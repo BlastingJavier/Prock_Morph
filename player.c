@@ -23,13 +23,13 @@ struct _Player {
   Id player_id;
   char name[WORD_SIZE+1];
   Id space_id;/*objeto del inventario*/
-  Id inventory_item_id;/*localicación*/
+  Set *inventory_items;/*localicación*/
 };
 
 
 
 /*
- * @brief Se encarga de crear el jugador,
+ * @brief Se encarga de crear el player,
    y poner el caracter fin de cadena al final del nombre de este
  * @param id, de tipo Id
  * @return newPlayer, que es el puntero a la estructura
@@ -46,7 +46,7 @@ Player* player_create (Id id){
   }
   newPlayer->player_id=id;
   newPlayer->name[0] = '\0';
-  newPlayer->inventory_item_id=NO_ID;
+  newPlayer->inventory_items= set_create();
 
   return newPlayer;
 }
@@ -62,7 +62,7 @@ STATUS player_destroy (Player* player){
   if(!player){
     return ERROR;
   }
-
+  set_destroy(player->objects);
   free(player);
   player = NULL;
 
@@ -72,7 +72,7 @@ STATUS player_destroy (Player* player){
 
 
 /*
- * @brief Pone o cambia el nombre del jugador
+ * @brief Pone o cambia el nombre del player
  * @param objeto: puntero a Objeto.
  * @param name: puntero a char.
  * @return status OK o ERROR.
@@ -90,19 +90,19 @@ STATUS player_set_name (Player* player, char* name){
 
 
 
-/*
+/*NO SE NECESITA PERO SE CONSERVA
  * @brief Pone o cambia el objeto del inventario
  * @param player: puntero a Player.
  * @param objeto: campo de Objeto.
  * @return status OK o ERROR.
- */
+
 STATUS player_set_object(Player* player,Id object) {
   if (!player || !object) {
     return ERROR;
   }
   player->inventory_item_id = object;
   return OK;
-}
+}*/
 
 
 
@@ -123,9 +123,9 @@ STATUS player_set_location(Player* player,Id location) {
 
 
 /*
- * @brief Devuelve el nombre asignado a un jugador
- * @param jugador: puntero a Jugador.
- * @return name, el nombre que asignamos al jugador
+ * @brief Devuelve el nombre asignado a un player
+ * @param player: puntero a player.
+ * @return name, el nombre que asignamos al player
  */
 const char * player_get_name(Player* player) {
   if (!player) {
@@ -136,23 +136,36 @@ const char * player_get_name(Player* player) {
 
 
 
-/*
+/* NO ES NECESARIA PERO VAMOS A CONSERVARLA POR SI ACASO
  * @brief Devuelve la inventory_item
- * @param jugador: puntero a Jugador.
+ * @param player: puntero a Player.
  * @return player->inventory_item (objeto)
- */
+
 Id player_get_inventory_item(Player* player) {
   if (!player) {
     return NO_ID;
   }
   return player->inventory_item_id;
 }
+*/
 
+
+/*
+ * @brief Devuelve el set de objetos de un jugador
+ * @param player: puntero a Player.
+ * @return player->inventory_items (puntero a Set)
+ */
+Set *player_get_inventory_items (Player *player){
+  if (player == NULL){
+    return NULL;
+  }
+  return player->inventory_items;
+}
 
 
 /*
  * @brief Devuelve la location
- * @param jugador: puntero a Jugador.
+ * @param player: puntero a Player.
  * @return player->location(localizacion)
  */
 Id player_get_location(Player* player) {
@@ -165,8 +178,8 @@ Id player_get_location(Player* player) {
 
 
 /*
- * @brief Devuelve el id del jugador
- * @param jugador: puntero a Jugador.
+ * @brief Devuelve el id del player
+ * @param player: puntero a player.
  * @return player->player_id(identificador)
  */
 Id player_get_id(Player * player){
@@ -179,8 +192,43 @@ Id player_get_id(Player * player){
 
 
 /*
- * @brief Muestra por la pantalla de salida, tanto el id, como el nombre del jugador
- * @param jugador: puntero a Jugador.
+ * @brief Quita un objeto al jugador
+ * @param pla: puntero a player.
+ * @return status OK o ERROR
+ */
+STATUS player_delete_inventory_item(Player *player){
+  if (player==NULL){
+    return ERROR;
+  }
+  if (set_pop_id(player->inventory_items)==NO_ID){
+    return ERROR;
+  }
+
+  return OK;
+}
+
+
+
+/*
+ * @brief Pone un objeto al jugador
+ * @param pla: puntero a player.
+ * @param id: Identificador
+ * @return status OK o ERROR
+ */
+STATUS player_add_inventory_item(Player *player , Id id){
+  if (!player || id == NO_ID){
+    return ERROR;
+  }
+  if(set_push_id(player->inventory_items,id)==ERROR){
+    return ERROR;
+  }
+  return OK;
+}
+
+
+/*
+ * @brief Muestra por la pantalla de salida, tanto el id, como el nombre del player
+ * @param player: puntero a player.
  * @return status, OK o ERROR
  */
  /**

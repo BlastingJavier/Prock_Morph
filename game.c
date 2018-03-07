@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h> /*Para rand()*/
 #include "game.h"
 #include "game_reader.h"
 #include "player.h"

@@ -112,7 +112,7 @@ Id  set_pop_id (Set *set){
     return NO_ID;
   }
   /*Set_empty no es una funcion, es una macro (devuelve 1 = verdadero)*/
-  if (Set_Empty(set->num_array_actual) ==1){
+  if (set_ISempty(set) == TRUE){
     return NO_ID;
   }
   else {
@@ -139,6 +139,7 @@ STATUS set_print(Set* set) {
     fprintf(stdout,"Elemento %d : %ld\n",i+1,set->id_array[i]);
   }
   fprintf(stdout,"La cantidad de elementos total es : %d",i);
+
   return OK;
 }
 
@@ -150,12 +151,13 @@ STATUS set_print(Set* set) {
  * @param num_array_actual_para (int) que indica la posicion
  * @return Id (id_aux) identificador de la posicion
  */
-Id get_id_especifica (Set *set ,int num_array_actual_para){
+Id get_specific_id (Set *set ,int num_array_actual_para){
   Id id_aux;
-  if (set == NULL|| num_array_actual_para < 0 || num_array_actual_para > set->num_array_actual || Set_Empty(set) == 1){
+  if (set == NULL|| num_array_actual_para < 0 || num_array_actual_para > set->num_array_actual || set_ISempty(set) == TRUE){
     return NO_ID;
   }
   id_aux = set->id_array[num_array_actual_para];
+
   return id_aux;
 }
 
@@ -173,5 +175,39 @@ int set_get_top (Set * set){
     return 0;
   }
   pos = set->num_array_actual;
+
   return pos;
+}
+
+
+
+/*
+ * @brief Comprueba si Set esta vacio (tiene alguna id)
+ * @param set, puntero a set
+ * @return status OK o ERROR
+ */
+BOOL set_ISempty(Set *set){
+  if (set == NULL){
+    return TRUE;
+  }
+  if (set->num_array_actual == 0){
+    return TRUE;
+  }
+  return FALSE;
+}
+
+
+  /*
+  * @brief Comprueba si Set esta lleno (no se pueden introducir mas ids)
+  * @param set, puntero a set
+  * @return status OK o ERROR
+  */
+BOOL set_ISfull(Set *set){
+if (set == NULL){
+  return TRUE;
+}
+if (set->num_array_actual == 0){
+  return TRUE;
+}
+return FALSE;
 }

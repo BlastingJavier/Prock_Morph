@@ -315,11 +315,6 @@ Set * space_get_objects(Space* space) {
     return NULL;
   }
 
-  if (Set_Empty(space->objects)==1){
-    set_destroy(space->objects);
-    return NULL;
-  }
-
   return space->objects;
 }
 
@@ -353,6 +348,7 @@ Id space_get_object(Space* space ,Id id_objeto) {
 BOOL object_check (Space *space , Id id_objeto){
   Set *aux;
   Id id_aux;
+  int i;
 
   if (!space|| id_objeto == NO_ID){
     return FALSE;
@@ -362,15 +358,15 @@ BOOL object_check (Space *space , Id id_objeto){
   if (aux == NULL){
     return FALSE;
   }
-  for (  ;(id_aux=set_pop_id(aux))!=NO_ID; ){
-    if (id_aux == id_objeto){
-      set_destroy(aux);
-      aux = NULL;
-      return TRUE;
+  for (i=0;i<MAX_ID;i++){
+    id_aux = get_id_especifica(aux,i);
+    if (id_aux !=NO_ID){
+      if(id_aux == object_id){
+
+        return TRUE;
+      }
     }
   }
-  set_destroy (aux);
-  aux = NULL;
   return FALSE;
 }
 

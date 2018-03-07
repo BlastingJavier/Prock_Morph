@@ -16,7 +16,6 @@
 #include "space.h"
 #include "command.h"/*Ya vienen en "game_reader.h"*/
 #include "game.h" /*Ya vienen en "game_reader.h"*/
-#include "time.h"/*Carga randomizada de objetos en casilla*/
 #include "set.h"
 
 #define DEBUG

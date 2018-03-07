@@ -15,8 +15,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
-#define Set_Empty(x) (x==0)
-#define Set_Full(x) (x > MAX_ID)
 
 /*Estructura que define un conjunto(características) */
 typedef struct _Set Set;
@@ -78,7 +76,7 @@ STATUS set_print(Set* set);
  * @param num_array_actual_para (int) que indica la posicion
  * @return Id (id_aux) identificador de la posicion
  */
-Id get_id_especifica (Set *set ,int num_array_actual_para);
+Id get_specific_id (Set *set ,int num_array_actual_para);
 
 
 
@@ -88,5 +86,23 @@ Id get_id_especifica (Set *set ,int num_array_actual_para);
  * @return aux (el top como entero)
  */
 int set_get_top (Set * set);
+
+
+/*
+ * @brief Comprueba si Set esta vacio (tiene alguna id)
+ * @param set, puntero a set
+ * @return status OK o ERROR
+ */
+BOOL set_ISempty(Set *set);
+
+
+
+/*
+ * @brief Comprueba si Set esta lleno (no se pueden introducir mas ids)
+ * @param set, puntero a set
+ * @return status OK o ERROR
+ */
+BOOL set_ISfull(Set *set);
+
 
 #endif

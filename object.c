@@ -14,6 +14,7 @@
 #include <string.h>
 #include "types.h"
 #include "object.h"
+#include "space.h"
 
 /*Estructura que define un objeto(características) */
 struct _Object {
