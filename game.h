@@ -25,6 +25,7 @@ typedef struct _Game{
   Space* spaces[MAX_SPACES + 1];
   T_Command last_cmd;
   Dice * dice;/*Con esto podemos utilizar el dado*/
+  char* param;
 } Game;
 
 
@@ -185,4 +186,8 @@ STATUS game_add_object (Game * game , Object* object);
  */
 STATUS game_add_space(Game* game, Space* space);
 
+
+void game_set_parametro (Game * game , char *param);
+
 #endif
+
