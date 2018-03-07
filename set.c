@@ -78,23 +78,14 @@ void set_destroy (Set * set){
  * @return status OK o ERROR
  */
 STATUS set_push_id (Set *set , Id id){
-  int i;
-  if (set == NULL){
+
+  if (set == NULL || id == NO_ID){
     return ERROR;
   }
-  if (set_ISfull(set->num_array_actual)==TRUE){
-    return ERROR;
-  }
-  else {
-    for (i=0;set->id_array[i]!=0 && i< MAX_ID;i++);
-  }
-  if (i >=MAX_ID){
-    return ERROR;
-  }
-  else {
-    set->id_array[i] = id;
-    (set->num_array_actual)++;
-  }
+  set->id_array[set->num_array_actual] = id;
+
+  set->num_array_actual++;
+
   return OK;
 }
 
@@ -193,20 +184,4 @@ BOOL set_ISempty(Set *set){
     return TRUE;
   }
   return FALSE;
-}
-
-
-  /*
-  * @brief Comprueba si Set esta lleno (no se pueden introducir mas ids)
-  * @param set, puntero a set
-  * @return status OK o ERROR
-  */
-BOOL set_ISfull(Set *set){
-if (set == NULL){
-  return TRUE;
-}
-if (set->num_array_actual == 0){
-  return TRUE;
-}
-return FALSE;
 }
