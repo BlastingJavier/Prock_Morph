@@ -140,14 +140,13 @@ STATUS game_create(Game* game) {
  * @return status, OK O ERROR
  */
 STATUS game_create_from_file(Game* game, char* filename) {
-  int numcasillas;
   if (game_create(game) == ERROR)
     return ERROR;
 
-  if (game_reader_load_spaces(game, filename,&numcasillas) == ERROR){
+  if (game_reader_load_spaces(game, filename) == ERROR){
     return ERROR;
   }
-  if (game_reader_load_objects(game,filename,&numcasillas)==ERROR){
+  if (game_reader_load_objects(game,filename)==ERROR){
     return ERROR;
   }
     /*Colocamos en casilla 0 a player y random al player*/
@@ -297,6 +296,31 @@ Object* game_get_object(Game* game, Id id){
 
   return NULL;
 }
+
+
+/*
+ * @brief Esta funcion,
+ * @param game, puntero a estructura,(dirección)
+ * @param name, puntero a char
+ * @return
+ */
+Id game_object_get_id (Game *game , char *name){
+  int i;
+  char *aux;
+  if (!game || !name ){
+    return NO_ID;
+  }
+  for (i=0;i<MAX_ID;i++){
+    /*Obtengo el nombre del objeto de todos los id posibles, con el bucle
+      se lo asigno a aux que posteriormente será comparado, si el parametro
+      es lo mismo se retorna el id de ese objeto*/
+    aux = object_get_name(game->objects[i]);
+    if (strcmp(name,aux)==0){
+      return object_get_id(game->objects[i]);
+    }
+  }
+
+}
 /**
  * @brief funcionalidad de modificar la localizacion del jugador mediante el id
  * @param game, puntero a Game (dirección)
@@ -312,17 +336,6 @@ STATUS game_set_player_location(Game* game, Id id) {
   }
   return OK;
 }
-/*SOLUCION ALTERNATIVA EN EL CASO DE QUE QUERRAMOS PASAR UN ID DE OBJETO POR INTERES EN
-VEZ DE PASAR LA ESTRUCTURA DE OBJETO
-for (i=0;i<MAX_ID;i++){
-object_id_aux = object_get_id(game->object[i]);
-Si coincide el id del arg con el del objeto que busca el bucle coloca el objeto
-  if (id_objeto == object_id_aux){
-    object_id_aux = object_get_id(game->object);
-    space_set_object(game->spaces[i],object_id_aux);
-    return OK
-    }
-  }*/
 
 
 
@@ -400,7 +413,7 @@ Id game_get_object_location(Game* game,Object *object) {
       set = space_get_objects(game->spaces[i]);
 
       for (j=0;j<set_get_top(set);j++){
-        space_id_aux = get_id_especifica(set,j);
+        space_id_aux = get_specific_id(set,j);
         /*Si id (objeto_en_casilla) == id (objeto)*/
         if (space_id_aux == object_id_aux){
           location = space_get_id(game->spaces[i]);
@@ -411,6 +424,37 @@ Id game_get_object_location(Game* game,Object *object) {
     }
   }
   return NO_ID;/*puede darse el caso de que no lo encuentre porque no este*/
+}
+
+
+/**
+ * @brief Obtiene los id, los campara, y nos dice si hay objeto
+ * @param game, puntero a la estructura Game
+ * @param object, puntero a object
+ * @return bool, TRUE or FALSE
+ */
+BOOL game_get_object_player(Game* game , Object* object){
+  int i;
+  Id id_player_aux , id_obj_aux;
+  Set *set_aux;
+  if (!game || !object){
+    return FALSE;
+  }
+  /* Coge el id del objeto, para despues comparar los auxiliares de objeto y jugador*/
+  id_obj_aux = object_get_id(object);
+  set = player_get_inventory_item(game->player);
+  /*Se recorre el array de objetos hasta el tope (del Set)*/
+  for (i=0;i<set_get_top(set);i++){
+    /*Cada vez que se entra en el bucle, el id del jugador toma el id especifico del
+      set y compara con el del objeto pasado por referencia. Si coinciden, hay objeto*/
+    id_player_aux = get_specific_id(set,i);
+
+    if (id_player_aux == id_obj_aux){
+      return TRUE;
+    }
+  }
+
+  return FALSE;
 }
 
 
@@ -467,7 +511,10 @@ void game_print_data(Game* game) {
 }
 
 
+void game_set_parametro (Game * game , char *parametro){
+  game->param = param;
 
+}
 /**
  * @brief Posible llamada a la finalización del juego
  * @param game, puntero a la estructura Game
@@ -639,7 +686,7 @@ void game_callback_get(Game* game) {
   set = space_get_objects(current_space);
   /* Si el jugador está en casilla con un objeto,
    y decide cogerlo (se le asigna) y desaparece de la casilla */
-  if (Set_Empty(set) == 1 || set == NULL){/*1 significa que esta vacio (sentimos el numero magico)<=definido en set.h*/
+  if (set_ISempty(set) == TRUE || set == NULL){/*1 significa que esta vacio (sentimos el numero magico)<=definido en set.h*/
     return;
   }
   object = set_pop_id(set);
@@ -678,7 +725,7 @@ void game_callback_drop(Game* game) {
   set = space_get_objects(current_space);
   object = player_get_inventory_item(game->player);
 
-  if (set == NULL || object == NO_ID || Set_Empty(set) == 1){
+  if (set == NULL || object == NO_ID || set_ISempty(set) == TRUE){
     return;
   }
   for (i=0;i<MAX_ID && object_get_id(p_object) != object;i++){

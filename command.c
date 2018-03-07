@@ -46,29 +46,23 @@ T_Command get_user_input(char *p){
         palabra = strtok(NULL, " "); /*Las demas veces que llamamos a strtok lo hacemos con NULL, pues ya cogio la cadena*/
 
 	 /*Control de errores*/
-        if(palabra==NULL)
-        {
-          if (cmd == GET || cmd == DROP)
-          {
+        if(palabra==NULL){
+          if (cmd == GET || cmd == DROP){
             return UNKNOWN;
           }
         }
-        else
-        {
-          if (cmd == GET || cmd == DROP)
-          {
+        else{
+          if (cmd == GET || cmd == DROP){
             strcpy(p, palabra); /*Copiamos la cadena partida en el parametro*/
           }
-          else
-          {
+          else{
             return UNKNOWN;
           }
         }
-      }
       }
       else {
 	      i++; /*Despues del control de errores, comprobamos en otros cmd*/
-      } 
+      }
     }
   }
 

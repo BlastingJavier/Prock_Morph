@@ -17,6 +17,7 @@ int main(int argc, char *argv[]){
   Game game;
   T_Command command = NO_CMD;
   Graphic_engine *gengine;
+  char parametro[WORD_SIZE+1] = " ";
 
   /*Describe como tenemos que ejecutar el programa correctamente
     y que le tenemos que pasar como argumento*/
@@ -34,6 +35,7 @@ int main(int argc, char *argv[]){
   }
   /*En caso de que el graphic_engine no pueda crearse saltara
     por pantalla un error y se liberara memoria*/
+    game_set_parametro(&game,parametro);
 	if ((gengine = graphic_engine_create()) == NULL){
     fprintf(stderr, "Error while initializing graphic engine.\n");
     game_destroy(&game);

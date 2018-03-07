@@ -22,7 +22,7 @@
  * @return status, OK O ERROR
  */
 
-STATUS game_reader_load_spaces(Game* game, char* filename,int* numcasillas);
+STATUS game_reader_load_spaces(Game* game, char* filename);
 
 
 
@@ -32,6 +32,6 @@ STATUS game_reader_load_spaces(Game* game, char* filename,int* numcasillas);
  * @param filename, puntero a char, que es el nombre del fichero que estamos accediendo
  * @return status, OK O ERROR
  */
-STATUS game_reader_load_objects(Game* game, char* filename, int *numcasillas);
+STATUS game_reader_load_objects(Game* game, char* filename);
 
 #endif

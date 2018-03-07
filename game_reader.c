@@ -43,7 +43,7 @@ P. F.: Private Function
  * @return status, OK O ERROR
  */
 
-STATUS game_reader_load_spaces(Game* game, char* filename, int *numcasillas) {
+STATUS game_reader_load_spaces(Game* game, char* filename) {
   FILE* file = NULL;
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";
@@ -76,7 +76,6 @@ STATUS game_reader_load_spaces(Game* game, char* filename, int *numcasillas) {
       /*"atol" convierte la porción inicial de la cadena apuntada por "toks" a una representación de "id", y lo devuelve.*/
       /*Por lo tanto, "id" = valor convertido*/
       id = atol(toks);
-      *numcasillas =(int)id;
       toks = strtok(NULL, "|");
       strcpy(name, toks);
 
@@ -128,7 +127,7 @@ STATUS game_reader_load_spaces(Game* game, char* filename, int *numcasillas) {
  * @param filename, puntero a char, que es el nombre del fichero que estamos accediendo
  * @return status, OK O ERROR
  */
-STATUS game_reader_load_objects(Game* game, char* filename, int *numcasillas){
+STATUS game_reader_load_objects(Game* game, char* filename){
   FILE* file = NULL;
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";

@@ -105,7 +105,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, obj_loc = NO_ID;
   int i;
   Space* space_act = NULL;
-  char obj=[NOMB_OBJ];
+  char* obj[NOMB_OBJ];
   char str[255];
   T_Command last_cmd = UNKNOWN;
   extern char *cmd_to_str[];
@@ -125,29 +125,21 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
 
     /*Como ahora tenemos varios objeto ...*/
 
-    if (game_get_object_location(game,game_get_object(game,id_act))==id_back){
-      obj = '*';
-    }
-    else {
-      obj = ' ';
-    }
-
-
     /*Casilla anterior (efecto de refresco)*/
     if (id_back != NO_ID) {
-      sprintf(str, "  |                 %2d|" ,(int) id_back);
-      screen_area_puts(ge->map, str);
-      sprintf(str, "  |                   |");
-      screen_area_puts(ge->map, str);
-      sprintf(str, "  |                   |");
-      screen_area_puts(ge->map, str);
-      sprintf(str, "  |    %s %s %s %s    |" ,obj[0],obj[1],obj[2],obj[3]);
-      screen_area_puts(ge->map, str);
-      sprintf(str, "  +-------------------+");
-      screen_area_puts(ge->map, str);
-      sprintf(str, "            ^");
-      screen_area_puts(ge->map, str);
-    }
+    sprintf(str, "  |                 %2d|",(int) id_back);
+    screen_area_puts(ge->map, str);
+    sprintf(str, "  |                   |");
+    screen_area_puts(ge->map, str);
+    sprintf(str, "  |                   |");
+    screen_area_puts(ge->map, str);
+    sprintf(str, "  |  %s  %s  %s  %s   |",obj[0], obj[1], obj[2], obj[3]);
+    screen_area_puts(ge->map, str);
+    sprintf(str, "  +-------------------+");
+    screen_area_puts(ge->map, str);
+    sprintf(str, "        ^");
+    screen_area_puts(ge->map, str);
+  }
 /*
     for (i=0;i<MAX_ID && game->objects[i] != NULL;i++){
       if (game_get_object_location(game,game->objects[i]) == id_act){
@@ -161,18 +153,12 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       printf("%d jeje\n",i);
     }
     */
-    if (game_get_object_location(game,game_get_object(game,id_act))==id_act){
-      obj = '*';
-    }
-    else {
-      obj = ' ';
-    }
       /*Las casillas hay que redimensionarlas*/
     /*Casilla actual (efecto de refresco)*/
     if (id_act != NO_ID) {
       sprintf(str, "  +-------------------+");
       screen_area_puts(ge->map, str);
-      sprintf(str, "  | 8D              %2d|" ,(int) id_act);
+      sprintf(str, "  | 8D              %2d|",(int) id_act);
       screen_area_puts(ge->map, str);
       sprintf(str, "  |                   |");
       screen_area_puts(ge->map, str);
@@ -188,30 +174,25 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       screen_area_puts(ge->map, str);
       sprintf(str, "  |                   |");
       screen_area_puts(ge->map, str);
-      sprintf(str, "  |   %s  %s  %s  %s  |" ,obj[0], obj[1], obj[2], obj[3]);
+      sprintf(str, "  |  %s  %s  %s  %s   |",obj[0], obj[1], obj[2], obj[3]);
       screen_area_puts(ge->map, str);
       sprintf(str, "  +-------------------+");
       screen_area_puts(ge->map, str);
     }
-    if (game_get_object_location(game,game_get_object(game,id_act))==id_next){
-      obj = '*';
-    }
-    else {
-      obj = ' ';
-    }
+
     /*Casilla siguiente (efecto de refresco)*/
     if (id_next != NO_ID) {
       sprintf(str, "        v");
       screen_area_puts(ge->map, str);
       sprintf(str, "  +-------------------+");
       screen_area_puts(ge->map, str);
-      sprintf(str, "  |                 %2d|" ,(int) id_next);
+      sprintf(str, "  |                 %2d|",(int) id_next);
       screen_area_puts(ge->map, str);
       sprintf(str, "  |                   |");
       screen_area_puts(ge->map, str);
       sprintf(str, "  |                   |");
       screen_area_puts(ge->map, str);
-      sprintf(str, "  |  %s  %s  %s  %s   |" ,obj[0], obj[1], obj[2], obj[3]);
+      sprintf(str, "  |  %s  %s  %s  %s   |",obj[0], obj[1], obj[2], obj[3]);
       screen_area_puts(ge->map, str);
     }
   }

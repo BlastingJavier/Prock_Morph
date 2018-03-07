@@ -361,7 +361,7 @@ BOOL object_check (Space *space , Id id_objeto){
   for (i=0;i<MAX_ID;i++){
     id_aux = get_id_especifica(aux,i);
     if (id_aux !=NO_ID){
-      if(id_aux == object_id){
+      if(id_aux == id_objeto){
 
         return TRUE;
       }

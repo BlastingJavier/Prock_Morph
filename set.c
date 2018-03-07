@@ -82,7 +82,7 @@ STATUS set_push_id (Set *set , Id id){
   if (set == NULL){
     return ERROR;
   }
-  if (Set_Full(set->num_array_actual)==1){
+  if (set_ISfull(set->num_array_actual)==TRUE){
     return ERROR;
   }
   else {

@@ -62,7 +62,7 @@ STATUS player_destroy (Player* player){
   if(!player){
     return ERROR;
   }
-  set_destroy(player->objects);
+  set_destroy(player->inventory_items);
   free(player);
   player = NULL;
 
