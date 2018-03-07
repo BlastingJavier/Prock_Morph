@@ -319,7 +319,7 @@ Id game_object_get_id (Game *game , char *name){
       return object_get_id(game->objects[i]);
     }
   }
-
+return NO_ID;
 }
 /**
  * @brief funcionalidad de modificar la localizacion del jugador mediante el id
@@ -442,12 +442,12 @@ BOOL game_get_object_player(Game* game , Object* object){
   }
   /* Coge el id del objeto, para despues comparar los auxiliares de objeto y jugador*/
   id_obj_aux = object_get_id(object);
-  set = player_get_inventory_item(game->player);
+  set_aux = player_get_inventory_items(game->player);
   /*Se recorre el array de objetos hasta el tope (del Set)*/
-  for (i=0;i<set_get_top(set);i++){
+  for (i=0;i<set_get_top(set_aux);i++){
     /*Cada vez que se entra en el bucle, el id del jugador toma el id especifico del
       set y compara con el del objeto pasado por referencia. Si coinciden, hay objeto*/
-    id_player_aux = get_specific_id(set,i);
+    id_player_aux = get_specific_id(set_aux,i);
 
     if (id_player_aux == id_obj_aux){
       return TRUE;
@@ -511,7 +511,7 @@ void game_print_data(Game* game) {
 }
 
 
-void game_set_parametro (Game * game , char *parametro){
+void game_set_parametro (Game * game , char *param){
   game->param = param;
 
 }
@@ -690,7 +690,7 @@ void game_callback_get(Game* game) {
     return;
   }
   object = set_pop_id(set);
-  player_set_object(game->player, object);
+  player_add_inventory_item(game->player, object);
 
   return;
 }
@@ -706,9 +706,16 @@ void game_callback_drop(Game* game) {
   int i;
   Id current_id = NO_ID;
   Set * set= NULL;
+  Set *p_player = NULL;
   Object* p_object= NULL;
   Space *current_space = NULL;
   Id object = NO_ID;
+  current_id = game_get_player_location(game);
+
+  p_player = player_get_inventory_items(game->player);
+  if (set_ISempty(p_player) == TRUE)
+  return;
+
   current_id = game_get_player_location(game);
 
   if (NO_ID == current_id) {
@@ -720,10 +727,17 @@ void game_callback_drop(Game* game) {
   if (current_space == NULL){
     return;
   }
+
+  object = game_object_get_id(game,game->param);
+  printf("Cogido %ld",object);
+
   /*Set lo que hace es coger los objetos de la casilla actual
     y object recibe el objeto que tiene actualmente el jugador(Id)*/
   set = space_get_objects(current_space);
-  object = player_get_inventory_item(game->player);
+
+  if (set == NULL){
+  return;
+  }
 
   if (set == NULL || object == NO_ID || set_ISempty(set) == TRUE){
     return;
@@ -732,7 +746,6 @@ void game_callback_drop(Game* game) {
     p_object = game->objects[i];
   }
   game_set_object_location(game,current_id,p_object);
-  player_set_object(game->player,NO_ID);
   /*PLAYER PRINT*/
   return;
 
