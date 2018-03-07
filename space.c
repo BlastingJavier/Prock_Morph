@@ -359,7 +359,7 @@ BOOL object_check (Space *space , Id id_objeto){
     return FALSE;
   }
   for (i=0;i<MAX_ID;i++){
-    id_aux = get_id_especifica(aux,i);
+    id_aux = get_specific_id(aux,i);
     if (id_aux !=NO_ID){
       if(id_aux == id_objeto){
 
