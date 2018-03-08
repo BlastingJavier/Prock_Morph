@@ -27,6 +27,7 @@ struct _Space {
   Id west;
   Id object;
   Set *objects;
+  char gdesc[3][21];
 };
 /**                 Definidos en:
                         ||
@@ -426,12 +427,118 @@ STATUS space_print(Space* space) {
   return OK;
 }
 
+
+/*----------------------------Descripcion Grafica-------------------------------*/
+
 /*
-Caracteres ascii casillas graficas:
-Oca:
-|<O)__/   |   \_-/ |
-Puente:
-___   |    / _ \   |   / /  \ \ |
-Muerte:
-___   |   (O O)   |   \m/ |
-*/
+ * @brief Descripcion grafica ,Carga el espacio (primera linea de la representacion
+    grafica , en codigo ASCII) 7 espacios
+ * @param space: puntero a Space.
+ * @param cadena , puntero a char (string)
+ * @return status, OK o ERROR o NO_ID
+ */
+STATUS space_set_gdesc1(Space* space, char* cadena){
+  /* Comprueba los argumentos */
+  if (!space || !cadena){
+    return ERROR;
+  }
+
+  /* Asigna a space.name el nombre introducido y lo comprueba */
+  if (!strcpy(space->gdesc[0], cadena)) {
+    return ERROR;
+  }
+  /* Si todo va bien devuelve OK */
+  return OK;
+}
+
+
+
+/*
+ * @brief Descripcion grafica ,Carga el espacio (segunda linea de la representacion
+    grafica , en codigo ASCII) 7 espacios
+ * @param space: puntero a Space.
+ * @param cadena , puntero a char (string)
+ * @return status, OK o ERROR o NO_ID
+ */
+STATUS space_set_gdesc2(Space* space, char* cadena){
+  /* Comprueba los argumentos */
+  if (!space || !cadena){
+    return ERROR;
+  }
+
+  /* Asigna a space.name el nombre introducido y lo comprueba */
+  if (!strcpy(space->gdesc[1], cadena)) {
+    return ERROR;
+  }
+  /* Si todo va bien devuelve OK */
+  return OK;
+}
+
+
+
+/*
+ * @brief Descripcion grafica ,Carga el espacio (tercera linea de la representacion
+    grafica , en codigo ASCII) 7 espacios
+ * @param space: puntero a Space.
+ * @param cadena , puntero a char (string)
+ * @return status, OK o ERROR o NO_ID
+ */
+STATUS space_set_gdesc3(Space* space, char* cadena){
+  /* Comprueba los argumentos */
+  if (!space || !cadena){
+    return ERROR;
+  }
+
+  /* Asigna a space.name el nombre introducido y lo comprueba */
+  if (!strcpy(space->gdesc[2], cadena)) {
+    return ERROR;
+  }
+  /* Si todo va bien devuelve OK */
+  return OK;
+}
+
+/*
+ * @brief Descripcion grafica  , obtener el string de la descripcion grafica
+    en este caso la primera
+ * @param space: puntero a Space.
+ * @return char, retorna el string de la descripcion grafica (1)
+ */
+char* space_get_gdesc1(Space* space){
+  if (space == NULL){
+    return NULL;
+  }
+
+  return space->gdesc[0];
+}
+
+
+
+/*
+ * @brief Descripcion grafica  , obtener el string de la descripcion grafica
+    en este caso la segunda
+ * @param space: puntero a Space.
+ * @return char, retorna el string de la descripcion grafica (2)
+ */
+char* space_get_gdesc2(Space* space){
+  if (space == NULL){
+    return NULL;
+  }
+
+  return space->gdesc[1];
+}
+
+
+
+/*
+ * @brief Descripcion grafica  , obtener el string de la descripcion grafica
+    en este caso la tercera
+ * @param space: puntero a Space.
+ * @return char, retorna el string de la descripcion grafica (3)
+ */
+char* space_get_gdesc3(Space* space){
+  if (space == NULL){
+    return NULL;
+  }
+
+  return space->gdesc[2];
+}

@@ -176,6 +176,15 @@ STATUS game_add_object (Game * game , Object* object);
 
 
 
+/**
+ * @brief Obtiene los id, los campara, y nos dice si hay objeto
+ * @param game, puntero a la estructura Game
+ * @param object, puntero a object
+ * @return bool, TRUE or FALSE
+ */
+BOOL game_get_object_player(Game* game , Object* object);
+
+
 
 /*
  * @brief Crea una casilla una vez comprobado el array (hasta que apunte a NULL)
@@ -190,4 +199,3 @@ STATUS game_add_space(Game* game, Space* space);
 void game_set_parametro (Game * game , char *param);
 
 #endif
-

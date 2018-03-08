@@ -33,12 +33,13 @@ T_Command get_user_input(char *p){
   char input[CMD_LENGHT] = "";/*Variable "input" (string), leera el comando*/
   int i=UNKNOWN - NO_CMD + 1; /*2*/
   char * palabra;
-
-  if (scanf("%s", input) > 0){/*Si lee el comando correctamente*/
+  *p = '\0';
+  if (fgets(input,sizeof(input),stdin) != NULL){/*Si lee el comando correctamente*/
     cmd = UNKNOWN; /*cmd=0, siempre*/
+    input[strlen(input)-1]='\0';
     palabra = NULL;
     palabra = strtok(input, " "); /*Esto hace que coja la palabra hasta el espacio el blanco*/
-    *p = '\0';
+
     while (cmd == UNKNOWN && i < N_CMD){ /*Compara el comando introducido por el jugador con los de la lista*/
 
       if (!strcasecmp(input,short_cmd_to_str[i]) || !strcasecmp(input,cmd_to_str[i])){/*Si coinciden "cmd" = el valor que le correponde*/

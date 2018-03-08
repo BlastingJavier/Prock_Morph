@@ -200,4 +200,66 @@ STATUS space_print(Space* space);
  */
 BOOL object_check (Space *space , Id id_objeto);
 
+
+
+/*
+ * @brief Descripcion grafica ,Carga el espacio (primera linea de la representacion
+    grafica , en codigo ASCII) 7 espacios
+ * @param space: puntero a Space.
+ * @param cadena , puntero a char (string)
+ * @return status, OK o ERROR o NO_ID
+ */
+STATUS space_set_gdesc1(Space* space, char* cadena);
+
+
+
+/*
+ * @brief Descripcion grafica ,Carga el espacio (segunda linea de la representacion
+    grafica , en codigo ASCII) 7 espacios
+ * @param space: puntero a Space.
+ * @param cadena , puntero a char (string)
+ * @return status, OK o ERROR o NO_ID
+ */
+STATUS space_set_gdesc2(Space* space, char* cadena);
+
+
+
+/*
+ * @brief Descripcion grafica ,Carga el espacio (tercera linea de la representacion
+    grafica , en codigo ASCII) 7 espacios
+ * @param space: puntero a Space.
+ * @param cadena , puntero a char (string)
+ * @return status, OK o ERROR o NO_ID
+ */
+STATUS space_set_gdesc3(Space* space, char* cadena);
+
+
+
+/*
+ * @brief Descripcion grafica  , obtener el string de la descripcion grafica
+    en este caso la primera
+ * @param space: puntero a Space.
+ * @return char, retorna el string de la descripcion grafica (1)
+ */
+char* space_get_gdesc1(Space* space);
+
+
+/*
+ * @brief Descripcion grafica  , obtener el string de la descripcion grafica
+    en este caso la segunda
+ * @param space: puntero a Space.
+ * @return char, retorna el string de la descripcion grafica (2)
+ */
+char* space_get_gdesc2(Space* space);
+
+
+
+/*
+ * @brief Descripcion grafica  , obtener el string de la descripcion grafica
+    en este caso la tercera
+ * @param space: puntero a Space.
+ * @return char, retorna el string de la descripcion grafica (3)
+ */
+char* space_get_gdesc3(Space* space);
+
 #endif
