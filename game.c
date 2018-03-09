@@ -351,10 +351,7 @@ STATUS game_set_player_location(Game* game, Id id) {
 STATUS game_set_object_location(Game* game, Id id_espacio,Object * object) {
   int i;
   Id space_aux , object_id_aux;
-  if (!game || id_espacio == NO_ID) {
-    return ERROR;
-  }
-  if (object == NULL){
+  if (!game || id_espacio == NO_ID || object == NULL) {
     return ERROR;
   }
 
@@ -731,7 +728,6 @@ void game_callback_drop(Game* game) {
   }
 
   object = game_object_get_id(game,game->param);
-  printf("Cogido %ld",object);
 
   /*Set lo que hace es coger los objetos de la casilla actual
     y object recibe el objeto que tiene actualmente el jugador(Id)*/
@@ -743,9 +739,8 @@ void game_callback_drop(Game* game) {
   if (delete_id(p_player ,object) == ERROR){
     return;
   }
-  for (i=0;i<MAX_ID && object_get_id(p_object) != object;i++){
-    p_object = game->objects[i];
-  }
+  for (i=0,p_object = game->objects[0];i<MAX_ID && object_get_id(p_object) != object;i++,p_object = game->objects[i]);
+
   game_set_object_location(game,current_id,p_object);
   /*PLAYER PRINT*/
   return;

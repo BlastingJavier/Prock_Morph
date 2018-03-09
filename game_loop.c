@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
   }
   /*En caso de que el graphic_engine no pueda crearse saltara
     por pantalla un error y se liberara memoria*/
-    game_set_parametro(&game,parametro);
+  game_set_parametro(&game,parametro);
 	if ((gengine = graphic_engine_create()) == NULL){
     fprintf(stderr, "Error while initializing graphic engine.\n");
     game_destroy(&game);

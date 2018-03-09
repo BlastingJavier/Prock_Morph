@@ -156,7 +156,7 @@ Id player_get_inventory_item(Player* player) {
  * @return player->inventory_items (puntero a Set)
  */
 Set *player_get_inventory_items (Player *player){
-  if (player == NULL){
+  if (player == NULL ||player->inventory_items == NULL){
     return NULL;
   }
   return player->inventory_items;

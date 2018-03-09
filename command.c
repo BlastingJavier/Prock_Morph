@@ -32,7 +32,7 @@ T_Command get_user_input(char *p){
   T_Command cmd = NO_CMD;/*-1*/
   char input[CMD_LENGHT] = "";/*Variable "input" (string), leera el comando*/
   int i=UNKNOWN - NO_CMD + 1; /*2*/
-  char * palabra;
+  char * palabra =NULL;
   *p = '\0';
   if (fgets(input,sizeof(input),stdin) != NULL){/*Si lee el comando correctamente*/
     cmd = UNKNOWN; /*cmd=0, siempre*/
@@ -42,7 +42,7 @@ T_Command get_user_input(char *p){
 
     while (cmd == UNKNOWN && i < N_CMD){ /*Compara el comando introducido por el jugador con los de la lista*/
 
-      if (!strcasecmp(input,short_cmd_to_str[i]) || !strcasecmp(input,cmd_to_str[i])){/*Si coinciden "cmd" = el valor que le correponde*/
+      if (!strcasecmp(palabra,short_cmd_to_str[i]) || !strcasecmp(palabra,cmd_to_str[i])){/*Si coinciden "cmd" = el valor que le correponde*/
         cmd = i /*=2*/ + NO_CMD/*=-1*/;
         palabra = strtok(NULL, " "); /*Las demas veces que llamamos a strtok lo hacemos con NULL, pues ya cogio la cadena*/
 
