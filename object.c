@@ -90,7 +90,7 @@ Id object_get_id(Object *object){
  * @param objeto: puntero a Objeto.
  * @return name, el nombre que asignamos al objeto
  */
-const char * object_get_name(Object* object) {
+char * object_get_name(Object* object) {
   if (!object) {
     return NULL;
   }

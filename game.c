@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include "game.h"
 #include "game_reader.h"
 #include "player.h"
@@ -315,7 +316,7 @@ Id game_object_get_id (Game *game , char *name){
       se lo asigno a aux que posteriormente será comparado, si el parametro
       es lo mismo se retorna el id de ese objeto*/
     aux = object_get_name(game->objects[i]);
-    if (strcmp(name,aux)==0){
+    if (strcasecmp(name,aux)==0){
       return object_get_id(game->objects[i]);
     }
   }
@@ -465,8 +466,9 @@ BOOL game_get_object_player(Game* game , Object* object){
  * @param cmd, enumeración (identificador de cada comando)
  * @return status, OK O ERROR
  */
-STATUS game_update(Game* game, T_Command cmd) {
+STATUS game_update(Game* game, T_Command cmd,char *param) {
   game->last_cmd = cmd;
+  game->param = param;
   (*game_callback_fn_list[cmd])(game);
 
   return OK;
@@ -707,7 +709,7 @@ void game_callback_drop(Game* game) {
   Id current_id = NO_ID;
   Set * set= NULL;
   Set *p_player = NULL;
-  Object* p_object= NULL;
+  Object* p_object =NULL;
   Space *current_space = NULL;
   Id object = NO_ID;
   current_id = game_get_player_location(game);
@@ -738,8 +740,7 @@ void game_callback_drop(Game* game) {
   if (set == NULL){
   return;
   }
-
-  if (set == NULL || object == NO_ID || set_ISempty(set) == TRUE){
+  if (delete_id(p_player ,object) == ERROR){
     return;
   }
   for (i=0;i<MAX_ID && object_get_id(p_object) != object;i++){

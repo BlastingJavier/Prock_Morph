@@ -68,6 +68,10 @@ clear:
 clean: clear
 	rm -rf $(DIST_NAME) $(DIST_NAME).tar $(EJS) #para borrar los tar generados en caso de que se quiera . (con lo que tengan dentro - ejecutables)
 	#tareas que otorgan distribucion (es decir facilidad para enviarlo)
+.PHONY: runvv
+runvv:
+	@echo ">>>>>>Running game_loop_exe with valgrind"
+	valgrind --leak-check=full ./game_loop_exe data.dat
 .PHONY: dist
 dist:
 	@echo "Preparando para enviar"

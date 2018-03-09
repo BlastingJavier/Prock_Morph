@@ -96,4 +96,14 @@ int set_get_top (Set * set);
 BOOL set_ISempty(Set *set);
 
 
+
+/*
+ * @brief Elimina una id del set la que se quiera (parametro)
+ * @param set, puntero a set
+ * @param id Identificador
+ * @return status OK o ERROR
+ */
+STATUS delete_id (Set *set, Id id);
+
+
 #endif

@@ -185,3 +185,33 @@ BOOL set_ISempty(Set *set){
   }
   return FALSE;
 }
+
+
+
+/*
+ * @brief Elimina una id del set la que se quiera (parametro)
+ * @param set, puntero a set
+ * @param id Identificador
+ * @return status OK o ERROR
+ */
+STATUS delete_id (Set *set, Id id){
+  int i,j;
+  Id id_aux;
+  STATUS flag = ERROR;
+  if (set == NULL || id == NO_ID){
+    return ERROR;
+  }
+
+  for (i=0; i<set->num_array_actual;i++){
+    id_aux = get_specific_id (set, i);
+    if(id == id_aux){
+      for (j=i;j+1<MAX_ID && set->id_array[j] != NO_ID;j++){
+        set->id_array[j] = set->id_array[j+1];
+      }
+      flag = OK;
+      set->num_array_actual--;
+    }
+  }
+
+  return flag;
+}

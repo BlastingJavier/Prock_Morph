@@ -13,6 +13,7 @@
 #include "screen.h"
 #include "graphic_engine.h"
 #include "dice.h"
+#include "string.h"
 
 #define NUM_OBJ 4
 
@@ -106,8 +107,9 @@ void graphic_engine_destroy(Graphic_engine *ge){
  */
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, obj_loc = NO_ID;
-  Id id_left , id_right;
-  int i;
+  Id id_left ,id_right;
+  int i,cuenta_atras;
+  int *para_dado;
   Space* space_actual = NULL;
   Space *space_next = NULL;
   Space *space_previous = NULL;
@@ -127,7 +129,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
     id_back = space_get_north(space_actual);
     id_next = space_get_south(space_actual);
     id_left = space_get_west(space_actual);
-    id_left = space_get_east(space_actual);
+    id_right = space_get_east(space_actual);
 
     for (i=0;i<NUM_OBJ;i++){
       /*3 espacios porque es lo que ocupa nuestro nombre de objeto en data.dat*/
@@ -180,16 +182,16 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       sprintf(str, "  +-------------------+");
       screen_area_puts(ge->map, str);
       if (id_act != NO_ID && id_left != NO_ID && id_right !=NO_ID){
-        sprintf(str, " <| 8D             %2d|>",(int) id_act);
+        sprintf(str, " <| 8D             %2d |>",(int) id_act);
       }
       else if(id_act !=NO_ID && id_left != NO_ID && id_right == NO_ID){
         sprintf(str, "  | 8D             %2d |>",(int) id_act);
       }
       else if(id_act !=NO_ID && id_left == NO_ID && id_right != NO_ID){
-        sprintf(str, " <| 8D             %2d|",(int) id_act);
+        sprintf(str, " <| 8D             %2d |",(int) id_act);
       }
       else {
-        sprintf(str, "  | 8D             %2d|",(int) id_act);
+        sprintf(str, "  | 8D             %2d |",(int) id_act);
       }
       screen_area_puts(ge->map, str);
       sprintf(str, "  |                   |");
@@ -277,8 +279,6 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
     }
   }
 
-  sprintf(str, "Last throw (dice): %d",dice_get_last_shot(game->dice));
-  screen_area_puts(ge->descript,str);
 
   /*Dibuja la zona del banner*/
   screen_area_puts(ge->banner, " The game of the Goose ");
@@ -294,6 +294,20 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
   last_cmd = game_get_last_command(game);
   sprintf(str, " %s", cmd_to_str[last_cmd-NO_CMD]);
   screen_area_puts(ge->feedback, str);
+
+
+  cuenta_atras = dice_get_last_shot(game->dice);
+  para_dado = &cuenta_atras;
+  sprintf(str, "Last throw (dice): %d",cuenta_atras);
+  screen_area_puts(ge->descript,str);
+  sprintf(str, "Remaining movements: ");
+  screen_area_puts(ge->descript,str);
+  if (last_cmd == 2){
+    (*para_dado)--;
+    sprintf(str,"%d ",*para_dado);
+    screen_area_puts(ge->descript,str);
+  }
+
 
   /*Lo pasa al terminal*/
   screen_paint();

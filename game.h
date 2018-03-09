@@ -56,7 +56,7 @@ STATUS game_create_from_file(Game* game, char* filename);
  * @param cmd, enumeración (identificador de cada comando)
  * @return status, OK O ERROR
  */
-STATUS game_update(Game* game, T_Command cmd);
+STATUS game_update(Game* game, T_Command cmd,char *param);
 
 
 
