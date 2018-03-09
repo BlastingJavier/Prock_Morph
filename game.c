@@ -114,19 +114,18 @@ STATUS game_create(Game* game) {
     /*  game->object = object_create(ID_O);*//*1*/
 
   }
-  for (i=0;i<MAX_ID;i++){
-    game->objects[i] = object_create(NO_ID);
-  }
-  for (i=0;i<MAX_ID;i++){
-    game->objects[i] = NULL;
-  }
-
   game->player = player_create(ID_J);/*1*/
   /*game->player = player_create(ID_P)
     game_set_player_location(game,NO_ID)*/
   game_set_player_location(game,NO_ID);
+
+  for (i=0;i<MAX_ID;i++){
+    game->objects[i] = NULL;
+  }
+
   game->last_cmd = NO_CMD;
   game->dice =dice_create(ID_DICE);/*1*/
+  game->param = " ";
 
   return OK;
 }
@@ -218,6 +217,7 @@ STATUS game_add_space(Game* game, Space* space) {
  */
 STATUS game_add_object (Game * game , Object* object){
   int i;
+
   if (game == NULL || object == NULL){
     return ERROR;
   }
@@ -308,6 +308,7 @@ Object* game_get_object(Game* game, Id id){
 Id game_object_get_id (Game *game , char *name){
   int i;
   char *aux;
+
   if (!game || !name ){
     return NO_ID;
   }
@@ -320,7 +321,8 @@ Id game_object_get_id (Game *game , char *name){
       return object_get_id(game->objects[i]);
     }
   }
-return NO_ID;
+
+  return NO_ID;
 }
 /**
  * @brief funcionalidad de modificar la localizacion del jugador mediante el id
@@ -335,6 +337,7 @@ STATUS game_set_player_location(Game* game, Id id) {
   if (player_set_location(game->player,id)==ERROR){
     return ERROR;
   }
+
   return OK;
 }
 
@@ -351,6 +354,7 @@ STATUS game_set_player_location(Game* game, Id id) {
 STATUS game_set_object_location(Game* game, Id id_espacio,Object * object) {
   int i;
   Id space_aux , object_id_aux;
+
   if (!game || id_espacio == NO_ID || object == NULL) {
     return ERROR;
   }
@@ -434,18 +438,19 @@ Id game_get_object_location(Game* game,Object *object) {
 BOOL game_get_object_player(Game* game , Object* object){
   int i;
   Id id_player_aux , id_obj_aux;
-  Set *set_aux;
+  Set *set;
+
   if (!game || !object){
     return FALSE;
   }
   /* Coge el id del objeto, para despues comparar los auxiliares de objeto y jugador*/
   id_obj_aux = object_get_id(object);
-  set_aux = player_get_inventory_items(game->player);
+  set = player_get_inventory_items(game->player);
   /*Se recorre el array de objetos hasta el tope (del Set)*/
-  for (i=0;i<set_get_top(set_aux);i++){
+  for (i=0;i<set_get_top(set);i++){
     /*Cada vez que se entra en el bucle, el id del jugador toma el id especifico del
       set y compara con el del objeto pasado por referencia. Si coinciden, hay objeto*/
-    id_player_aux = get_specific_id(set_aux,i);
+    id_player_aux = get_specific_id(set,i);
 
     if (id_player_aux == id_obj_aux){
       return TRUE;
@@ -666,7 +671,7 @@ void game_callback_right (Game *game){
 void game_callback_get(Game* game) {
   Id current_id = NO_ID;
   Space *current_space = NULL;
-  Id object = NO_ID;
+  Id id_object = NO_ID;
   Set *set = NULL;
 
   current_id = game_get_player_location(game);
@@ -682,14 +687,26 @@ void game_callback_get(Game* game) {
   }
   /*POR AHORA NOfprintf (stdout,"Dime el objeto que quieres coger del espacio: ");
   scanf("%s", ) */
+
   set = space_get_objects(current_space);
   /* Si el jugador está en casilla con un objeto,
    y decide cogerlo (se le asigna) y desaparece de la casilla */
   if (set_ISempty(set) == TRUE || set == NULL){/*1 significa que esta vacio (sentimos el numero magico)<=definido en set.h*/
     return;
   }
-  object = set_pop_id(set);
-  player_add_inventory_item(game->player, object);
+
+  id_object = game_object_get_id(game,game->param);
+  if (id_object == NO_ID){
+    return;
+  }
+  if (object_check_in_space(current_space,id_object)==TRUE){
+    if (delete_id(set,id_object)==ERROR){
+      return;
+    }
+    if (player_add_inventory_item(game->player,id_object)==ERROR){
+      return;
+    }
+  }
 
   return;
 }
@@ -705,15 +722,16 @@ void game_callback_drop(Game* game) {
   int i;
   Id current_id = NO_ID;
   Set * set= NULL;
-  Set *p_player = NULL;
+  Set *p_player_set = NULL;
   Object* p_object =NULL;
   Space *current_space = NULL;
-  Id object = NO_ID;
+  Id id_object = NO_ID;
   current_id = game_get_player_location(game);
 
-  p_player = player_get_inventory_items(game->player);
-  if (set_ISempty(p_player) == TRUE)
-  return;
+  p_player_set = player_get_inventory_items(game->player);
+  if (set_ISempty(p_player_set) == TRUE){
+    return;
+  }
 
   current_id = game_get_player_location(game);
 
@@ -727,7 +745,7 @@ void game_callback_drop(Game* game) {
     return;
   }
 
-  object = game_object_get_id(game,game->param);
+  id_object = game_object_get_id(game,game->param);
 
   /*Set lo que hace es coger los objetos de la casilla actual
     y object recibe el objeto que tiene actualmente el jugador(Id)*/
@@ -736,10 +754,10 @@ void game_callback_drop(Game* game) {
   if (set == NULL){
   return;
   }
-  if (delete_id(p_player ,object) == ERROR){
+  if (delete_id(p_player_set ,id_object) == ERROR){
     return;
   }
-  for (i=0,p_object = game->objects[0];i<MAX_ID && object_get_id(p_object) != object;i++,p_object = game->objects[i]);
+  for (i=0,p_object = game->objects[0];i<MAX_ID && object_get_id(p_object) != id_object;i++,p_object = game->objects[i]);
 
   game_set_object_location(game,current_id,p_object);
   /*PLAYER PRINT*/

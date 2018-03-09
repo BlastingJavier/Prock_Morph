@@ -50,7 +50,7 @@ STATUS dice_roll(Dice* dice);
 /*
  * @brief Se encarga de obtener el id de un dado (funcion por ver)
  * @param dice , puntero a Dice
- * @return dice->id campo id o NULL
+ * @return dice->id campo id o NO_ID
  */
 /*Por si hay mas de uno en el juego y necesitamos un id especifico*/
 Id dice_get_id(Dice* dice);

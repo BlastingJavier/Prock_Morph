@@ -93,33 +93,6 @@ STATUS space_set_west(Space* space, Id id);
 
 
 /*
- * @brief Pone o cambia el espacio del objeto(casilla)
- * @param space: puntero a Space.
- * @param value: Id (identificador)
- * @return status OK o ERROR.
- */
-STATUS space_set_object(Space* space, Id value);
-
-
-/*
- * @brief Quita el ultimo objeto de la casilla
- * @param space: puntero a Space.
- * @return status, OK o ERROR.
- */
-STATUS space_delete_object(Space* space);
-
-
-/*
- * @brief Colocamos en el space un objeto
- * @param space: puntero a Space.
- * @param value: Id (identificador)
- * @return status, OK o ERROR.
- */
-STATUS space_add_object(Space* space, Id value);
-
-
-
-/*
  * @brief Devuelve el nombre (casilla)
  * @param space: puntero a Space.
  * @return name, el name space->name o NULL
@@ -174,15 +147,6 @@ Id space_get_west(Space* space);
 
 
 /*
- * @brief Devuelve el si hay o no objeto en la casilla
- * @param space: puntero a Space.
- * @return object, space->object o FALSE si no existen objetos
- */
-Set* space_get_objects(Space* space);
-
-
-
-/*
  * @brief Muestra por la pantalla de salida, tanto el id, como el nombre del espacio
  * @param space: puntero a Space.
  * @return status, OK o ERROR
@@ -191,16 +155,7 @@ STATUS space_print(Space* space);
 
 
 
-/*
- * @brief Comprueba si un objeto esta en el espacio actual
- * @param space: puntero a Space.
- * @param id_objeto, de tipo id.
- * @return BOOL, TRUE or FALSE (si parámetros vacios/obtención de la estructura
-    con errores/si sale en el bucle de comprobación (de set_delete))
- */
-BOOL object_check (Space *space , Id id_objeto);
-
-
+/*----------------------------Descripcion Grafica(manejo de parametros)-------------------------------*/
 
 /*
  * @brief Descripcion grafica ,Carga el espacio (primera linea de la representacion
@@ -261,5 +216,44 @@ char* space_get_gdesc2(Space* space);
  * @return char, retorna el string de la descripcion grafica (3)
  */
 char* space_get_gdesc3(Space* space);
+
+/*----------------------------Manejo de Objetos modulo Space-------------------------------*/
+
+/*
+ * @brief Quita el ultimo objeto de la casilla
+ * @param space: puntero a Space.
+ * @return status, OK o ERROR.
+ */
+STATUS space_delete_object(Space* space);
+
+
+
+/*
+ * @brief Colocamos en el space un objeto
+ * @param space: puntero a Space.
+ * @param id: Id (identificador)
+ * @return status, OK o ERROR.
+ */
+STATUS space_add_object(Space* space, Id id);
+
+
+
+/*
+ * @brief Devuelve el si hay o no objeto en la casilla
+ * @param space: puntero a Space.
+ * @return object, space->object o FALSE si no existen objetos
+ */
+Set * space_get_objects(Space* space);
+
+
+
+/*
+ * @brief Comprueba si un objeto esta en el espacio actual
+ * @param space: puntero a Space.
+ * @param id_objeto, de tipo id.
+ * @return BOOL, TRUE or FALSE (si parámetros vacios/obtención de la estructura
+    con errores/si sale en el bucle de comprobación (de set_delete))
+ */
+BOOL object_check_in_space (Space *space , Id id_objeto);
 
 #endif

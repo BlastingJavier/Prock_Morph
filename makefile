@@ -1,7 +1,7 @@
 #####################################################
 CC=gcc
 CFLAGS= -g -Wall -pedantic -ansi
-MODULOS=game_loop_exe
+MODULOS=game_loop_exe dice_test_exe
 #HAY QUE PONER MAS
 #########################################################
 OBJECTS = command.o game_loop.o game.o graphic_engine.o screen.o space.o player.o object.o game_reader.o set.o dice.o
@@ -11,13 +11,13 @@ OBJECTSGAME = game.o
 OBJECTSGRAPHIC = graphic_engine.o
 OBJECTSSCREEN = screen.o
 OBJECTSSPACE = space.o
-
+OBJECTSDICE = dice_test.o dice.o
 ##HAY QUE PONER MAS
 ##########################################################
 DIST_NAME = GAME_PROJECT_MORPHEUS
 #HAY QUE PONER MAS
 ##########################################################
-OBJECTS_TO_CLEAN = command.o game_loop.o game.o graphic_engine.o screen.o space.o object.o game_reader.o player.o dice.o
+OBJECTS_TO_CLEAN = command.o game_loop.o game.o graphic_engine.o screen.o space.o object.o game_reader.o player.o dice.o dice_test.o
 #HAY QUE PONER MAS
 HEADERS_TO_SUBMIT =*.h
 SOURCES_TO_SUBMIT = command.c game.c graphic_engine.c screen.c space.c game_loop.c dice.c set.c
@@ -54,7 +54,10 @@ set.o : set.c set.h
 dice.o : dice.c dice.h
 	$(CC) $(CFLAGS) -c dice.c
 
-
+dice_test_exe: $(OBJECTSDICE)
+	$(CC) $(CFLAGS) -o dice_test_exe $(OBJECTSDICE)
+dice_test.o : dice_test.c dice.h types.h
+	$(CC) $(CFLAGS) -c dice_test.c
 
 .PHONY: valgrind
 valgrind:game_loop_exe
@@ -68,10 +71,12 @@ clear:
 clean: clear
 	rm -rf $(DIST_NAME) $(DIST_NAME).tar $(EJS) #para borrar los tar generados en caso de que se quiera . (con lo que tengan dentro - ejecutables)
 	#tareas que otorgan distribucion (es decir facilidad para enviarlo)
+
 .PHONY: runvv
 runvv:
 	@echo ">>>>>>Running game_loop_exe with valgrind"
 	valgrind --leak-check=full ./game_loop_exe data.dat
+
 .PHONY: dist
 dist:
 	@echo "Preparando para enviar"

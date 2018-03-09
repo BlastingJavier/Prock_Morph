@@ -34,10 +34,10 @@ T_Command get_user_input(char *p){
   int i=UNKNOWN - NO_CMD + 1; /*2*/
   char * palabra =NULL;
   *p = '\0';
+  
   if (fgets(input,sizeof(input),stdin) != NULL){/*Si lee el comando correctamente*/
     cmd = UNKNOWN; /*cmd=0, siempre*/
     input[strlen(input)-1]='\0';
-    palabra = NULL;
     palabra = strtok(input, " "); /*Esto hace que coja la palabra hasta el espacio el blanco*/
 
     while (cmd == UNKNOWN && i < N_CMD){ /*Compara el comando introducido por el jugador con los de la lista*/

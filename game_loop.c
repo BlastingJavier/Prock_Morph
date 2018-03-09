@@ -46,7 +46,7 @@ int main(int argc, char *argv[]){
     jugador pulse "EXIT"*/
 	while ((command != EXIT) && !game_is_over(&game)){
 		graphic_engine_paint_game(gengine, &game);
-    command = get_user_input();
+    command = get_user_input(parametro);
     game_update(&game, command,parametro);
 
 	}

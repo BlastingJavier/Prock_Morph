@@ -188,41 +188,6 @@ STATUS space_set_west(Space* space, Id id) {
 
 
 /*
- * @brief Quita el ultimo objeto de la casilla
- * @param space: puntero a Space.
- * @return status, OK o ERROR.
- */
-STATUS space_delete_object(Space* space){
-  if (!space){
-    return ERROR;
-  }
-  if(set_pop_id (space->objects)==NO_ID){
-    return ERROR;
-  }
-  return OK;
-}
-
-
-
-/*
- * @brief Colocamos en el space un objeto
- * @param space: puntero a Space.
- * @param id: Id (identificador)
- * @return status, OK o ERROR.
- */
-STATUS space_add_object(Space* space, Id id) {
-  if (!space){
-    return ERROR;
-  }
-  if (set_push_id(space->objects,id)==ERROR){
-    return ERROR;
-  }
-  return OK;
-}
-
-
-
-/*
  * @brief Devuelve el nombre (casilla)
  * @param space: puntero a Space.
  * @return name, el name space->name o NULL
@@ -305,73 +270,6 @@ Id space_get_west(Space* space) {
 }
 
 
-
-/*
- * @brief Devuelve el si hay o no objeto en la casilla
- * @param space: puntero a Space.
- * @return object, space->object o FALSE si no existen objetos
- */
-Set * space_get_objects(Space* space) {
-  if (!space || space->objects == NULL) {
-    return NULL;
-  }
-
-  return space->objects;
-}
-
-
-/*Hay que ver si es necesaria de verdad esta funcion o no
-
- * @brief Devuelve el si hay o no objeto en la casilla
- * @param space: puntero a Space.
- * @return object, space->object o FALSE
-
-Id space_get_object(Space* space ,Id id_objeto) {
-  int i;
-  Id id_aux_obj;
-  if (!space) {
-    return NO_ID;
-  }
-  for (i=0;i<MAX_ID;i++){
-    id_aux_obj = object_get_id(space->objects);
-    if (*((Id)id_aux_obj) == id_objeto){
-      return *((Id) id_aux_obj);
-    }
-  }
-}*/
-/*
- * @brief Comprueba si un objeto esta en el espacio actual
- * @param space: puntero a Space.
- * @param id_objeto, de tipo id.
- * @return BOOL, TRUE or FALSE (si parámetros vacios/obtención de la estructura
-    con errores/si sale en el bucle de comprobación (de set_delete))
- */
-BOOL object_check (Space *space , Id id_objeto){
-  Set *aux;
-  Id id_aux;
-  int i;
-
-  if (!space|| id_objeto == NO_ID){
-    return FALSE;
-  }
-  aux = space_get_objects(space);
-
-  if (aux == NULL){
-    return FALSE;
-  }
-  for (i=0;i<MAX_ID;i++){
-    id_aux = get_specific_id(aux,i);
-    if (id_aux !=NO_ID){
-      if(id_aux == id_objeto){
-
-        return TRUE;
-      }
-    }
-  }
-  return FALSE;
-}
-
-
 /*
  * @brief Muestra por la pantalla de salida, tanto el id, como el nombre del espacio
  * @param space: puntero a Space.
@@ -428,7 +326,7 @@ STATUS space_print(Space* space) {
 }
 
 
-/*----------------------------Descripcion Grafica-------------------------------*/
+/*----------------------------Descripcion Grafica(manejo de parametros)-------------------------------*/
 
 /*
  * @brief Descripcion grafica ,Carga el espacio (primera linea de la representacion
@@ -541,4 +439,88 @@ char* space_get_gdesc3(Space* space){
   }
 
   return space->gdesc[2];
+}
+
+
+/*----------------------------Manejo de Objetos modulo Space-------------------------------*/
+
+/*
+ * @brief Quita el ultimo objeto de la casilla
+ * @param space: puntero a Space.
+ * @return status, OK o ERROR.
+ */
+STATUS space_delete_object(Space* space){
+  if (!space){
+    return ERROR;
+  }
+  if(set_pop_id (space->objects)==NO_ID){
+    return ERROR;
+  }
+  return OK;
+}
+
+
+
+/*
+ * @brief Colocamos en el space un objeto
+ * @param space: puntero a Space.
+ * @param id: Id (identificador)
+ * @return status, OK o ERROR.
+ */
+STATUS space_add_object(Space* space, Id id) {
+  if (!space){
+    return ERROR;
+  }
+  if (set_push_id(space->objects,id)==ERROR){
+    return ERROR;
+  }
+  return OK;
+}
+
+
+/*
+ * @brief Devuelve el si hay o no objeto en la casilla
+ * @param space: puntero a Space.
+ * @return object, space->object o FALSE si no existen objetos
+ */
+Set * space_get_objects(Space* space) {
+  if (!space || space->objects == NULL) {
+    return NULL;
+  }
+
+  return space->objects;
+}
+
+
+
+/*
+ * @brief Comprueba si un objeto esta en el espacio actual
+ * @param space: puntero a Space.
+ * @param id_objeto, de tipo id.
+ * @return BOOL, TRUE or FALSE (si parámetros vacios/obtención de la estructura
+    con errores/si sale en el bucle de comprobación (de set_delete))
+ */
+BOOL object_check_in_space (Space *space , Id id_objeto){
+  Set *aux;
+  Id id_aux;
+  int i;
+
+  if (!space|| id_objeto == NO_ID){
+    return FALSE;
+  }
+  aux = space_get_objects(space);
+
+  if (aux == NULL){
+    return FALSE;
+  }
+  for (i=0;i<MAX_ID;i++){
+    id_aux = get_specific_id(aux,i);
+    if (id_aux !=NO_ID){
+      if(id_aux == id_objeto){
+
+        return TRUE;
+      }
+    }
+  }
+  return FALSE;
 }

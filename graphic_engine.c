@@ -10,10 +10,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "screen.h"
 #include "graphic_engine.h"
 #include "dice.h"
-#include "string.h"
 
 #define NUM_OBJ 4
 
@@ -167,7 +167,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       obj[i] = "   ";
     }
 
-    for (i=0;i<MAX_ID && game->objects[i] != NULL;i++){
+    for (i=0;i<MAX_ID && game->objects[i] != NULL && !strcmp(obj[i],"   ");i++){
       if (game_get_object_location(game,game->objects[i]) == id_act){
         obj[i] = object_get_name(game->objects[i]);
       }
@@ -217,14 +217,14 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       obj[i] = "   ";
     }
 
-    for (i=0;i<MAX_ID && game->objects[i] != NULL;i++){
+    for (i=0;i<MAX_ID && game->objects[i] != NULL && !strcmp(obj[i],"   ");i++){
       if (game_get_object_location(game,game->objects[i]) == id_next){
         obj[i] = object_get_name(game->objects[i]);
       }
     }
     /*Casilla siguiente (efecto de refresco)*/
     if (id_next != NO_ID) {
-      space_next = game_get_space(game,id_back);
+      space_next = game_get_space(game,id_next);
       gdesc[0] = space_get_gdesc1(space_next);
       gdesc[1] = space_get_gdesc2(space_next);
       gdesc[2] = space_get_gdesc3(space_next);
