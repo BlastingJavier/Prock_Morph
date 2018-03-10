@@ -162,9 +162,9 @@ STATUS game_create_from_file(Game* game, char* filename) {
  * @return status, OK O ERROR
  */
 STATUS game_destroy(Game* game) {
-  int i = 0;
+  int i;
 
-  for (i = 0; (i < MAX_SPACES) && (game->spaces[i] != NULL); i++) {
+  for (i=0; i<MAX_SPACES && game->spaces[i] != NULL; i++) {
     space_destroy(game->spaces[i]);
   }
 

@@ -62,7 +62,7 @@ Space* space_create(Id id) {
     return NULL;
   }
 
-  newSpace = (Space *) malloc(sizeof (Space));
+  newSpace = (Space *) malloc(sizeof(Space));
 
   if (newSpace == NULL) {
     return NULL;
@@ -93,10 +93,8 @@ STATUS space_destroy(Space* space) {
     return ERROR;
   }
   set_destroy(space->objects);
-  space->objects = NULL;
 
   free(space);
-  space = NULL;
 
   return OK;
 }

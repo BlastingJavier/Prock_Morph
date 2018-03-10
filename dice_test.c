@@ -6,15 +6,15 @@
 
 int main (int argc , char *argv[]){
   Dice *dice;
-  dice = dice_create(1);
-  Id id_dice;
   int ultima_tirada;
+
+  dice = dice_create(1);
 
   if (dice == NULL){
     return 0;
   }
-  if ((id_dice = dice_get_id(dice)) != NO_ID){
-    fprintf(stdout,"%d",(int)id_dice);
+  if ((dice_get_id(dice)) != NO_ID){
+    fprintf(stdout,"%d",(int)dice_get_id(dice));
   }
   else {
     dice_destroy(dice);

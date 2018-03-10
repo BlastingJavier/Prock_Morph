@@ -45,7 +45,6 @@ Player* player_create (Id id){
     return NULL;
   }
   newPlayer->player_id=id;
-  newPlayer->name[0] = '\0';
   newPlayer->inventory_items= set_create();
 
   return newPlayer;
@@ -64,7 +63,6 @@ STATUS player_destroy (Player* player){
   }
   set_destroy(player->inventory_items);
   free(player);
-  player = NULL;
 
   return OK;
 }

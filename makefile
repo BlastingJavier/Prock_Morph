@@ -75,7 +75,7 @@ clean: clear
 .PHONY: runvv
 runvv:
 	@echo ">>>>>>Running game_loop_exe with valgrind"
-	valgrind --leak-check=full ./game_loop_exe data.dat
+	valgrind --leak-check=full --track-origins=yes -v ./game_loop_exe data.dat
 
 .PHONY: dist
 dist:

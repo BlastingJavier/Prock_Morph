@@ -17,7 +17,6 @@
 #include "game.h" /*Ya vienen en "game_reader.h"*/
 #include "set.h"
 
-#define DEBUG
 
 /**                 Definidos en:
                         ||

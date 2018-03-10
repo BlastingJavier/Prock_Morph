@@ -57,8 +57,9 @@ Graphic_engine *graphic_engine_create(){
   /*Conserva el valor (static)*/
   static Graphic_engine *ge = NULL;
 
-  if (ge)
+  if (ge){
     return ge;
+  }
 
   screen_init();
   ge = (Graphic_engine *) malloc(sizeof(Graphic_engine));
@@ -167,7 +168,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       obj[i] = "   ";
     }
 
-    for (i=0;i<MAX_ID && game->objects[i] != NULL && !strcmp(obj[i],"   ");i++){
+    for (i=0;i<MAX_ID && game->objects[i] != NULL;i++){
       if (game_get_object_location(game,game->objects[i]) == id_act){
         obj[i] = object_get_name(game->objects[i]);
       }
@@ -217,7 +218,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       obj[i] = "   ";
     }
 
-    for (i=0;i<MAX_ID && game->objects[i] != NULL && !strcmp(obj[i],"   ");i++){
+    for (i=0;i<MAX_ID && game->objects[i] != NULL;i++){
       if (game_get_object_location(game,game->objects[i]) == id_next){
         obj[i] = object_get_name(game->objects[i]);
       }
@@ -267,7 +268,9 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       screen_area_puts(ge->descript,str);
     }
   }
-  sprintf(str,"Inventory item: ");
+
+  screen_area_clear(ge->player_info);
+  sprintf(str,"Inventory items: ");
   screen_area_puts(ge->player_info,str);
   /*Se encarga de recorrer el array de objetos y ver si el player tiene ese objeto,
     si lo tiene, lo muestra en otra pantalla (player_info)*/
