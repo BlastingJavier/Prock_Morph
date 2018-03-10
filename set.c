@@ -10,15 +10,19 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+
+#include "set.h"
 #include "types.h"
 
-#define MAX_ID 96
 /*Para no desaprovechar memoria...*/
-#define Set_Empty(x) (x==0)/*Macro para ver si el conjunto esta vacio*/
-#define Set_Full(x) (x > MAX_ID)/*Macro para ver si el conjunto esta lleno*/
+/*
+#define Set_Empty(x) (x==0)Macro para ver si el conjunto esta vacio
+#define Set_Full(x) (x > MAX_ID)Macro para ver si el conjunto esta lleno*/
+
+
 
 /*Estructura que define un conjunto(características) */
+
 struct _Set {
   Id id_array[MAX_ID];
   int num_array_actual;
@@ -27,19 +31,23 @@ struct _Set {
 
 
 /*
+ * @author Francisco Nanclares
  * @brief Se encarga de crear el conjunto
  * @param nada
- * @return conj_create (nuevo conjunto recien creado)
+ * @return NULL o conj_create (nuevo conjunto recien creado)
  */
 Set * set_create (){
+  int i;
   Set *conj_create;
   conj_create = (Set*)malloc (sizeof(Set));
   if (conj_create == NULL){
     return NULL;
   }
   else {
-    conj_create->id_array[0] = '\0';
-    conj_create->n_array_actual = 0;
+    for (i=0;i<MAX_ID;i++){
+      conj_create->id_array[i] = NO_ID;
+    }
+    conj_create->num_array_actual = 0;
   }
   return conj_create;
 }
@@ -47,21 +55,16 @@ Set * set_create (){
 
 
 /*
+ * @author Francisco Nanclares
  * @brief Se encarga de liberar el conjunto
  * @param set puntero a Set
  * @return nada (void)
  */
 void set_destroy (Set * set){
-  int i;
   if (set == NULL){
-    return NULL;
+    return;
   }
   else {
-    for (i=0;i<MAX_ID;i++){
-      free(set->id_array[i]);
-    }
-
-    set = NULL;
     free(set);
 
     return;
@@ -71,116 +74,153 @@ void set_destroy (Set * set){
 
 
 /*
+ * @author Alejandro Martin
  * @brief Se encarga de anadir un elemento (id) al conjunto
  * @param set puntero a Set
  * @param id (Id) identificador nuevo
  * @return status OK o ERROR
  */
-STATUS set_add_element (Set *set , Id id){
-  int i;
-  if (set == NULL){
+STATUS set_push_id (Set *set , Id id){
+
+  if (set == NULL || id == NO_ID){
     return ERROR;
   }
-  if (Set_Full(set->num_array_actual)==1){
-    return ERROR;
-  }
-  else {
-    for (i=0;set->id_array[i]!=0 && i< MAX_ID;i++);
-  }
-  if (i >=MAX_ID){
-    return ERROR;
-  }
-  else {
-    set->id_array[i] = id;
-    (set->num_array_actual)++;
-  }
+  set->id_array[set->num_array_actual] = id;
+
+  set->num_array_actual++;
+
   return OK;
 }
 
 
 /*
+ * @author Alejandro Martin
  * @brief Se encarga de sacar un elmento si queremos
  * @param set puntero a Set
  * @return Id el identificador que usaremos
  */
-Id  set_element_pop (Set *set){
+Id  set_pop_id (Set *set){
   Id temp;
 
   if(!set){
-    return ERROR;
+    return NO_ID;
   }
   /*Set_empty no es una funcion, es una macro (devuelve 1 = verdadero)*/
-  if (Set_Empty(set->num_array_actual) ==1){
-    return NO_ID
+  if (set_ISempty(set) == TRUE){
+    return NO_ID;
   }
   else {
+    temp = set->id_array[(set->num_array_actual)-1];
+    set->id_array[set->num_array_actual] = NO_ID;
     set->num_array_actual--;
-    temp = set->id_array[set->num_array_actual];
-    set->id_array[set->num_array_actual] = NULL;
+
     return temp;
   }
 }
 
 
-/////////////////////////////////////////////////////////////////////////
+/*
+ * @author Francisco Nanclares
+ * @brief Imprimir por pantalla los elementos de la estructura
+ * @param set, puntero a set
+ * @return OK o ERROR, ya que es de tipo STATUS
+ */
+STATUS set_print(Set* set) {
+  int i;
+  if (set == NULL){
+    return ERROR;
+  }
+  for (i=0;i<MAX_ID/*no necesario*/ || i<set->num_array_actual;i++){
+    fprintf(stdout,"Elemento %d : %ld\n",i+1,set->id_array[i]);
+  }
+  fprintf(stdout,"La cantidad de elementos total es : %d",i);
 
-
-EleStack * stack_pop(Stack *s) {
-    EleStack *temp;
-    if (s==NULL) return NULL;
-
-    if (stack_isEmpty(s) == TRUE) return NULL;
-
-    s->tope--;
-    temp = s->datos[s->tope];
-    s->datos[s->tope] = NULL;
-    return temp;
+  return OK;
 }
 
 
-//////////////////////////////////////////////////////////////////////////
 
+/*
+ * @author Francisco Nanclares
+ * @brief Devuelve un id de la posicion que quieras
+ * @param set, puntero a set
+ * @param num_array_actual_para (int) que indica la posicion
+ * @return Id (id_aux) identificador de la posicion
+ */
+Id get_specific_id (Set *set ,int num_array_actual_para){
+  Id id_aux;
+  if (set == NULL|| num_array_actual_para < 0 || num_array_actual_para > set->num_array_actual || set_ISempty(set) == TRUE){
+    return NO_ID;
+  }
+  id_aux = set->id_array[num_array_actual_para];
 
-/**------------------------------------------------------------------
- * @brief Inserta un elemento en la pila.
- * @param un elemento y la pila donde insertarlo.
- * @return NULL si no logra insertarlo por pila llena o la pila resultante
- * ------------------------------------------------------------------*/
-Status stack_push(Stack *s, const EleStack *ele) {
-    if (s==NULL || ele==NULL) return ERROR;
-    if ( stack_isFull (s) ==TRUE) return ERROR;
-
-    s->datos[s->tope] = elestack_copy(ele);
-    if (s->datos[s->tope]==NULL) return ERROR;
-
-    s->tope++;
-    return OK;
- }
-
-
- /**------------------------------------------------------------------
- Imprime toda la pila, colocando el elemento en la cima al principio de la impresión (y un elemento por línea). Entrada: pila y fichero donde imprimirla. Salida: Devuelve el número de caracteres escritos.
- ------------------------------------------------------------------*/
- int stack_print(FILE *f, const Stack *s) {
+  return id_aux;
+}
 
 
 
- }
+
+/*
+ * @author Alejandro Martin
+ * @brief Coge el top
+ * @param set, puntero a set
+ * @return aux (el top como entero)
+ */
+int set_get_top (Set * set){
+  int pos;
+  if (set == NULL){
+    return 0;
+  }
+  pos = set->num_array_actual;
+
+  return pos;
+}
 
 
-STATUS set_print(Set* set) {
-  Id idaux = NO_ID;
 
-  if (!set) {
+/*
+ * @author Alejandro Martin
+ * @brief Comprueba si Set esta vacio (tiene alguna id)
+ * @param set, puntero a set
+ * @return status OK o ERROR
+ */
+BOOL set_ISempty(Set *set){
+  if (set == NULL){
+    return TRUE;
+  }
+  if (set->num_array_actual == 0){
+    return TRUE;
+  }
+  return FALSE;
+}
+
+
+
+/*
+ * @author Francisco Nanclares
+ * @brief Elimina una id del set la que se quiera (parametro)
+ * @param set, puntero a set
+ * @param id Identificador
+ * @return status OK o ERROR
+ */
+STATUS delete_id (Set *set, Id id){
+  int i,j;
+  Id id_aux;
+  STATUS flag = ERROR;
+  if (set == NULL || id == NO_ID){
     return ERROR;
   }
 
-  fprintf(stdout, "--> Set (Id: %ld; Number of Elements: %d)\n", set->id_array, set->num_array_actual);
-
-  if (NO_ID != idaux) {
-    fprintf(stdout, "---> Weapon: %ld.\n", idaux);
-  }else {
-    fprintf(stdout, "---> No weapon.\n");
+  for (i=0; i<set->num_array_actual;i++){
+    id_aux = get_specific_id (set, i);
+    if(id == id_aux){
+      for (j=i;j+1<MAX_ID && set->id_array[j] != NO_ID;j++){
+        set->id_array[j] = set->id_array[j+1];
+      }
+      flag = OK;
+      set->num_array_actual--;
+    }
   }
-  return OK;
+
+  return flag;
 }

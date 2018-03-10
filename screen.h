@@ -20,6 +20,7 @@ typedef struct _Area Area;
 
 
 /*
+ * @author Francisco Nanclares
  * @brief Reserva memoria dinámica para data y pone todos los caractes a BG_CHAR
  * @param nada
  * @return, nada ya que es una función de tipo void
@@ -29,6 +30,7 @@ void  screen_init();
 
 
 /*
+ * @author Francisco Nanclares
  * @brief Libera memoria dinámica para "__data"
  * @param nada
  * @return, nada ya que es una función de tipo void
@@ -38,6 +40,7 @@ void  screen_destroy();
 
 
 /*
+ * @author Francisco Nanclares
  * @brief Colorea la pantalla de azul donde no hay interfaz
     y de gris donde se desarrolla el juego.
  * @param nada
@@ -48,6 +51,7 @@ void  screen_paint();
 
 
 /*
+ * @author Francisco Nanclares
  * @brief Escribe por pantalla prompt: y coge las columnas al imprimir
  * @param str, un puntero a char, el string
  * @return,nada ya que es una función de tipo void
@@ -57,6 +61,7 @@ void  screen_gets(char *str);
 
 
 /*
+ * @author Alejandro Martin
  * @brief Crea memoria dinámica para el area y copia el caracter c a los
   primeros n caracteres del string
  * @param x, coordenada cuadrada de un área
@@ -70,6 +75,7 @@ Area* screen_area_init(int x, int y, int width, int height);
 
 
 /*
+ * @author Alejandro Martin
  * @brief Libera memoria almacenada de manera dinamica de area
  * @param area, la estructura
  * @return nada, porque es una función de tipo void
@@ -79,6 +85,7 @@ void  screen_area_destroy(Area* area);
 
 
 /*
+ * @author Alejandro Martin
  * @brief Borra lo que hay en la pantalla
  * @param area, la estructura
  * @return nada, porque es una función de tipo void
@@ -88,15 +95,17 @@ void  screen_area_clear(Area* area);
 
 
 /*
- * @brief  Reemplaza los caracteres con tilde o la letra 'ñ', por esto: '??'
- * @param str, un puntero a char, el string
- * @return nada, ya que es una función de tipo void
+ * @author Alejandro Martin
+ * @brief Resetea el cursor
+ * @param area, la estructura
+ * @return nada, porque es una función de tipo void
  */
 void  screen_area_reset_cursor(Area* area);
 
 
 
 /*
+ * @author Alejandro Martin
  * @brief Si la pantalla se va del limite la sube y se remplazan los caracteres
     especiales/
  * @param area, la estructura

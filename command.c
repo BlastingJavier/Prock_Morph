@@ -10,42 +10,63 @@
 
 #include <stdio.h>
 #include <strings.h>
+#include <string.h>
 #include "command.h"
 
-#define CMD_LENGHT 30
-#define N_CMD 7
+#define CMD_LENGHT 128
+#define N_CMD 10
 
 /* Puntero a char, es una tabla de comandos que el jugador introduce por pantalla */
-char *cmd_to_str[N_CMD] = {"No command", "Unknown", "Exit", "Following", "Previous,","Get","Drop"};
+char *cmd_to_str[N_CMD] = {"No command", "Unknown", "Exit", "Following", "Previous","Left","Right","Get","Drop","dice_roll"};
 /*Puntero a char, es una tabla de comandos que tendra que pulsar el jugador en la partida*/
-char *short_cmd_to_str[N_CMD] = {"","","e","f","p","g","d"};
-
-
+char *short_cmd_to_str[N_CMD] = {"","","e","f","p","l","r","g","d","t"};
 
 
 /**
+* @author Alejandro Martin
 * @brief Implementa los comandos, recogiendo el "input" ,
    transformándolo en un valor numérico de T_command;
 * @param No param.
 * @return cmd (campo de estructura T_command)
 */
-T_Command get_user_input(){
+T_Command get_user_input(char *p){
   T_Command cmd = NO_CMD;/*-1*/
   char input[CMD_LENGHT] = "";/*Variable "input" (string), leera el comando*/
   int i=UNKNOWN - NO_CMD + 1; /*2*/
+  char * palabra =NULL;
+  *p = '\0';
 
-  if (scanf("%s", input) > 0){/*Si lee el comando correctamente*/
+  if (fgets(input,sizeof(input),stdin) != NULL){/*Si lee el comando correctamente*/
     cmd = UNKNOWN; /*cmd=0, siempre*/
-    while (cmd == UNKNOWN && i /*=2*/ < N_CMD /*=7*/){ /*Compara el comando introducido por el jugador con los de la lista*/
+    input[strlen(input)-1]='\0';
+    palabra = strtok(input, " "); /*Esto hace que coja la palabra hasta el espacio el blanco*/
 
-      if (!strcasecmp(input,short_cmd_to_str[i]) || !strcasecmp(input,cmd_to_str[i])){/*Si coinciden "cmd" = el valor que le correponde*/
+    while (cmd == UNKNOWN && i < N_CMD){ /*Compara el comando introducido por el jugador con los de la lista*/
+
+      if (!strcasecmp(palabra,short_cmd_to_str[i]) || !strcasecmp(palabra,cmd_to_str[i])){/*Si coinciden "cmd" = el valor que le correponde*/
         cmd = i /*=2*/ + NO_CMD/*=-1*/;
+        palabra = strtok(NULL, " "); /*Las demas veces que llamamos a strtok lo hacemos con NULL, pues ya cogio la cadena*/
+
+	 /*Control de errores*/
+        if(palabra==NULL){
+          if (cmd == GET || cmd == DROP){
+            return UNKNOWN;
+          }
+        }
+        else{
+          if (cmd == GET || cmd == DROP){
+            strcpy(p, palabra); /*Copiamos la cadena partida en el parametro*/
+          }
+          else{
+            return UNKNOWN;
+          }
+        }
       }
-      else{
-	      i++;
+      else {
+	      i++; /*Despues del control de errores, comprobamos en otros cmd*/
       }
     }
   }
-  /*Hay seis posibles cmd: "", "e", "f", "p", "g", "d"*/
+
   return cmd;
 }

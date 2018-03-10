@@ -16,17 +16,22 @@
 #include "space.h"
 #include "player.h"
 #include "object.h"
+#include "dice.h"
+
 /*Estructura de game 101 espacios , comandos id jugador ,id objeto*/
 typedef struct _Game{
   Player* player;
-  Object* object;
+  Object* objects[MAX_ID];
   Space* spaces[MAX_SPACES + 1];
   T_Command last_cmd;
+  Dice * dice;/*Con esto podemos utilizar el dado*/
+  char* param;
 } Game;
 
 
 
 /*
+ * @author Francisco Nanclares
  * @brief Inicialización de la estructura Game
  * @param game, puntero a estructura Game (dirección)
  * @return status, OK O ERROR
@@ -36,6 +41,7 @@ STATUS game_create(Game* game);
 
 
 /*
+ * @author Francisco Nanclares
  * @brief Crea el juego, carga las casillas (data.dat) y ponen el objeto y jugador
     en la posición primera.
  * @param game, puntero a estructura Game (dirección)
@@ -47,16 +53,18 @@ STATUS game_create_from_file(Game* game, char* filename);
 
 
 /**
+ * @author Alejandro Martin
  * @brief Actualizacion de los comandos (muestra el último).
  * @param game, puntero a la estructura Game
  * @param cmd, enumeración (identificador de cada comando)
  * @return status, OK O ERROR
  */
-STATUS game_update(Game* game, T_Command cmd);
+STATUS game_update(Game* game, T_Command cmd,char *param);
 
 
 
 /*
+ * @author Alejandro Martin
  * @brief Elimina las casillas creadas en la función anterior
  * @param game, puntero a estructura Game (dirección)
  * @return status, OK O ERROR
@@ -64,8 +72,33 @@ STATUS game_update(Game* game, T_Command cmd);
 STATUS game_destroy(Game* game);
 
 
+/**
+ * @author Francisco Nanclares
+ * @brief funcionalidad de modificar la localizacion del jugador mediante el id
+ * @param game, puntero a Game (dirección)
+ * @param id, Entero de tipo Id (identificador)
+ * @return status, OK O ERROR
+ */
+STATUS game_set_player_location(Game* game, Id id);
+
+
 
 /**
+ * @author Francisco Nanclares
+ * @brief funcionalidad de modificar la localizacion del objeto mediante el id
+ * @param game,puntero a la estructura Game
+ * @param id_espacio, campo de la estructura Id
+ * @param object, puntero a la estructura de object
+ * @return status, OK O ERROR
+ */
+ /*acordarse de donde se encuentra la funcionalidad y donde se llama a ella  */
+STATUS game_set_object_location(Game* game, Id id_espacio,Object * object);
+
+
+
+
+/**
+ * @author Alejandro Martin
  * @brief Posible llamada a la finalización del juego
  * @param game, puntero a la estructura Game
  * @return bool, TRUE or FALSE
@@ -79,8 +112,9 @@ void game_print_screen(Game* game);
 
 
 /**
+ * @author Francisco Nanclares
  * @brief Imprime la "info" de todas las casillas ,y la posición del jugador y
-    del objeto.
+    de los objetos.
  * @param game, puntero a la estructura Game
  * @return nada
  */
@@ -89,6 +123,7 @@ void game_print_data(Game* game);
 
 
 /*
+ * @author Francisco Nanclares
  * @brief Retorna la casilla (asociándola con una posición predeterminada)
     y con el id (param)
  * @param game, puntero a estructura,(dirección)
@@ -100,7 +135,21 @@ Space* game_get_space(Game* game, Id id);
 
 
 
+/*
+ * @author Alejandro Martin
+ * @brief Retorna el objeto (asociándola con una posición predeterminada)
+    y con el id (param)
+ * @param game, puntero a estructura,(dirección)
+ * @param id, Entero (identificador)
+ * @return NULL (si el id esta corrupto, o al final de la función),
+    y el array "objects", de la estructura, si coincide con el id pasado como argumento
+ */
+Object* game_get_object(Game* game, Id id);
+
+
+
 /**
+ * @author Alejandro Martin
  * @brief Devuelve la posicion del jugador (estructura game)
  * @param game, puntero a la estructura Game
  * @return la posición del jugador, modificada de la estructura
@@ -110,15 +159,18 @@ Id game_get_player_location(Game* game);
 
 
 /**
+ * @author Francisco Nanclares
  * @brief Devuelve la posicion del objeto (estructura game)
  * @param game, puntero a la estructura Game
  * @return la posición del objeto, modificada de la estructura
- */
-Id game_get_object_location(Game* game);
+ *//*  return location(id) o NO_ID (id)
+*/
+Id game_get_object_location(Game* game,Object * object);
 
 
 
 /**
+ * @author Alejandro Martin
  * @brief Devuelve el último comando que se ha introducido.
  * @param game, puntero a la estructura Game
  * @return cmd, el último comando.
@@ -128,6 +180,30 @@ T_Command game_get_last_command(Game* game);
 
 
 /*
+ * @author Francisco Nanclares
+ * @brief Crea un objeto , comprobando el array de objetos ,lo recorre Entero
+    hasta que se acaba y anade el objeto pasado por parametro
+ * @param game, puntero a estructura Game (dirección)
+ * @param object , puntero a estructura Object
+ * @return status, OK O ERROR
+ */
+STATUS game_add_object (Game * game , Object* object);
+
+
+
+/**
+ * @author Francisco Nanclares
+ * @brief Obtiene los id, los campara, y nos dice si hay objeto
+ * @param game, puntero a la estructura Game
+ * @param object, puntero a object
+ * @return bool, TRUE or FALSE
+ */
+BOOL game_get_object_player(Game* game , Object* object);
+
+
+
+/*
+ * @author Alejandro Martin
  * @brief Crea una casilla una vez comprobado el array (hasta que apunte a NULL)
     el espacio que se añade es el parámetro
  * @param game, puntero a estructura Game (dirección)
@@ -135,5 +211,8 @@ T_Command game_get_last_command(Game* game);
  * @return status, OK O ERROR
  */
 STATUS game_add_space(Game* game, Space* space);
+
+
+void game_set_parametro (Game * game , char *param);
 
 #endif

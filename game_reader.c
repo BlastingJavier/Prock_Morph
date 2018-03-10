@@ -12,10 +12,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include "game_reader.h"
-#include "types.h"
 #include "space.h"
 #include "command.h"/*Ya vienen en "game_reader.h"*/
 #include "game.h" /*Ya vienen en "game_reader.h"*/
+#include "set.h"
+
+#define DEBUG
 
 /**                 Definidos en:
                         ||
@@ -34,17 +36,24 @@ P. F.: Private Function
 */
 
 /*
+ * @author Alejandro Martin
  * @brief  Lee el fichero (funcionalidad de carga de espacios)
  * @param Game, es el string destino, en el que se copia el puntero al string de tipo char, "toks"
  * @param filename, puntero a char, que es el nombre del fichero que estamos accediendo
+ * @param numcasillas , representa cuantas casillas hay en el juego (funcion de cuenta por si hace falta)
  * @return status, OK O ERROR
  */
 
-STATUS game_reader_load_spaces(Game* game, char* filename, int *numcasillas) {
+STATUS game_reader_load_spaces(Game* game, char* filename) {
   FILE* file = NULL;
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";
   char* toks = NULL;
+
+  char *string = NULL;
+  char *string2= NULL;
+  char *string3= NULL;
+  char string_z[20] = "                 ";
   Id id = NO_ID, north = NO_ID, east = NO_ID, south = NO_ID, west = NO_ID;
   Space* space = NULL;
   /*Suponemos OK*/
@@ -73,7 +82,6 @@ STATUS game_reader_load_spaces(Game* game, char* filename, int *numcasillas) {
       /*"atol" convierte la porción inicial de la cadena apuntada por "toks" a una representación de "id", y lo devuelve.*/
       /*Por lo tanto, "id" = valor convertido*/
       id = atol(toks);
-      *numcasillas =(int)id;
       toks = strtok(NULL, "|");
       strcpy(name, toks);
 
@@ -89,7 +97,13 @@ STATUS game_reader_load_spaces(Game* game, char* filename, int *numcasillas) {
       toks = strtok(NULL, "|");
       west = atol(toks);
 
-    #ifdef DEBUG /*Se ejecuta el código de dentro si debug está debug definido*/
+      string = strtok(NULL, "|");
+      string2 = strtok(NULL, "|");
+      string3 = strtok(NULL, "|");
+
+
+
+    #ifdef DEBUG /*Se ejecuta el código de dentro si debug está definido*/
 
       printf("Leído: %ld|%s|%ld|%ld|%ld|%ld\n", id, name, north, east, south, west);
 
@@ -104,12 +118,97 @@ STATUS game_reader_load_spaces(Game* game, char* filename, int *numcasillas) {
 	      space_set_south(space, south);
 	      space_set_west(space, west);
 	      game_add_space(game, space);
+        if (string == NULL){
+          space_set_gdesc1(space,string_z);
+        }
+        else{
+          space_set_gdesc1(space,string);
+          if (string2 == NULL){
+            space_set_gdesc2(space,string_z);
+          }
+          else {
+            space_set_gdesc2(space,string2);
+            if (string3 == NULL){
+              space_set_gdesc3(space,string_z);
+            }
+            else {
+              space_set_gdesc3(space,string3);
+            }
+          }
+        }
+
+
+        game_add_space(game,space);
       }
     }
   }
   /*Se modifica el estado del código de error y devuelve
     un valor distinto de cero si se detectan errores*/
   if (ferror(file)) {
+    status = ERROR;
+  }
+  fclose(file);
+
+  return status;
+}
+
+
+
+/*
+ * @author Francisco Nanclares
+ * @brief  Lee el fichero (funcionalidad de carga de objetos)
+ * @param Game, es el string destino, en el que se copia el puntero al string de tipo char, "toks"
+ * @param filename, puntero a char, que es el nombre del fichero que estamos accediendo
+ * @return status, OK O ERROR
+ */
+STATUS game_reader_load_objects(Game* game, char* filename){
+  FILE* file = NULL;
+  char line[WORD_SIZE] = "";
+  char name[WORD_SIZE] = "";
+  char* toks = NULL;
+
+  Id id_object = NO_ID;
+  Id space_id = NO_ID;
+  Object *object = NULL;
+  /*Suponemos OK*/
+  STATUS status = OK;
+
+  if (!filename) {
+    return ERROR;
+  }
+
+  file = fopen(filename, "r");
+  if (file == NULL) {
+    return ERROR;
+  }
+
+  while (fgets (line,WORD_SIZE,file)){
+    if (strncmp("#o:",line,3) ==0){
+
+      toks =strtok(line+3 , "|");
+
+      id_object = atol(toks);
+      toks = strtok(NULL,"|");
+      strcpy(name,toks);
+      toks = strtok(NULL,"|");
+      space_id = atol(toks);
+
+      #ifdef DEBUG
+
+        printf("\n\n\n\n");
+        printf ("Leido: %ld|%s|%ld\n" ,id_object,name,space_id);
+      #endif
+
+        object = object_create(id_object);
+        if (object != NULL){
+          object_set_name(object, name);
+          /*Hay que pensar si el id tiene que ser el del objeto o el del space*/
+          game_add_object(game,object);
+          game_set_object_location(game,space_id,object);
+        }
+    }
+  }
+  if (ferror(file)){
     status = ERROR;
   }
   fclose(file);
