@@ -121,19 +121,20 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
         }
         else{
           space_set_gdesc1(space,string);
-          if (string2 == NULL){
-            space_set_gdesc2(space,string_z);
-          }
-          else {
-            space_set_gdesc2(space,string2);
-            if (string3 == NULL){
-              space_set_gdesc3(space,string_z);
-            }
-            else {
-              space_set_gdesc3(space,string3);
-            }
-          }
         }
+        if (string2 == NULL){
+          space_set_gdesc2(space,string_z);
+        }
+        else {
+          space_set_gdesc2(space,string2);
+        }
+        if (string3 == NULL){
+          space_set_gdesc3(space,string_z);
+        }
+        else {
+          space_set_gdesc3(space,string3);
+        }
+
 
 
         game_add_space(game,space);

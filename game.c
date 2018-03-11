@@ -468,11 +468,20 @@ BOOL game_get_object_player(Game* game , Object* object){
  * @param cmd, enumeración (identificador de cada comando)
  * @return status, OK O ERROR
  */
-STATUS game_update(Game* game, T_Command cmd,char *param) {
+STATUS game_update(Game* game, T_Command cmd,char *param,FILE *pf) {
+  extern char *cmd_to_str[];
+  game->flag_command = ERROR;
   game->last_cmd = cmd;
   game->param = param;
   (*game_callback_fn_list[cmd])(game);
-
+  if (pf != NULL){
+    if (game->flag_command == ERROR){
+      fprintf(pf,"%s:ERROR\n",cmd_to_str[cmd-NO_CMD]);
+    }
+    else {
+      fprintf(pf,"%s:OK\n",cmd_to_str[cmd-NO_CMD]);
+    }
+  }
   return OK;
 }
 
@@ -516,8 +525,12 @@ void game_print_data(Game* game) {
 
 
 void game_set_parametro (Game * game , char *param){
+  if (strcmp(param,object_get_name(game_get_object(game,game_get_player_location(game))))!=0){
+    game->flag_command = ERROR;
+  }
   game->param = param;
 
+  game->flag_command = OK;
 }
 /**
  * @brief Posible llamada a la finalización del juego
@@ -535,8 +548,10 @@ BOOL game_is_over(Game* game) {
 */
 
 void game_callback_unknown(Game* game) {
+  game->flag_command = ERROR;
 }
 void game_callback_exit(Game* game) {
+  game->flag_command = OK;
 }
 
 
@@ -553,8 +568,11 @@ void game_callback_following(Game* game) {
 
   space_id = game_get_player_location(game);
   if (space_id == NO_ID) {
+    game->flag_command = ERROR;
     return;
   }
+  game->flag_command = ERROR;
+
   /*Recorre todos los espacios*/
   for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++) {
     current_id = space_get_id(game->spaces[i]);
@@ -564,6 +582,7 @@ void game_callback_following(Game* game) {
 
       if (current_id != NO_ID) {
 	       game_set_player_location(game, current_id);
+         game->flag_command = OK;
       }
       return;
     }
@@ -585,8 +604,10 @@ void game_callback_previous(Game* game) {
   space_id = game_get_player_location(game);
 
   if (NO_ID == space_id) {
+    game->flag_command = ERROR;
     return;
   }
+  game->flag_command = ERROR;
 
   for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++) {
     current_id = space_get_id(game->spaces[i]);
@@ -596,6 +617,7 @@ void game_callback_previous(Game* game) {
 
       if (current_id != NO_ID) {
 	       game_set_player_location(game, current_id);
+         game->flag_command = OK;
       }
       return;
     }
@@ -616,8 +638,11 @@ void game_callback_left (Game *game){
   space_id = game_get_player_location (game);
 
   if (NO_ID == space_id){
+    game->flag_command = ERROR;
     return;
   }
+  game->flag_command = ERROR;
+
   for (i=0;i<MAX_SPACES && game->spaces[i] != NULL; i++){
     current_id = space_get_id(game->spaces[i]);
     if (current_id == space_id) {
@@ -625,6 +650,8 @@ void game_callback_left (Game *game){
 
       if (current_id != NO_ID){
         game_set_player_location(game , current_id);
+        game->flag_command = OK;
+
       }
       return;
     }
@@ -646,8 +673,11 @@ void game_callback_right (Game *game){
   space_id = game_get_player_location (game);
 
   if (NO_ID == space_id){
+    game->flag_command = ERROR;
     return;
   }
+  game->flag_command = ERROR;
+
   for (i=0;i<MAX_SPACES && game->spaces[i] != NULL; i++){
     current_id = space_get_id(game->spaces[i]);
     if (current_id == space_id) {
@@ -655,6 +685,8 @@ void game_callback_right (Game *game){
 
       if (current_id != NO_ID){
         game_set_player_location(game , current_id);
+        game->flag_command = OK;
+
       }
       return;
     }
@@ -677,12 +709,14 @@ void game_callback_get(Game* game) {
   current_id = game_get_player_location(game);
 
   if (NO_ID == current_id) {
+    game->flag_command = ERROR;
     return;
   }
 
   current_space = game_get_space(game, current_id);
 
   if (current_space == NULL){
+    game->flag_command = ERROR;
     return;
   }
   /*POR AHORA NOfprintf (stdout,"Dime el objeto que quieres coger del espacio: ");
@@ -692,22 +726,26 @@ void game_callback_get(Game* game) {
   /* Si el jugador está en casilla con un objeto,
    y decide cogerlo (se le asigna) y desaparece de la casilla */
   if (set_ISempty(set) == TRUE || set == NULL){/*1 significa que esta vacio (sentimos el numero magico)<=definido en set.h*/
+    game->flag_command = ERROR;
     return;
   }
 
   id_object = game_object_get_id(game,game->param);
   if (id_object == NO_ID){
+    game->flag_command = ERROR;
     return;
   }
   if (object_check_in_space(current_space,id_object)==TRUE){
     if (delete_id(set,id_object)==ERROR){
+      game->flag_command = ERROR;
       return;
     }
     if (player_add_inventory_item(game->player,id_object)==ERROR){
+      game->flag_command = ERROR;
       return;
     }
   }
-
+  game->flag_command = OK;
   return;
 }
 
@@ -730,18 +768,21 @@ void game_callback_drop(Game* game) {
 
   p_player_set = player_get_inventory_items(game->player);
   if (set_ISempty(p_player_set) == TRUE){
+    game->flag_command = ERROR;
     return;
   }
 
   current_id = game_get_player_location(game);
 
   if (NO_ID == current_id) {
+    game->flag_command = ERROR;
     return;
   }
 
   current_space = game_get_space(game, current_id);
 
   if (current_space == NULL){
+    game->flag_command = ERROR;
     return;
   }
 
@@ -752,15 +793,19 @@ void game_callback_drop(Game* game) {
   set = space_get_objects(current_space);
 
   if (set == NULL){
-  return;
+    game->flag_command = ERROR;
+    return;
   }
   if (delete_id(p_player_set ,id_object) == ERROR){
+    game->flag_command = ERROR;
     return;
   }
   for (i=0,p_object = game->objects[0];i<MAX_ID && object_get_id(p_object) != id_object;i++,p_object = game->objects[i]);
 
   game_set_object_location(game,current_id,p_object);
   /*PLAYER PRINT*/
+  game->flag_command = OK;
+
   return;
 
 }
@@ -797,5 +842,11 @@ void game_callback_drop(Game* game) {
  * @return, ya que es una función de tipo void
  */
 void game_callback_roll_dice(Game *game){
+  if (game == NULL){
+    game->flag_command = ERROR;
+    return;
+  }
   dice_roll(game->dice);
+  game->flag_command = OK;
+  return;
 }

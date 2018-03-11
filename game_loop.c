@@ -16,63 +16,62 @@
 
 int main(int argc, char *argv[]){
   Game game;
-  Object object;
   T_Command command = NO_CMD;
   Graphic_engine *gengine;
   char parametro[WORD_SIZE+1] = " ";
-  FILE *pf;
-  STATUS flag_log = NO_FLAG;
+  FILE *pf=NULL;
 
   /*Describe como tenemos que ejecutar el programa correctamente
     y que le tenemos que pasar como argumento*/
   if (argc < 2){
-    fprintf(stderr, "Use: %s <game_data_file> %s -l and %s <fchlog.log>\n", argv[0],argv[0],argv[0]);
+    fprintf(stderr, "Use: %s <game_data_file>\n", argv[0]);
 
     return 1;
   }
-  if (argv[1] == "data.dat" && argv[2] == "-l" && argv[3] == "fchlog.dat"){
-    /*En caso de que el juego no se pueda crear, avisa por pantalla,
-      y devuelve el error*/
+  else if (argc != 2 && (argc < 4 || argc > 5)){
+    fprintf(stderr, "Use: %s <game_data_file> -l <data_log> \n", argv[0]);
+
+    return 1;
+  }
+  /*En caso de que el juego no se pueda crear, avisa por pantalla,
+    y devuelve el error*/
+  if (argc == 4){
     pf = fopen (argv[3],"w");
     if (pf == NULL){
       return 0;
     }
-
-  	if (game_create_from_file(&game, argv[1]) == ERROR){
-      fprintf(stderr, "Error while initializing game.\n");
-
-      return 1;
-    }
-    /*En caso de que el graphic_engine no pueda crearse saltara
-      por pantalla un error y se liberara memoria*/
-    game_set_parametro(&game,parametro);
-  	if ((gengine = graphic_engine_create()) == NULL){
-      fprintf(stderr, "Error while initializing graphic engine.\n");
-      game_destroy(&game);
-
-      return 1;
-    }
-    /*Esta función evita que el juego termine, a excepción de que el
-      jugador pulse "EXIT"*/
-  	while ((command != EXIT) && !game_is_over(&game)){
-  		graphic_engine_paint_game(gengine, &game);
-      command = get_user_input(parametro);
-      game_update(&game, command,parametro);
-      if (command == COMMAND_GRASP && strcmp(parametro,(object_get_name(game_get_object(&game,game_get_player_location(&game)))))==0){
-        fprintf(pf,"%s OK|\n",command);
-      }
-      if(command == COMMAND_GRASP && strcmp(parametro,(object_get_name(game_get_object(&game,game_get_player_location(&game)))))!=0) {
-        fprintf(pf,"%s ERROR|\n",command);
-      }
-  	}
-    /* Cuando el bucle termina, libera memoria con game_destroy y graphic_engine_destroy,
-      y termina el juego */
-    fclose (pf);
-    game_destroy(&game);
-  	graphic_engine_destroy(gengine);
   }
 
+	if (game_create_from_file(&game, argv[1]) == ERROR){
+    fprintf(stderr, "Error while initializing game.\n");
 
+    return 1;
+  }
+  /*En caso de que el graphic_engine no pueda crearse saltara
+    por pantalla un error y se liberara memoria*/
+  game_set_parametro(&game,parametro);
+	if ((gengine = graphic_engine_create()) == NULL){
+    fprintf(stderr, "Error while initializing graphic engine.\n");
+    game_destroy(&game);
+
+    return 1;
+  }
+  /*Esta función evita que el juego termine, a excepción de que el
+    jugador pulse "EXIT"*/
+	while ((command != EXIT) && !game_is_over(&game)){
+		graphic_engine_paint_game(gengine, &game);
+    command = get_user_input(parametro);
+    game_update(&game, command,parametro,pf);
+  }
+
+    /* Cuando el bucle termina, libera memoria con game_destroy y graphic_engine_destroy,
+      y termina el juego */
+  if (pf != NULL){
+    fclose (pf);
+  }
+
+  game_destroy(&game);
+	graphic_engine_destroy(gengine);
 
 return 0;
 }

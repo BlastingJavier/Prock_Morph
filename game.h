@@ -26,6 +26,7 @@ typedef struct _Game{
   T_Command last_cmd;
   Dice * dice;/*Con esto podemos utilizar el dado*/
   char* param;
+  STATUS flag_command;
 } Game;
 
 
@@ -56,7 +57,7 @@ STATUS game_create_from_file(Game* game, char* filename);
  * @param cmd, enumeración (identificador de cada comando)
  * @return status, OK O ERROR
  */
-STATUS game_update(Game* game, T_Command cmd,char *param);
+STATUS game_update(Game* game, T_Command cmd,char *param,FILE *pf);
 
 
 
