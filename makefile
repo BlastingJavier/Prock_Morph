@@ -17,7 +17,8 @@ OBJECTSDICE = dice_test.o dice.o
 DIST_NAME = GAME_PROJECT_MORPHEUS
 #HAY QUE PONER MAS
 ##########################################################
-OBJECTS_TO_CLEAN = command.o game_loop.o game.o graphic_engine.o screen.o space.o object.o game_reader.o player.o dice.o dice_test.o
+OBJECTS_TO_CLEAN = command.o game_loop.o game.o graphic_engine.o screen.o space.o object.o game_reader.o player.o dice.o dice_test.o set.o
+EXE_CLEAN = game_loop_exe
 #HAY QUE PONER MAS
 HEADERS_TO_SUBMIT =*.h
 SOURCES_TO_SUBMIT = command.c game.c graphic_engine.c screen.c space.c game_loop.c dice.c set.c
