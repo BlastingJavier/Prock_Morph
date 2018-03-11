@@ -92,9 +92,13 @@ STATUS space_destroy(Space* space) {
   if (!space) {
     return ERROR;
   }
-  set_destroy(space->objects);
 
-  free(space);
+  if (space->objects !=NULL){
+    set_destroy(space->objects);
+    space->objects=0;
+    free(space);
+  }
+
 
   return OK;
 }

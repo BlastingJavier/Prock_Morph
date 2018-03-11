@@ -185,10 +185,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
       if (id_act != NO_ID && id_left != NO_ID && id_right !=NO_ID){
         sprintf(str, " <| 8D             %2d |>",(int) id_act);
       }
-      else if(id_act !=NO_ID && id_left != NO_ID && id_right == NO_ID){
+      else if(id_act !=NO_ID && id_left == NO_ID && id_right != NO_ID){
         sprintf(str, "  | 8D             %2d |>",(int) id_act);
       }
-      else if(id_act !=NO_ID && id_left == NO_ID && id_right != NO_ID){
+      else if(id_act !=NO_ID && id_left != NO_ID && id_right == NO_ID){
         sprintf(str, " <| 8D             %2d |",(int) id_act);
       }
       else {

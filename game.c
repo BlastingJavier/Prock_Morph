@@ -166,6 +166,7 @@ STATUS game_destroy(Game* game) {
 
   for (i=0; i<MAX_SPACES && game->spaces[i] != NULL; i++) {
     space_destroy(game->spaces[i]);
+    game->spaces[i]=0;
   }
 
   for (i=0;i<MAX_ID && game->objects[i] != NULL ;i++){
