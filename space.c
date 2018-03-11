@@ -53,33 +53,33 @@ P.F.: Private Function
  * @brief Se encarga de iniciar la estructura de espacio
    y poner el caracter fin de cadena al final del nombre de este
  * @param id, de tipo Id
- * @return space, que es el puntero a la estructura Space
+ * @return newSpace, que es el puntero a la estructura Space
  */
 Space* space_create(Id id) {
 
-  Space *space = NULL;
+  Space *newSpace = NULL;
 
   if (id == NO_ID){
     return NULL;
   }
 
-  space = (Space *) malloc(sizeof (Space));
+  newSpace = (Space *) malloc(sizeof(Space));
 
-  if (space == NULL) {
+  if (newSpace == NULL) {
     return NULL;
   }
-  space->id = id;
+  newSpace->id = id;
 
-  space->name[0] = '\0';
+  newSpace->name[0] = '\0';
 
-  space->north = NO_ID;
-  space->south = NO_ID;
-  space->west = NO_ID;
-  space->east = NO_ID;
+  newSpace->north = NO_ID;
+  newSpace->south = NO_ID;
+  newSpace->east = NO_ID;
+  newSpace->west = NO_ID;
   /*Para crear un conjunto de id (se asignará NO_ID)*/
-  space->objects = set_create();
+  newSpace->objects = set_create();
 
-  return space;
+  return newSpace;
 }
 
 
@@ -97,8 +97,13 @@ STATUS space_destroy(Space* space) {
   set_destroy(space->objects);
   space->objects = NULL;
 
+  if (space->objects !=NULL){
+    set_destroy(space->objects);
+    space->objects=0;
+  }
   free(space);
-  space = NULL;
+
+
 
   return OK;
 }
@@ -465,7 +470,6 @@ char* space_get_gdesc3(Space* space){
 /*----------------------------Manejo de Objetos modulo Space-------------------------------*/
 
 /*
- * @author Alejandro Martin
  * @brief Quita el ultimo objeto de la casilla
  * @param space: puntero a Space.
  * @return status, OK o ERROR.
@@ -483,7 +487,6 @@ STATUS space_delete_object(Space* space){
 
 
 /*
- * @author Alejandro Martin
  * @brief Colocamos en el space un objeto
  * @param space: puntero a Space.
  * @param id: Id (identificador)

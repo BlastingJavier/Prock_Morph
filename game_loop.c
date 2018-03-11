@@ -11,7 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graphic_engine.h"
-
+#define COMMAND_GRASP 6
+#define NO_FLAG -1
 
 /**
  * @author Alejandro Martin
@@ -24,6 +25,7 @@ int main(int argc, char *argv[]){
   T_Command command = NO_CMD;
   Graphic_engine *gengine;
   char parametro[WORD_SIZE+1] = " ";
+  FILE *pf=NULL;
 
   /*Describe como tenemos que ejecutar el programa correctamente
     y que le tenemos que pasar como argumento*/
@@ -32,8 +34,20 @@ int main(int argc, char *argv[]){
 
     return 1;
   }
+  else if (argc != 2 && (argc < 4 || argc > 5)){
+    fprintf(stderr, "Use: %s <game_data_file> -l <data_log> \n", argv[0]);
+
+    return 1;
+  }
   /*En caso de que el juego no se pueda crear, avisa por pantalla,
     y devuelve el error*/
+  if (argc == 4){
+    pf = fopen (argv[3],"w");
+    if (pf == NULL){
+      return 0;
+    }
+  }
+
 	if (game_create_from_file(&game, argv[1]) == ERROR){
     fprintf(stderr, "Error while initializing game.\n");
 
@@ -53,11 +67,15 @@ int main(int argc, char *argv[]){
 	while ((command != EXIT) && !game_is_over(&game)){
 		graphic_engine_paint_game(gengine, &game);
     command = get_user_input(parametro);
-    game_update(&game, command,parametro);
+    game_update(&game, command,parametro,pf);
+  }
 
-	}
-  /* Cuando el bucle termina, libera memoria con game_destroy y graphic_engine_destroy,
-    y termina el juego */
+    /* Cuando el bucle termina, libera memoria con game_destroy y graphic_engine_destroy,
+      y termina el juego */
+  if (pf != NULL){
+    fclose (pf);
+  }
+
   game_destroy(&game);
 	graphic_engine_destroy(gengine);
 

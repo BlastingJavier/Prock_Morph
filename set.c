@@ -39,7 +39,7 @@ struct _Set {
 Set * set_create (){
   int i;
   Set *conj_create;
-  conj_create = (Set*)malloc (sizeof(Set));
+  conj_create = (Set*)malloc(sizeof(Set));
   if (conj_create == NULL){
     return NULL;
   }

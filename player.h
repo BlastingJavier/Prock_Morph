@@ -92,6 +92,15 @@ Id player_get_inventory_item(Player* player);
 
 
 /*
+ * @brief Devuelve el set de objetos de un jugador
+ * @param player: puntero a Player.
+ * @return player->inventory_items (puntero a Set)
+ */
+Set *player_get_inventory_items (Player *player);
+
+
+
+/*
  * @author Alejandro Martin
  * @brief Devuelve el set de objetos de un jugador
  * @param player: puntero a Player.

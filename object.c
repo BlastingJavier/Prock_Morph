@@ -46,7 +46,6 @@ Object* object_create (Id id){
     return NULL;
   }
   newObject->id=id;
-  newObject->name[0]='\0';
 
   return newObject;
 }
@@ -65,7 +64,6 @@ STATUS object_destroy (Object* object){
   }
 
   free(object);
-  object = NULL;
 
   return OK;
 }

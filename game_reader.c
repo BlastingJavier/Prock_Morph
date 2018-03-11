@@ -17,7 +17,6 @@
 #include "game.h" /*Ya vienen en "game_reader.h"*/
 #include "set.h"
 
-#define DEBUG
 
 /**                 Definidos en:
                         ||
@@ -117,26 +116,24 @@ STATUS game_reader_load_spaces(Game* game, char* filename) {
 	      space_set_east(space, east);
 	      space_set_south(space, south);
 	      space_set_west(space, west);
-	      game_add_space(game, space);
         if (string == NULL){
           space_set_gdesc1(space,string_z);
         }
         else{
           space_set_gdesc1(space,string);
-          if (string2 == NULL){
-            space_set_gdesc2(space,string_z);
-          }
-          else {
-            space_set_gdesc2(space,string2);
-            if (string3 == NULL){
-              space_set_gdesc3(space,string_z);
-            }
-            else {
-              space_set_gdesc3(space,string3);
-            }
-          }
         }
-
+        if (string2 == NULL){
+          space_set_gdesc2(space,string_z);
+        }
+        else {
+          space_set_gdesc2(space,string2);
+        }
+        if (string3 == NULL){
+          space_set_gdesc3(space,string_z);
+        }
+        else {
+          space_set_gdesc3(space,string3);
+        }
 
         game_add_space(game,space);
       }
@@ -169,7 +166,7 @@ STATUS game_reader_load_objects(Game* game, char* filename){
 
   Id id_object = NO_ID;
   Id space_id = NO_ID;
-  Object *object = NULL;
+  Object * object = NULL;
   /*Suponemos OK*/
   STATUS status = OK;
 
