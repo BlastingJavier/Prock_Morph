@@ -70,47 +70,6 @@ Id object_get_location(Object* object);
 
 /*
  * @author Francisco Nanclares
- * @brief Devuelve el arma
- * @param objeto: puntero a Objeto.
- * @return arma, el arma
- */
-Id object_get_weapon(Object* objeto);
-
-
-
-/*
- * @author Francisco Nanclares
- * @brief Devuelve la herramienta
- * @param objeto: puntero a Objeto.
- * @return tool, el nombre que asignamos a la herramienta
- */
-Id object_get_tool(Object* objeto);
-
-
-
-/*
- * @author Francisco Nanclares
- * @brief Devuelve la llave
- * @param objeto: puntero a Objeto.
- * @return llave, la llave
- */
-Id object_get_key(Object* objeto);
-
-
-
-/*
- * @author Francisco Nanclares
- * @brief Pone o cambia el arma
- * @param objeto: puntero a Objeto.
- * @param id: del type Id
- * @return status OK o ERROR.
- */
-STATUS object_set_weapon(Object* object, Id id);
-
-
-
-/*
- * @author Francisco Nanclares
  * @brief Pone o cambia el id del objeto conforme a la location
  * @param objeto: puntero a Objeto.
  * @param id: del type Id
@@ -118,27 +77,6 @@ STATUS object_set_weapon(Object* object, Id id);
  */
 STATUS object_set_location(Object* object , Id id);
 
-
-
-/*
- * @author Francisco Nanclares
- * @brief Pone o cambia el tool
- * @param objeto: puntero a Objeto.
- * @param id: del type Id
- * @return status OK o ERROR.
- */
-STATUS object_set_tool(Object* object, Id id);
-
-
-
-/*
- * @author Francisco Nanclares
- * @brief Pone o cambia la llave
- * @param objeto: puntero a Objeto.
- * @param id: del type Id
- * @return status OK o ERROR.
- */
-STATUS object_set_key(Object* object, Id id);
 
 
 /*

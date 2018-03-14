@@ -18,12 +18,9 @@
 
 /*Estructura que define un objeto(características) */
 struct _Object {
-  Id id;
-  char name[WORD_SIZE+1];
-  Id object_weapon;/*armas:Utilidad posterior*/
-  Id object_tool;/*utiles:Utilidad posterior*/
-  Id object_key;/*llaves:Utilidad posterior*/
-  Id location;
+  Id id; /*Identificador del Objeto*/
+  char name[WORD_SIZE+1]; /*Nombre del objeto*/
+  Id location; /*Id del space (Donde esta el objeto)*/
 };
 
 
@@ -120,68 +117,6 @@ Id object_get_location(Object* object){
 
 /*
  * @author Francisco Nanclares
- * @brief Devuelve el arma
- * @param objeto: puntero a Objeto.
- * @return arma, el arma
- */
-Id object_get_weapon(Object* objeto) {
-  if (!objeto) {
-    return NO_ID;
-  }
-  return objeto->object_weapon;
-}
-
-
-
-/*
- * @author Francisco Nanclares
- * @brief Devuelve la herramienta
- * @param objeto: puntero a Objeto.
- * @return tool, el nombre que asignamos a la herramienta
- */
-Id object_get_tool(Object* objeto) {
-  if (!objeto) {
-    return NO_ID;
-  }
-  return objeto->object_tool;
-}
-
-
-
-/*
- * @author Francisco Nanclares
- * @brief Devuelve la llave
- * @param objeto: puntero a Objeto.
- * @return llave, la llave
- */
-Id object_get_key(Object* objeto) {
-  if (!objeto) {
-    return NO_ID;
-  }
-  return objeto->object_key;
-}
-
-
-
-/*
- * @author Francisco Nanclares
- * @brief Pone o cambia el arma
- * @param objeto: puntero a Objeto.
- * @param id: del type Id
- * @return status OK o ERROR.
- */
-STATUS object_set_weapon(Object* object, Id id) {
-  if (!object || id == NO_ID) {
-    return ERROR;
-  }
-  object->object_weapon = id;
-  return OK;
-}
-
-
-
-/*
- * @author Francisco Nanclares
  * @brief Pone o cambia el id del objeto conforme a la location
  * @param objeto: puntero a Objeto.
  * @param id: del type Id
@@ -192,40 +127,6 @@ STATUS object_set_location(Object* object , Id id){
     return ERROR;
   }
   object->location = id;
-  return OK;
-}
-
-
-
-/*
- * @author Francisco Nanclares
- * @brief Pone o cambia el tool
- * @param objeto: puntero a Objeto.
- * @param id: del type Id
- * @return status OK o ERROR.
- */
-STATUS object_set_tool(Object* object, Id id) {
-  if (!object || id == NO_ID) {
-    return ERROR;
-  }
-  object->object_tool = id;
-  return OK;
-}
-
-
-
-/*
- * @author Francisco Nanclares
- * @brief Pone o cambia la llave
- * @param objeto: puntero a Objeto.
- * @param id: del type Id
- * @return status OK o ERROR.
- */
-STATUS object_set_key(Object* object, Id id) {
-  if (!object || id == NO_ID) {
-    return ERROR;
-  }
-  object->object_tool = id;
   return OK;
 }
 
@@ -258,33 +159,12 @@ STATUS object_set_name (Object* object, char* name){
  * @return status, OK o ERROR
  */
 STATUS object_print(Object* object) {
-  Id idaux = NO_ID;
 
   if (!object) {
     return ERROR;
   }
 
   fprintf(stdout, "--> Object (Id: %ld; Name: %s)\n", object->id, object->name);
-
-  idaux = object_get_weapon(object);
-  if (NO_ID != idaux) {
-    fprintf(stdout, "---> Weapon: %ld.\n", idaux);
-  }else {
-    fprintf(stdout, "---> No weapon.\n");
-  }
-  idaux = object_get_tool(object);
-  if (NO_ID != idaux) {
-    fprintf(stdout, "---> Tool: %ld.\n", idaux);
-  }else {
-    fprintf(stdout, "---> No tool.\n");
-  }
-
-  idaux = object_get_key(object);
-  if (NO_ID != idaux) {
-    fprintf(stdout, "---> Key: %ld.\n", idaux);
-  }else {
-    fprintf(stdout, "---> No key.\n");
-  }
 
   return OK;
 }

@@ -45,27 +45,31 @@ P. F.: Private Function
 
 STATUS game_reader_load_spaces(Game* game, char* filename) {
   FILE* file = NULL;
-  char line[WORD_SIZE] = "";
+  char line[WORD_SIZE] = "";/*Representacion de una linea*/
   char name[WORD_SIZE] = "";
-  char* toks = NULL;
+  char* toks = NULL;/*Token (division) de un string en una lectura*/
 
+  /*strings de la primera descripcion grafica: */
   char *string = NULL;
   char *string2= NULL;
   char *string3= NULL;
-  char string_z[20] = "                 ";
+
+  char string_z[20] = "                 ";/*string de NULL (si objeto == NULL)string = string_z*/
   Id id = NO_ID, north = NO_ID, east = NO_ID, south = NO_ID, west = NO_ID;
   Space* space = NULL;
   /*Suponemos OK*/
-  STATUS status = OK;
+  STATUS status = OK;/*Bandera de estado*/
 
   if (!filename) {
     return ERROR;
   }
 
+
   file = fopen(filename, "r");
   if (file == NULL) {
     return ERROR;
   }
+
 
   /**
   Este bucle:
@@ -198,8 +202,8 @@ STATUS game_reader_load_objects(Game* game, char* filename){
 
         object = object_create(id_object);
         if (object != NULL){
+          /*Si objeto se ha creado con exito se anade a el set de objetos (y se cambian atributos)*/
           object_set_name(object, name);
-          /*Hay que pensar si el id tiene que ser el del objeto o el del space*/
           game_add_object(game,object);
           game_set_object_location(game,space_id,object);
         }
@@ -208,6 +212,7 @@ STATUS game_reader_load_objects(Game* game, char* filename){
   if (ferror(file)){
     status = ERROR;
   }
+
   fclose(file);
 
   return status;

@@ -18,8 +18,8 @@
 /*Estructura que representa datos caracteristicos de un dado (id) y el ultimo
   tiro*/
 struct _Dice {
-  Id id;
-  int last_shot;
+  Id id; /*Identificador del dado*/
+  int last_shot; /*Ultima tirada del dado*/
 };
 
 

@@ -11,29 +11,29 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#define WORD_SIZE 1000
-#define NO_ID -1
-#define MAX_ID 64
+#define WORD_SIZE 1000 /*Tamaño maximo de palabra*/
+#define NO_ID -1 /*Equivalente a Id no existente*/
+#define MAX_ID 64/*Numero maximo de id de objeto presentes en juego*/
 
 
-typedef long Id;
+typedef long Id;/*Especificacion de tipo de dato del id*/
 /**
 Enumeración de códigos de error DE BOOL
 */
 typedef enum {
-  FALSE, TRUE
+  FALSE, TRUE/*Condiciones logicas de tipo BOOLEAN*/
 } BOOL;
 /**
 Enumeración de códigos de error de STATUS
 */
 typedef enum {
-  ERROR, OK
+  ERROR, OK /*Condiciones logicas para STATUS*/
 } STATUS;
 /**
 Enumeración de direcciones
 */
 typedef enum {
-  N, S, E, W
+  N, S, E, W /*Norte, sur, estre , oeste*/
 } DIRECTION;
 
 #endif

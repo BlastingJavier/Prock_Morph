@@ -18,7 +18,7 @@ DIST_NAME = GAME_PROJECT_MORPHEUS
 #HAY QUE PONER MAS
 ##########################################################
 OBJECTS_TO_CLEAN = command.o game_loop.o game.o graphic_engine.o screen.o space.o object.o game_reader.o player.o dice.o dice_test.o set.o
-EXE_CLEAN = game_loop_exe
+EXE_CLEAN = game_loop_exe dice_test_exe
 #HAY QUE PONER MAS
 HEADERS_TO_SUBMIT =*.h
 SOURCES_TO_SUBMIT = command.c game.c graphic_engine.c screen.c space.c game_loop.c dice.c set.c
@@ -36,19 +36,19 @@ game_loop.o:game_loop.c graphic_engine.h
 	$(CC) $(CFLAGS) -c game_loop.c
 command.o:command.c command.h
 	$(CC) $(CFLAGS) -c command.c
-game.o: game.c game.h command.h space.h
+game.o: game.c game.h command.h space.h game_reader.h player.h object.h set.h dice.h
 	$(CC) $(CFLAGS) -c game.c
-graphic_engine.o :graphic_engine.c graphic_engine.h screen.h game.h dice.h
+graphic_engine.o :graphic_engine.c graphic_engine.h screen.h game.h dice.h types.h
 	$(CC) $(CFLAGS) -c graphic_engine.c
 screen.o: screen.c screen.h
 	$(CC) $(CFLAGS) -c screen.c
-space.o: space.c space.h types.h
+space.o: space.c space.h types.h set.h
 	$(CC) $(CFLAGS) -c space.c
-object.o : object.c object.h
+object.o : object.c object.h types.h space.h
 	$(CC) $(CFLAGS) -c object.c
-player.o : player.c player.h
+player.o : player.c player.h types.h space.h object.h
 	$(CC) $(CFLAGS) -c player.c
-game_reader.o : game_reader.c game_reader.h
+game_reader.o : game_reader.c game_reader.h space.h command.h game.h set.h
 	$(CC) $(CFLAGS) -c game_reader.c
 set.o : set.c set.h
 	$(CC) $(CFLAGS) -c set.c
@@ -66,7 +66,7 @@ valgrind:game_loop_exe
 
 .PHONY: clear
 clear:
-	rm -rf $(OBJECTS_TO_CLEAN) *.dSYM
+	rm -rf $(OBJECTS_TO_CLEAN) $(EXE_CLEAN) *.dSYM
 
 .PHONY: clean
 clean: clear

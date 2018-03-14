@@ -15,7 +15,7 @@
 #include "graphic_engine.h"
 #include "dice.h"
 
-#define NUM_OBJ 4
+#define NUM_OBJ 4 /*Numero de objeto de */
 
 /**                 Definidos en:
                         ||
@@ -35,12 +35,12 @@ P.F.: Private Function
 */
 /*Estructura que define el Graphic_engine tamaño del area*/
 struct _Graphic_engine{
-  Area *map,
-       *descript,
-       *banner,
-       *help,
-       *feedback,
-       *player_info;
+  Area *map, /*Area del mapa*/
+       *descript,/*Zona de descipcion de la pantalla*/
+       *banner, /*Zona del banner en el interfaz*/
+       *help,/*Ayuda (comandos que se pueden utilizar)*/
+       *feedback, /*Zona de feedback, donde se muestran los comandos*/
+       *player_info;/*Informacion del personaje (objetos que lleva)*/
 };
 
 
@@ -110,18 +110,17 @@ void graphic_engine_destroy(Graphic_engine *ge){
  * @return, ya que es una función de tipo void
  */
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
-  Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, obj_loc = NO_ID;
+  Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, obj_loc = NO_ID;/*Id*/
   Id id_left ,id_right;
-  int i,cuenta_atras;
-  int *para_dado;
+  int i,cuenta_atras;/*Opcion posterior (por ahora solo controla la variable dado)numero*/
   Space* space_actual = NULL;
   Space *space_next = NULL;
   Space *space_previous = NULL;
-  char* obj[NUM_OBJ];
+  char* obj[NUM_OBJ];/*Array de objetos*/
   char str[255];
   T_Command last_cmd = UNKNOWN;
-  extern char *cmd_to_str[];
-  char *gdesc[3];
+  extern char *cmd_to_str[];/*string del nombre del comando*/
+  char *gdesc[3];/*strings de descripcion grafica*/
   /*Dibuja el área de mapa*/
 
   screen_area_clear(ge->map);
@@ -290,21 +289,21 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game){
 
   /*Dibuja el área de feedback*/
   last_cmd = game_get_last_command(game);
-  sprintf(str, " %s", cmd_to_str[last_cmd-NO_CMD]);
-  screen_area_puts(ge->feedback, str);
+
+  if (game_get_last_command_flag(game)==ERROR){
+    sprintf(str, " %s: ERROR", cmd_to_str[last_cmd-NO_CMD]);
+    screen_area_puts(ge->feedback, str);
+  }
+  else {
+    sprintf(str, " %s: OK", cmd_to_str[last_cmd-NO_CMD]);
+    screen_area_puts(ge->feedback, str);
+  }
 
 
   cuenta_atras = dice_get_last_shot(game->dice);
-  para_dado = &cuenta_atras;
   sprintf(str, "Last throw (dice): %d",cuenta_atras);
   screen_area_puts(ge->descript,str);
-  sprintf(str, "Remaining movements: ");
-  screen_area_puts(ge->descript,str);
-  if (last_cmd == 2){
-    (*para_dado)--;
-    sprintf(str,"%d ",*para_dado);
-    screen_area_puts(ge->descript,str);
-  }
+
 
 
   /*Lo pasa al terminal*/

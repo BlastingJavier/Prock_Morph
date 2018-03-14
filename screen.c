@@ -17,15 +17,15 @@
 
 #pragma GCC diagnostic ignored "-Wpedantic"
 
-#define ROWS 32
-#define COLUMNS 107
-#define TOTAL_DATA (ROWS * COLUMNS) + 1
+#define ROWS 32 /*Numero de filas de la pantalla que se muestra (No interfaz, sino pantalla ==> Color azul)*/
+#define COLUMNS 107 /*Numero de columnas de la pantalla que se muestra (No interfaz, sino pantalla ==> Color azul)*/
+#define TOTAL_DATA (ROWS * COLUMNS) + 1 /*Numero de datos totales en pantalla*/
 
-#define BG_CHAR '~'
-#define FG_CHAR ' '
-#define PROMPT " prompt:> "
+#define BG_CHAR '~'/*simbolo*/
+#define FG_CHAR ' '/*simbolo*/
+#define PROMPT " prompt:> " /*Macro que define el comienzo del input de los cmd*/
 
-#define ACCESS(d, x, y) (d + ((y) * COLUMNS) + (x)) /*puntero a void */
+#define ACCESS(d, x, y) (d + ((y) * COLUMNS) + (x)) /*Macro (funcionalidad) que permite determinar el tamano de una ventana*/
 /**                 Definidos en:
                         ||
                         ||
@@ -46,11 +46,11 @@ P.F.: Private Function
 /*Estructura que define la posición y tamaño de cada área ,y un puntero a char
   (cursor) que sirve para una "linked list"*/
 struct _Area{
-  int x, y, width, height;
-  char *cursor;
+  int x, y, width, height;/*x=inicio en eje x / y =inicio en eje y width = anchura de la interfaz height = altura interfaz*/
+  char *cursor; /*campo cursor, para las funciones: screen_area_cursor_is_out_of_bounds   y   screen_area_reset_cursor*/
 };
 
-char *__data;
+char *__data;/*datos (string)*/
 
 /****************************/
 /*    Funciones Privadas   */

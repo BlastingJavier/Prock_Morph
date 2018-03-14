@@ -20,10 +20,10 @@
 
 /*Estrucura que para las caracteristicas de player*/
 struct _Player {
-  Id player_id;
-  char name[WORD_SIZE+1];
-  Id space_id;/*objeto del inventario*/
-  Set *inventory_items;/*localicación*/
+  Id player_id; /*Identificador del jugador*/
+  char name[WORD_SIZE+1]; /*Nomdre del jugador*/
+  Id space_id;/*Identificador del espacio done esta el jugador*/
+  Set *inventory_items;/*Set de los objetos del jugador*/
 };
 
 
@@ -45,6 +45,7 @@ Player* player_create (Id id){
   if (newPlayer==NULL){
     return NULL;
   }
+  /*No es necesario incicializar un nombre por ahora*/
   newPlayer->player_id=id;
   newPlayer->inventory_items= set_create();
 

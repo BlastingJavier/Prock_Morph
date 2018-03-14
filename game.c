@@ -24,12 +24,12 @@
 /*Evitar numeros "magicos" por el codigo*/
 #define ID_J 1/*Id del player*/
 #define ID_O 1/*Id del objeto*/
-#define ID_DICE 1
+#define ID_DICE 1 /*Id del dado*/
 #define INIC_P 0/*Posicion inicial del jugador*/
 #define MAX_INPUT_OBJ/*tamano del nombre del objeto*/
 #define MAX_CASILLAS 12 /*Numero de casillas (variable si modifi. data.dat)*/
 
-#define N_CALLBACK 9
+#define N_CALLBACK 9 /*Numero maximo de callbacks*/
 
 /**                 Definidos en:
                         ||
@@ -544,6 +544,14 @@ void game_print_data(Game* game) {
 }
 
 
+
+/*
+ * @author Francisco Nanclares
+ * @brief modificamos un string (parametro) descripcion grafica
+ * @param game, puntero a estructura Game (dirección)
+ * @param param, de tipo puntero a char (string) (el parametro)
+ * @return nada, es de tipo void
+ */
 void game_set_parametro (Game * game , char *param){
   if (strcmp(param,object_get_name(game_get_object(game,game_get_player_location(game))))!=0){
     game->flag_command = ERROR;
@@ -843,4 +851,15 @@ void game_callback_roll_dice(Game *game){
   dice_roll(game->dice);
   game->flag_command = OK;
   return;
+}
+
+
+/**
+ * @author Francisco Nanclares
+ * @brief Hace flag del cmd
+ * @param game, puntero a la estructura Game
+ * @return flag_command, que es la flag de la estructura game
+ */
+STATUS game_get_last_command_flag(Game *game){
+  return game->flag_command;
 }

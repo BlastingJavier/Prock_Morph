@@ -11,8 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graphic_engine.h"
-#define COMMAND_GRASP 6
-#define NO_FLAG -1
 
 /**
  * @author Alejandro Martin
@@ -21,20 +19,20 @@
  * @return, 0 o 1, dependiendo del error
  */
 int main(int argc, char *argv[]){
-  Game game;
+  Game game; /*De tipo game (No puntero)*/
   T_Command command = NO_CMD;
   Graphic_engine *gengine;
-  char parametro[WORD_SIZE+1] = " ";
-  FILE *pf=NULL;
+  char parametro[WORD_SIZE+1] = " "; /*parametro para meter objeto (cogerlo)*/
+  FILE *pf=NULL;/*puntero a file (abrir fichero log)*/
 
   /*Describe como tenemos que ejecutar el programa correctamente
     y que le tenemos que pasar como argumento*/
-  if (argc < 2){
+  if (argc < 2){/*caso estandar (argumento data.dat y ejecutable)*/
     fprintf(stderr, "Use: %s <game_data_file>\n", argv[0]);
 
     return 1;
   }
-  else if (argc != 2 && (argc < 4 || argc > 5)){
+  else if (argc != 2 && (argc < 4 || argc > 5)){/*caso alternativo con flog*/
     fprintf(stderr, "Use: %s <game_data_file> -l <data_log> \n", argv[0]);
 
     return 1;
@@ -70,8 +68,10 @@ int main(int argc, char *argv[]){
     game_update(&game, command,parametro,pf);
   }
 
-    /* Cuando el bucle termina, libera memoria con game_destroy y graphic_engine_destroy,
-      y termina el juego */
+  /* Cuando el bucle termina, libera memoria con game_destroy y graphic_engine_destroy,
+    y termina el juego */
+
+  /*Si entra aqui es que ha habido un fichero anteriormente*/
   if (pf != NULL){
     fclose (pf);
   }

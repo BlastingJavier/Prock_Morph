@@ -24,8 +24,8 @@
 /*Estructura que define un conjunto(características) */
 
 struct _Set {
-  Id id_array[MAX_ID];
-  int num_array_actual;
+  Id id_array[MAX_ID]; /*Identificador del stack*/
+  int num_array_actual; /*Numero actual del stack*/
 };
 
 
@@ -85,8 +85,9 @@ STATUS set_push_id (Set *set , Id id){
   if (set == NULL || id == NO_ID){
     return ERROR;
   }
+  /*mete el id en el tope*/
   set->id_array[set->num_array_actual] = id;
-
+  /*suma uno al tope*/
   set->num_array_actual++;
 
   return OK;
@@ -110,8 +111,11 @@ Id  set_pop_id (Set *set){
     return NO_ID;
   }
   else {
+    /*coge el último elemento del array(dato)*/
     temp = set->id_array[(set->num_array_actual)-1];
+    /*pone a NULL(NO_ID) ese tope para que se pueda volver a utilizar*/
     set->id_array[set->num_array_actual] = NO_ID;
+    /*reduce el tope*/
     set->num_array_actual--;
 
     return temp;
@@ -210,7 +214,7 @@ STATUS delete_id (Set *set, Id id){
   if (set == NULL || id == NO_ID){
     return ERROR;
   }
-
+  /*Lineas generales: encuentra id en el array y lo elimina (con mecanica parecida a pop)*/
   for (i=0; i<set->num_array_actual;i++){
     id_aux = get_specific_id (set, i);
     if(id == id_aux){

@@ -20,13 +20,13 @@
 
 /*Estructura de game 101 espacios , comandos id jugador ,id objeto*/
 typedef struct _Game{
-  Player* player;
-  Object* objects[MAX_ID];
-  Space* spaces[MAX_SPACES + 1];
-  T_Command last_cmd;
+  Player* player; /*Campo del Jugador*/
+  Object* objects[MAX_ID]; /*Campo del Objeto*/
+  Space* spaces[MAX_SPACES + 1]; /*Campo de Espacios*/
+  T_Command last_cmd; /*Hace referencia al ultimo comando*/
   Dice * dice;/*Con esto podemos utilizar el dado*/
-  char* param;
-  STATUS flag_command;
+  char* param;/*string (control de descripcion grafica)*/
+  STATUS flag_command;/*Flag de status (para ver si un comando es correcto o incorrecto)*/
 } Game;
 
 
@@ -108,6 +108,12 @@ BOOL game_is_over(Game* game);
 
 
 
+/**
+ * @author Alejandro Martin
+ * @brief Imprime la pantalla de juego
+ * @param game, puntero a la estructura Game
+ * @return nada, es de tipo void
+ */
 void game_print_screen(Game* game);
 
 
@@ -214,6 +220,22 @@ BOOL game_get_object_player(Game* game , Object* object);
 STATUS game_add_space(Game* game, Space* space);
 
 
+
+/*
+ * @author Francisco Nanclares
+ * @brief modificamos un string (parametro) descripcion grafica
+ * @param game, puntero a estructura Game (dirección)
+ * @param param, de tipo puntero a char (string) (el parametro)
+ * @return nada, es de tipo void
+ */
 void game_set_parametro (Game * game , char *param);
 
+
+/**
+ * @author Francisco Nanclares
+ * @brief Hace flag del cmd
+ * @param game, puntero a la estructura Game
+ * @return flag_command, que es la flag de la estructura game
+ */
+STATUS game_get_last_command_flag(Game *game);
 #endif

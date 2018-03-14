@@ -19,15 +19,15 @@
 
 /*Estructura que define un espacio (características)*/
 struct _Space {
-  Id id;
-  char name[WORD_SIZE + 1];
-  Id north;
-  Id south;
-  Id east;
-  Id west;
-  Id object;
-  Set *objects;
-  char gdesc[3][21];
+  Id id; /*identificador del espacio*/
+  char name[WORD_SIZE + 1]; /*Campo nombre del espacio*/
+  Id north;/*Id del espaacio norte*/
+  Id south;/*Id del espacio sur*/
+  Id east;/*Id del espacio este*/
+  Id west;/*Id del espacio oeste*/
+  Id object;/*Id del objeto en un espacio*/
+  Set *objects;/*Conjunto de objetos*/
+  char gdesc[3][21];/*Matriz que define los arrays de las casillas gráficas */
 };
 /**                 Definidos en:
                         ||
@@ -53,33 +53,33 @@ P.F.: Private Function
  * @brief Se encarga de iniciar la estructura de espacio
    y poner el caracter fin de cadena al final del nombre de este
  * @param id, de tipo Id
- * @return newSpace, que es el puntero a la estructura Space
+ * @return Space, que es el puntero a la estructura Space
  */
 Space* space_create(Id id) {
 
-  Space *newSpace = NULL;
+  Space *space = NULL;
 
   if (id == NO_ID){
     return NULL;
   }
 
-  newSpace = (Space *) malloc(sizeof(Space));
+  space = (Space *) malloc(sizeof(Space));
 
-  if (newSpace == NULL) {
+  if (space == NULL) {
     return NULL;
   }
-  newSpace->id = id;
+  space->id = id;
 
-  newSpace->name[0] = '\0';
+  space->name[0] = '\0';
 
-  newSpace->north = NO_ID;
-  newSpace->south = NO_ID;
-  newSpace->east = NO_ID;
-  newSpace->west = NO_ID;
+  space->north = NO_ID;
+  space->south = NO_ID;
+  space->east = NO_ID;
+  space->west = NO_ID;
   /*Para crear un conjunto de id (se asignará NO_ID)*/
-  newSpace->objects = set_create();
+  space->objects = set_create();
 
-  return newSpace;
+  return space;
 }
 
 
@@ -540,6 +540,7 @@ BOOL object_check_in_space (Space *space , Id id_objeto){
   if (aux == NULL){
     return FALSE;
   }
+  /*Busca en todos los id del set si encuentra el objeto (id) pasado por argumento*/
   for (i=0;i<MAX_ID;i++){
     id_aux = get_specific_id(aux,i);
     if (id_aux !=NO_ID){

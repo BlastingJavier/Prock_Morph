@@ -18,8 +18,8 @@
 /*Estructura que define un espacio (características)*/
 typedef struct _Space Space;
 
-#define MAX_SPACES 100
-#define FIRST_SPACE 1
+#define MAX_SPACES 100 /*Numero maximo de espacios*/
+#define FIRST_SPACE 1 /*Primer espacio*/
 
 
 
